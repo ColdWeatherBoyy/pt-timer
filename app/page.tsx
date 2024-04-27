@@ -6,9 +6,29 @@ export default function Home() {
 
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between p-24">
-			{timers.map((timers) => (
-				<div className="flex w-3/4 justify-content bg-zinc-200 rounded-lg shadow-md p-10">
-					{timers}
+			<div className="flex w-4/5 justify-between bg-zinc-300 rounded-lg shadow-md p-10">
+				<div className="text-4xl font-bold">Timers</div>
+				<div className="flex flex-col p-6 bg-zinc-200 rounded-lg shadow-md">
+					<div className="text-2xl font-bold text-center">Active Timers</div>
+					<div className="flex p-6 ">
+						{timers.map((timer, index) => {
+							return (
+								<div
+									key={index}
+									className="text-xl bg-slate-400 py-2 px-4 mx-3 rounded-lg shadow-md"
+								>
+									{timer}
+								</div>
+							);
+						})}
+					</div>
+				</div>
+			</div>
+			{timers.map((timer) => (
+				<div className="flex justify-center bg-zinc-300 rounded-lg shadow-md p-10">
+					<div>
+						<span className="font-bold">Length:</span> {timer}
+					</div>
 				</div>
 			))}
 		</main>
