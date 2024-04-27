@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import DeletableListItem from "./components/DeletableListItem";
 
 export default function Home() {
 	const [timers, setTimers] = useState([5, 10, 15]);
@@ -16,21 +17,15 @@ export default function Home() {
 				<div className="text-4xl font-bold">Timers</div>
 				<div className="flex flex-col py-4 px-1 bg-zinc-200 rounded-lg shadow-md">
 					<div className="text-2xl font-bold text-center">Active Timers</div>
-					<div className="flex justify-between p-6">
+					<div className="flex justify-between p-4">
 						{timers.map((timer, index) => {
 							return (
-								<div
+								<DeletableListItem
 									key={index}
-									className="flex text-md bg-slate-400 py-2 pl-4 pr-2 mx-3 rounded-lg shadow-lg"
-								>
-									{timer} min
-									<div
-										className="ml-3 flex items-center justify-center bg-slate-100 rounded-full text-center text-xs w-fit h-fit px-1 py-0.5 leading-none select-none cursor-pointer hover:bg-slate-200 hover:shadow-2xl active:bg-slate-300 active:shadow-inner active:text-white"
-										onClick={() => removeTimer(index)}
-									>
-										x
-									</div>
-								</div>
+									index={index}
+									text={timer.toString() + ` min`}
+									deleteItem={removeTimer}
+								/>
 							);
 						})}
 					</div>
