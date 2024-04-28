@@ -20,7 +20,7 @@ export default function Home() {
 				<div className="text-4xl font-bold">Timers</div>
 				<Card color={CardColor.light} size={CardSize.medium} column>
 					<div className="text-2xl font-bold text-center">Active Timers</div>
-					<div className="flex justify-between p-4">
+					<div className="flex justify-center p-4">
 						{timers.map((timer, index) => {
 							return (
 								<DeletableListItem
