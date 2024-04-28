@@ -5,7 +5,7 @@ export enum CardColor {
 }
 
 export enum CardSize {
-	small = "w-1/3",
-	medium = "py-4 px-1",
+	small = "min-w-fit p-2",
+	medium = "min-w-fit p-4",
 	large = "w-4/5 p-10",
 }
