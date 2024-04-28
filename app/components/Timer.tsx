@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, use } from "react";
+import { CardColor, CardSize } from "./ComponentTypings";
+import Card from "./Card";
 
 interface TimerProps {
 	timerLength: number;
@@ -48,7 +50,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength }) => {
 	};
 
 	return (
-		<div>
+		<Card color={CardColor.medium} size={CardSize.medium}>
 			<div>
 				{String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
 			</div>
@@ -58,7 +60,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength }) => {
 				<button onClick={handlePause}>{paused ? "Resume" : "Pause"}</button>
 			)}
 			<button onClick={handleStop}>Stop</button>
-		</div>
+		</Card>
 	);
 };
 

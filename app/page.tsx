@@ -67,18 +67,7 @@ export default function Home() {
 				</Card>
 			</Card>
 			{timers.map((timer, index) => {
-				console.log(timer);
-				return (
-					<Timer key={index} timerLength={timer} />
-					// <div
-					// 	key={index}
-					// 	className="flex justify-center bg-jade-300 rounded-lg shadow-md p-10"
-					// >
-					// 	<div>
-					// 		<span className="font-bold">Length:</span> {timer}
-					// 	</div>
-					// </div>
-				);
+				return <Timer key={index} timerLength={timer} />;
 			})}
 		</MainWrapper>
 	);

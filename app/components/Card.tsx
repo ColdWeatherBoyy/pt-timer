@@ -8,6 +8,7 @@ interface CardProps {
 	className?: string;
 	children: React.ReactNode;
 }
+
 const Card: React.FC<CardProps> = ({
 	color,
 	size,
