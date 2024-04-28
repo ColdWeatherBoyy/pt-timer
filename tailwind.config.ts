@@ -8,6 +8,20 @@ const config: Config = {
 	],
 	theme: {
 		extend: {
+			animation: {
+				tremble: "tremble 0.3s ease-in-out infinite",
+			},
+			keyframes: {
+				tremble: {
+					"50%": {
+						transform:
+							"translateX(-0.33px) translateY(-0.33px) rotate(-0.33deg) scale(1.01)",
+					},
+					"0%, 100%": {
+						transform: "translateX(0.33px) translateY(0.33px) rotate(0.33deg) scale(1)",
+					},
+				},
+			},
 			colors: {
 				jade: {
 					"50": "#f5f8f7",

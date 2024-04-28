@@ -5,6 +5,7 @@ import MainWrapper from "./components/MainWrapper";
 import Card from "./components/Card";
 import { CardColor, CardSize } from "./components/ComponentTypings";
 import Input from "./components/Input";
+import Button from "./components/Button";
 
 export default function Home() {
 	const [timers, setTimers] = useState<number[]>([]);
@@ -16,15 +17,16 @@ export default function Home() {
 		setTimers(newTimers);
 	};
 
-	const addNewTimer = (value: number) => {
-		if (typeof value !== "number" || isNaN(value)) {
+	const addNewTimer = () => {
+		const timer = parseInt(newTimer);
+		if (typeof timer !== "number" || isNaN(timer)) {
 			alert("That is not a valid number. Please try again.");
-		} else if (value < 0) {
+		} else if (timer < 0) {
 			alert("Positive values only, please.");
-		} else if (value > 120) {
+		} else if (timer > 120) {
 			alert("Only values 2 hours and below, please.");
 		} else {
-			const newTimers = [...timers, value];
+			const newTimers = [...timers, timer];
 			newTimers.sort((a: number, b: number) => a - b);
 			setTimers(newTimers);
 		}
@@ -34,16 +36,18 @@ export default function Home() {
 	return (
 		<MainWrapper>
 			<Card color={CardColor.medium} size={CardSize.large}>
-				<div className="flex flex-col">
-					<div className="text-4xl font-bold">Timers</div>
+				<div className="flex flex-col items-center">
+					<div className="text-4xl font-bold self-start mb-4">PT Timers</div>
 					<Input
 						placeholder="Enter a value in minutes"
 						value={newTimer}
 						onChange={(event) => setNewTimer(event.target.value)}
 					/>
-					<button onClick={() => addNewTimer(parseInt(newTimer))}>Add Timer</button>
+					<Button onClick={addNewTimer} animate>
+						Add Timer
+					</Button>
 				</div>
-				<Card color={CardColor.light} size={CardSize.medium} column>
+				<Card color={CardColor.light} size={CardSize.medium} column className="min-h-36">
 					<div className="text-2xl font-bold text-center">Active Timers</div>
 					<div className="flex justify-center p-4">
 						{timers.map((timer, index) => {

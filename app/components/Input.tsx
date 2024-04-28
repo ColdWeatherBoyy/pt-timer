@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 
 interface InputProps {
@@ -11,7 +9,7 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({ placeholder, value, onChange }) => {
 	return (
 		<input
-			className="bg-jade-50 border-2 border-jade-500 rounded-lg shadow-sm p-1 my-4 focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-jade-200 transition duration-200 ease-in-out"
+			className="bg-jade-50 border-2 border-jade-500 rounded-lg shadow-sm p-1 my-3 focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-jade-200 transition duration-200 ease-in-out"
 			type="string"
 			placeholder={placeholder}
 			value={value}
