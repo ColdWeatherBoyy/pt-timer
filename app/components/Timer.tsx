@@ -50,7 +50,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength }) => {
 	};
 
 	return (
-		<Card color={CardColor.medium} size={CardSize.medium}>
+		<Card color={CardColor.lightHorizon} size={CardSize.medium}>
 			<div>
 				{String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
 			</div>

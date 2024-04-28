@@ -38,7 +38,7 @@ export default function Home() {
 
 	return (
 		<MainWrapper>
-			<Card color={CardColor.medium} size={CardSize.large}>
+			<Card color={CardColor.mediumJade} size={CardSize.large}>
 				<div className="flex flex-col items-center">
 					<div className="text-4xl font-bold self-start mb-4">PT Timers</div>
 					<Input
@@ -50,7 +50,12 @@ export default function Home() {
 						Add Timer
 					</Button>
 				</div>
-				<Card color={CardColor.light} size={CardSize.medium} column className="min-h-36">
+				<Card
+					color={CardColor.lightJade}
+					size={CardSize.medium}
+					column
+					className="min-h-36"
+				>
 					<div className="text-2xl font-bold text-center">Active Timers</div>
 					<div className="flex justify-center p-4">
 						{timers.map((timer, index) => {
