@@ -19,8 +19,8 @@ const Card: React.FC<CardProps> = ({
 	return (
 		<div
 			className={`${color} ${size} flex ${
-				column ? "flex-col" : "flex-row"
-			} justify-between rounded-lg shadow-lg border ${className}`}
+				column ? "flex-col justify-between" : "flex-row justify-around"
+			} rounded-lg shadow-lg border ${className}`}
 		>
 			{children}
 		</div>

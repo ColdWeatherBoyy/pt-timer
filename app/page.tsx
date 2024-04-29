@@ -28,6 +28,8 @@ export default function Home() {
 			alert("Only values 2 hours and below, please.");
 		} else if (timers.includes(timer)) {
 			alert("That timer already exists.");
+		} else if (timers.length === 6) {
+			alert("You can only save 6 timers at once.");
 		} else {
 			const newTimers = [...timers, timer];
 			newTimers.sort((a: number, b: number) => a - b);
@@ -38,7 +40,7 @@ export default function Home() {
 
 	return (
 		<MainWrapper>
-			<Card color={CardColor.mediumJade} size={CardSize.large}>
+			<Card color={CardColor.mediumJade} size={CardSize.large} className="min-h-64">
 				<div className="flex flex-col items-center">
 					<div className="text-4xl font-bold self-start mb-4">PT Timers</div>
 					<Input
@@ -50,14 +52,13 @@ export default function Home() {
 						Add Timer
 					</Button>
 				</div>
-				<Card
-					color={CardColor.lightJade}
-					size={CardSize.medium}
-					column
-					className="min-h-36"
-				>
+				<Card color={CardColor.lightJade} size={CardSize.medium} column className="h-fit">
 					<div className="text-2xl font-bold text-center">Active Timers</div>
-					<div className="flex justify-center p-4">
+					<div
+						className={`grid ${
+							timers.length > 3 ? "grid-rows-2" : "grid-rows-1"
+						} grid-cols-3 gap-2`}
+					>
 						{timers.map((timer, index) => {
 							return (
 								<DeletableListItem
@@ -71,9 +72,11 @@ export default function Home() {
 					</div>
 				</Card>
 			</Card>
-			{timers.map((timer, index) => {
-				return <Timer key={`t-${timer}-${index}`} timerLength={timer} />;
-			})}
+			<div className="grid grid-cols-3 grid-rows-2 gap-10">
+				{timers.map((timer, index) => {
+					return <Timer key={`t-${timer}-${index}`} timerLength={timer} />;
+				})}
+			</div>
 		</MainWrapper>
 	);
 }

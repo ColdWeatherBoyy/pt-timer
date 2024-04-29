@@ -58,7 +58,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength }) => {
 	return (
 		<Card color={CardColor.lightHorizon} size={CardSize.medium}>
 			<div className="flex flex-col gap-4 m-4">
-				<div className={`${roboto_mono.className} text-8xl`}>
+				<div className={`${roboto_mono.className} text-6xl`}>
 					{String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
 				</div>
 				<div className="flex justify-center text-2xl gap-10">
