@@ -17,9 +17,9 @@ const Pause: React.FC<PauseProps> = ({ size }) => {
 		>
 			<path
 				stroke="currentColor"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				stroke-width="2"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth="2"
 				d="M9 6H8a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1Zm7 0h-1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1Z"
 			/>
 		</svg>

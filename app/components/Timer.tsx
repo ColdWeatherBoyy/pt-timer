@@ -49,7 +49,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength }) => {
 			}, 1000);
 			return () => clearInterval(interval);
 		}
-	}, [started, paused]);
+	}, [started, paused, seconds, minutes]);
 
 	const handlePause = () => {
 		setPaused((prev) => !prev);
