@@ -57,7 +57,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength }) => {
 
 	return (
 		<Card color={CardColor.lightHorizon} size={CardSize.medium}>
-			<div className="flex flex-col">
+			<div className="flex flex-col gap-4 m-4">
 				<div className={`${roboto_mono.className} text-8xl`}>
 					{String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
 				</div>
@@ -65,7 +65,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength }) => {
 					<Button
 						buttonColor={ButtonColor.horizon}
 						onClick={started ? handlePause : handleStart}
-						className="text-lg"
+						className="p-10"
 					>
 						{started ? (
 							paused ? (
@@ -77,11 +77,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength }) => {
 							<Play size="40" />
 						)}
 					</Button>
-					<Button
-						buttonColor={ButtonColor.horizon}
-						onClick={handleStop}
-						className="text-lg"
-					>
+					<Button buttonColor={ButtonColor.horizon} onClick={handleStop}>
 						<Stop size="40" />
 					</Button>
 				</div>
