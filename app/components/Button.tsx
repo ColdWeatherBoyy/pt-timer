@@ -23,7 +23,8 @@ const Button: React.FC<ButtonProps> = ({
 				animate
 					? "hover:animate-trembleHover active:animate-trembleActive"
 					: "hover:scale-105 hover:-translate-y-0.5 hover:translate-x-0.5 active:translate-y-0 active:translate-x-0 active:scale-95"
-			} active:shadow-inner transition-all duration-50 ease-in-out ${className}`}
+			} active:shadow-inner focus-visible:outline-none focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-jade-100
+       transition-all duration-50 ease-in-out ${className}`}
 		>
 			{children}
 		</button>
