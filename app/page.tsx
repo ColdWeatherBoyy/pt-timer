@@ -53,34 +53,30 @@ export default function Home() {
 					</Button>
 				</div>
 				<Card color={CardColor.lightJade} size={CardSize.medium} column className="h-fit">
-					<div
-						className={`text-2xl font-bold text-center mx-10 ${
-							timers.length > 0 ? "mb-2" : "mb-0"
-						}`}
-					>
-						Active Timers
-					</div>
-					<div
-						className={`grid ${
-							timers.length > 3
-								? "grid-rows-2"
-								: timers.length > 0
-								? "grid-rows-1"
-								: "grid-rows-0"
-						} grid-cols-3 gap-2`}
-					>
-						{timers.map((timer, index) => {
-							return (
-								<DeletableListItem
-									key={`dlt-${timer}-${index}`}
-									index={index}
-									length={timer.toString()}
-									unit="min"
-									deleteItem={removeTimer}
-								/>
-							);
-						})}
-					</div>
+					<div className={`text-2xl font-bold text-center mx-10 mb-2`}>Active Timers</div>
+					{timers.length === 0 ? (
+						<div className="flex justify-center text-jade-950 text-md">
+							Set some timers!
+						</div>
+					) : (
+						<div
+							className={`grid ${
+								timers.length > 3 ? "grid-rows-2" : "grid-rows-1"
+							} grid-cols-3 gap-2`}
+						>
+							{timers.map((timer, index) => {
+								return (
+									<DeletableListItem
+										key={`dlt-${timer}-${index}`}
+										index={index}
+										length={timer.toString()}
+										unit="min"
+										deleteItem={removeTimer}
+									/>
+								);
+							})}
+						</div>
+					)}
 				</Card>
 			</Card>
 			<div className="grid grid-cols-3 grid-rows-2 gap-10">
