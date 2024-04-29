@@ -61,7 +61,7 @@ export default function Home() {
 						{timers.map((timer, index) => {
 							return (
 								<DeletableListItem
-									key={index}
+									key={`dlt-${timer}-${index}`}
 									index={index}
 									text={timer.toString() + ` min`}
 									deleteItem={removeTimer}
@@ -72,7 +72,7 @@ export default function Home() {
 				</Card>
 			</Card>
 			{timers.map((timer, index) => {
-				return <Timer key={index} timerLength={timer} />;
+				return <Timer key={`t-${timer}-${index}`} timerLength={timer} />;
 			})}
 		</MainWrapper>
 	);
