@@ -53,10 +53,20 @@ export default function Home() {
 					</Button>
 				</div>
 				<Card color={CardColor.lightJade} size={CardSize.medium} column className="h-fit">
-					<div className="text-2xl font-bold text-center">Active Timers</div>
+					<div
+						className={`text-2xl font-bold text-center mx-10 ${
+							timers.length > 0 ? "mb-2" : "mb-0"
+						}`}
+					>
+						Active Timers
+					</div>
 					<div
 						className={`grid ${
-							timers.length > 3 ? "grid-rows-2" : "grid-rows-1"
+							timers.length > 3
+								? "grid-rows-2"
+								: timers.length > 0
+								? "grid-rows-1"
+								: "grid-rows-0"
 						} grid-cols-3 gap-2`}
 					>
 						{timers.map((timer, index) => {
@@ -64,7 +74,8 @@ export default function Home() {
 								<DeletableListItem
 									key={`dlt-${timer}-${index}`}
 									index={index}
-									text={timer.toString() + ` min`}
+									length={timer.toString()}
+									unit="min"
 									deleteItem={removeTimer}
 								/>
 							);
