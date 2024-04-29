@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef, use } from "react";
-import { CardColor, CardSize } from "./ComponentTypings";
+import { ButtonColor, CardColor, CardSize } from "./ComponentTypings";
 import Card from "./Card";
+import { roboto_mono } from "../utilities/fonts";
+import Button from "./Button";
+import Play from "./SVGs/Play";
+import Resume from "./SVGs/Resume";
+import Pause from "./SVGs/Pause";
+import Stop from "./SVGs/Stop";
 
 interface TimerProps {
 	timerLength: number;
@@ -51,15 +57,35 @@ const Timer: React.FC<TimerProps> = ({ timerLength }) => {
 
 	return (
 		<Card color={CardColor.lightHorizon} size={CardSize.medium}>
-			<div>
-				{String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+			<div className="flex flex-col">
+				<div className={`${roboto_mono.className} text-8xl`}>
+					{String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+				</div>
+				<div className="flex justify-center text-2xl gap-10">
+					<Button
+						buttonColor={ButtonColor.horizon}
+						onClick={started ? handlePause : handleStart}
+						className="text-lg"
+					>
+						{started ? (
+							paused ? (
+								<Resume size="40" />
+							) : (
+								<Pause size="40" />
+							)
+						) : (
+							<Play size="40" />
+						)}
+					</Button>
+					<Button
+						buttonColor={ButtonColor.horizon}
+						onClick={handleStop}
+						className="text-lg"
+					>
+						<Stop size="40" />
+					</Button>
+				</div>
 			</div>
-			{!started ? (
-				<button onClick={handleStart}>Start</button>
-			) : (
-				<button onClick={handlePause}>{paused ? "Resume" : "Pause"}</button>
-			)}
-			<button onClick={handleStop}>Stop</button>
 		</Card>
 	);
 };

@@ -9,16 +9,25 @@ const config: Config = {
 	theme: {
 		extend: {
 			animation: {
-				tremble: "tremble 0.3s ease-in-out infinite",
+				trembleHover: "trembleHover 0.3s ease-in-out infinite",
+				trembleActive: "trembleActive 0.3s ease-in-out infinite",
 			},
 			keyframes: {
-				tremble: {
+				trembleHover: {
 					"50%": {
-						transform:
-							"translateX(-0.33px) translateY(-0.33px) rotate(-0.33deg) scale(1.01)",
+						transform: "translateX(-1px) translateY(-1px) rotate(-1deg) scale(1.01)",
 					},
 					"0%, 100%": {
-						transform: "translateX(0.33px) translateY(0.33px) rotate(0.33deg) scale(1)",
+						transform: "translateX(1px) translateY(1px) rotate(1deg) scale(1)",
+					},
+				},
+				trembleActive: {
+					"50%": {
+						transform:
+							"translateX(-0.25px) translateY(-0.25px) rotate(-0.25deg) scale(0.95)",
+					},
+					"0%, 100%": {
+						transform: "translateX(0.25px) translateY(0.25px) rotate(0.25deg) scale(.95)",
 					},
 				},
 			},

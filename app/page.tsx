@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import DeletableListItem from "./components/DeletableListItem";
 import MainWrapper from "./components/MainWrapper";
 import Card from "./components/Card";
-import { CardColor, CardSize } from "./components/ComponentTypings";
+import { ButtonColor, CardColor, CardSize } from "./components/ComponentTypings";
 import Input from "./components/Input";
 import Button from "./components/Button";
 import Timer from "./components/Timer";
@@ -46,7 +46,7 @@ export default function Home() {
 						value={newTimer}
 						onChange={(event) => setNewTimer(event.target.value)}
 					/>
-					<Button onClick={addNewTimer} animate>
+					<Button buttonColor={ButtonColor.jade} onClick={addNewTimer} animate>
 						Add Timer
 					</Button>
 				</div>

@@ -12,3 +12,8 @@ export enum CardSize {
 	medium = "min-w-fit p-4",
 	large = "w-3/4 min-w-fit p-10",
 }
+
+export enum ButtonColor {
+	jade = "bg-gradient-to-r from-jade-500 to-jade-800 text-jade-50 border border-jade-500 hover:border-jade-300 active:from-jade-950 active:to-jade-700",
+	horizon = "bg-gradient-to-r from-horizon-500 to-horizon-800 text-horizon-100 border border-horizon-500 hover:border-horizon-300 active:from-horizon-950 active:to-horizon-700",
+}
