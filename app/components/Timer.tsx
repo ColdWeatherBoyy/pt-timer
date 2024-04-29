@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef, use } from "react";
-import { ButtonColor, CardColor, CardSize } from "./ComponentTypings";
-import Card from "./Card";
+import React, { useEffect, useState } from "react";
 import { roboto_mono } from "../utilities/fonts";
 import Button from "./Button";
+import Card from "./Card";
+import { ButtonColor, CardColor, CardSize } from "./ComponentTypings";
+import Pause from "./SVGs/Pause";
 import Play from "./SVGs/Play";
 import Resume from "./SVGs/Resume";
-import Pause from "./SVGs/Pause";
 import Stop from "./SVGs/Stop";
 
 interface TimerProps {

@@ -1,4 +1,3 @@
-import exp from "constants";
 import React from "react";
 
 interface PauseProps extends React.SVGProps<SVGSVGElement> {
