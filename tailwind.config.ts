@@ -59,6 +59,9 @@ const config: Config = {
 					"950": "#1c2935",
 				},
 			},
+			width: {
+				"18": "4.5rem",
+			},
 		},
 	},
 	plugins: [],
