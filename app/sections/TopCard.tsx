@@ -11,7 +11,7 @@ interface MainSectionProps {
 	setNewTimer: (newTimer: string) => void;
 }
 
-const MainSection: React.FC<MainSectionProps> = ({
+const TopCard: React.FC<MainSectionProps> = ({
 	timers,
 	newTimer,
 	setTimers,
@@ -30,4 +30,4 @@ const MainSection: React.FC<MainSectionProps> = ({
 	);
 };
 
-export default MainSection;
+export default TopCard;

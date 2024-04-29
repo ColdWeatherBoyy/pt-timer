@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import MainWrapper from "./components/MainWrapper";
-import MainSection from "./sections/MainSection";
+import MainSection from "./sections/TopCard";
 import TimersSection from "./sections/TimersSection";
 
 export default function Home() {
