@@ -9,7 +9,7 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({ placeholder, value, onChange }) => {
 	return (
 		<input
-			className="bg-jade-50 border border-jade-300 rounded-lg shadow-md p-1 focus-visible:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-jade-100 transition duration-200 ease-in-out"
+			className="bg-jade-50 border border-jade-300 rounded-lg shadow-md px-2 py-1 placeholder:text-sm focus-visible:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-jade-100 transition duration-200 ease-in-out"
 			type="string"
 			placeholder={placeholder}
 			value={value}

@@ -30,24 +30,28 @@ const AddTimers: React.FC<AddTimerProps> = ({
 			<div className="text-4xl font-bold self-start">PT Timers</div>
 			<div className="flex flex-col items-center gap-2">
 				<Input
-					placeholder="Enter a value in minutes"
+					placeholder={`Enter length in ${
+						unit === Unit.minutes ? "minutes" : "seconds"
+					}...`}
 					value={newTimer}
 					onChange={(event) => setNewTimer(event.target.value)}
 				/>
-				<Toggle
-					toggled={toggled}
-					setToggled={setToggled}
-					toggleColor={ThemeColor.jade}
-					optionOne={Unit.minutes}
-					optionTwo={Unit.seconds}
-				/>
-				<Button
-					buttonColor={ThemeColor.jade}
-					onClick={() => addNewTimer(newTimer, timers, setTimers, setNewTimer, unit)}
-					animate
-				>
-					Add Timer
-				</Button>
+				<div className="flex w-full justify-between">
+					<Toggle
+						toggled={toggled}
+						setToggled={setToggled}
+						toggleColor={ThemeColor.jade}
+						optionOne={Unit.minutes}
+						optionTwo={Unit.seconds}
+					/>
+					<Button
+						buttonColor={ThemeColor.jade}
+						onClick={() => addNewTimer(newTimer, timers, setTimers, setNewTimer, unit)}
+						animate
+					>
+						Add Timer
+					</Button>
+				</div>
 			</div>
 		</div>
 	);

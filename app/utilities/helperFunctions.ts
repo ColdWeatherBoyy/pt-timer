@@ -8,9 +8,11 @@ export const addNewTimer = (
 	setNewTimer: (newTimer: string) => void,
 	unit: Unit
 ) => {
-	const timer = parseInt(newTimer);
+	const timer = parseFloat(newTimer);
 	if (typeof timer !== "number" || isNaN(timer)) {
 		alert("That is not a valid number. Please try again.");
+	} else if (Number.isInteger(timer) === false) {
+		alert("Whole numbers only, please.");
 	} else if (timer < 0) {
 		alert("Positive values only, please.");
 	} else if (unit === Unit.minutes ? timer > 120 : timer > 500) {
