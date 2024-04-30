@@ -1,4 +1,4 @@
-import { Units } from "./componentTypings";
+import { Unit } from "./themeTypes";
 import { Timers } from "./interfaces";
 
 export const addNewTimer = (
@@ -6,19 +6,19 @@ export const addNewTimer = (
 	timers: Timers,
 	setTimers: (timers: Timers) => void,
 	setNewTimer: (newTimer: string) => void,
-	unit: Units
+	unit: Unit
 ) => {
 	const timer = parseInt(newTimer);
 	if (typeof timer !== "number" || isNaN(timer)) {
 		alert("That is not a valid number. Please try again.");
 	} else if (timer < 0) {
 		alert("Positive values only, please.");
-	} else if (unit === Units.minutes ? timer > 120 : timer > 500) {
+	} else if (unit === Unit.minutes ? timer > 120 : timer > 500) {
 		alert(
-			`Only values ${unit === Units.minutes ? "2 hours" : "5 minutes"} and below, please.`
+			`Only values ${unit === Unit.minutes ? "2 hours" : "5 minutes"} and below, please.`
 		);
 	} else if (
-		unit === Units.minutes
+		unit === Unit.minutes
 			? timers.minuteTimers.includes(timer)
 			: timers.secondTimers.includes(timer)
 	) {
@@ -27,12 +27,12 @@ export const addNewTimer = (
 		alert("You can only save 6 timers at once.");
 	} else {
 		const newTimers =
-			unit === Units.minutes
+			unit === Unit.minutes
 				? [...timers.minuteTimers, timer]
 				: [...timers.secondTimers, timer];
 		newTimers.sort((a: number, b: number) => a - b);
 		setTimers(
-			unit === Units.minutes
+			unit === Unit.minutes
 				? { secondTimers: timers.secondTimers, minuteTimers: newTimers }
 				: { secondTimers: newTimers, minuteTimers: timers.minuteTimers }
 		);
@@ -44,13 +44,13 @@ export const removeTimer = (
 	index: number,
 	timers: Timers,
 	setTimers: (timers: Timers) => void,
-	unit: Units
+	unit: Unit
 ) => {
 	const newTimers =
-		unit === Units.minutes ? [...timers.minuteTimers] : [...timers.secondTimers];
+		unit === Unit.minutes ? [...timers.minuteTimers] : [...timers.secondTimers];
 	newTimers.splice(index, 1);
 	setTimers(
-		unit === Units.minutes
+		unit === Unit.minutes
 			? { secondTimers: timers.secondTimers, minuteTimers: newTimers }
 			: { secondTimers: newTimers, minuteTimers: timers.minuteTimers }
 	);

@@ -1,8 +1,14 @@
 import React from "react";
-import { CardColor, CardSize } from "../utilities/componentTypings";
+import {
+	ComponentColor,
+	CardSize,
+	ThemeColor,
+	ThemeShade,
+} from "../utilities/themeTypes";
 
 interface CardProps {
-	color: CardColor;
+	cardColor: ThemeColor;
+	cardShade: ThemeShade;
 	size?: CardSize;
 	column?: boolean;
 	className?: string;
@@ -10,7 +16,8 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({
-	color,
+	cardColor,
+	cardShade,
 	size,
 	column = false,
 	className,
@@ -18,7 +25,7 @@ const Card: React.FC<CardProps> = ({
 }) => {
 	return (
 		<div
-			className={`${color} ${size} flex ${
+			className={`${ComponentColor[cardColor].card[cardShade]} ${size} flex ${
 				column ? "flex-col justify-between" : "flex-row justify-around"
 			} rounded-lg shadow-lg border ${className}`}
 		>

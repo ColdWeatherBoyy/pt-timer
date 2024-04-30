@@ -1,29 +1,44 @@
 import React from "react";
+import { ComponentColor, ThemeColor } from "../utilities/themeTypes";
 
 interface ToggleProps {
 	toggled: boolean;
 	setToggled: (toggled: boolean) => void;
+	toggleColor: ThemeColor;
 	optionOne: string;
 	optionTwo: string;
 }
 
-const Toggle: React.FC<ToggleProps> = ({ toggled, setToggled, optionOne, optionTwo }) => {
+const Toggle: React.FC<ToggleProps> = ({
+	toggled,
+	setToggled,
+	toggleColor,
+	optionOne,
+	optionTwo,
+}) => {
 	const handleToggle = () => {
 		setToggled(!toggled);
 	};
 
 	return (
 		<div className="flex items-center justify-center gap-2">
-			<div className="relative bg-jade-100 rounded-full w-18 h-8" onClick={handleToggle}>
+			<div
+				className={`relative ${ComponentColor[toggleColor].toggle.track} box-content rounded-full w-18 h-8 shadow-inner-outer-lg cursor-pointer`}
+				onClick={handleToggle}
+			>
 				<div
 					className={`absolute ${
-						toggled ? "left" : "right"
-					}-0 rounded-full border border-jade-100 w-8 h-8 bg-jade-800`}
+						toggled ? "translate-x-0" : "translate-x-[125%]"
+					} rounded-full ${
+						ComponentColor.jade.toggle.thumb
+					} w-8 h-8 hover:shadow-left transition-all duration-100 ease-in-out`}
 				/>
 				<div
-					className={`absolute ${
-						toggled ? "right" : "left"
-					}-2 top-2 text-xs text-jade-500`}
+					className={`absolute w-7 ${
+						toggled ? "translate-x-[142%]" : "translate-x-[15%]"
+					} top-2 text-xs ${
+						ComponentColor.jade.toggle.text
+					} select-none transition-all duration-100 ease-in-out`}
 				>
 					{toggled ? optionOne : optionTwo}
 				</div>

@@ -62,6 +62,11 @@ const config: Config = {
 			width: {
 				"18": "4.5rem",
 			},
+			boxShadow: {
+				"inner-outer-lg":
+					"inset 0 2px 4px 0 rgb(0 0 0 / 0.05), 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+				left: "-4px 0 4px 0 rgba(0, 0, 0, 0.05)",
+			},
 		},
 	},
 	plugins: [],

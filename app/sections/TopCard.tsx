@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Card from "../components/Card";
-import { CardColor, CardSize, Units } from "../utilities/componentTypings";
+import { ThemeShade, CardSize, ThemeColor, Unit } from "../utilities/themeTypes";
 import { Timers } from "../utilities/interfaces";
 import ActiveTimers from "./ActiveTimers";
 import AddTimers from "./AddTimers";
@@ -20,10 +20,15 @@ const TopCard: React.FC<TopCardProps> = ({
 }) => {
 	const [toggled, setToggled] = useState(false);
 	// toggled = false means seconds, toggled = true means minutes
-	const unit = toggled ? Units.minutes : Units.seconds;
+	const unit = toggled ? Unit.minutes : Unit.seconds;
 
 	return (
-		<Card color={CardColor.mediumJade} size={CardSize.large} className="min-h-64">
+		<Card
+			cardColor={ThemeColor.jade}
+			cardShade={ThemeShade.medium}
+			size={CardSize.large}
+			className="min-h-64"
+		>
 			<AddTimers
 				newTimer={newTimer}
 				setNewTimer={setNewTimer}

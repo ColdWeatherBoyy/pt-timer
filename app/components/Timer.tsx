@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { roboto_mono } from "../utilities/fonts";
 import Button from "../components/Button";
 import Card from "../components/Card";
-import { ButtonColor, CardColor, CardSize, Units } from "../utilities/componentTypings";
+import { ThemeShade, CardSize, ThemeColor, Unit } from "../utilities/themeTypes";
 import Pause from "../components/SVGs/Pause";
 import Play from "../components/SVGs/Play";
 import Resume from "../components/SVGs/Resume";
@@ -10,18 +10,18 @@ import Stop from "../components/SVGs/Stop";
 
 interface TimerProps {
 	timerLength: number;
-	unit: Units;
+	unit: Unit;
 }
 
 const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
-	const [minutes, setMinutes] = useState(unit === Units.minutes ? timerLength : 0);
-	const [seconds, setSeconds] = useState(unit === Units.seconds ? timerLength : 0);
+	const [minutes, setMinutes] = useState(unit === Unit.minutes ? timerLength : 0);
+	const [seconds, setSeconds] = useState(unit === Unit.seconds ? timerLength : 0);
 	const [started, setStarted] = useState<boolean>(false);
 	const [paused, setPaused] = useState<boolean>(false);
 
 	const handleStart = () => {
 		setStarted(true);
-		if (unit === Units.minutes) {
+		if (unit === Unit.minutes) {
 			setMinutes(timerLength - 1);
 			setSeconds(59);
 		} else {
@@ -32,7 +32,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 	const handleStop = () => {
 		setStarted(false);
 		setPaused(false);
-		if (unit === Units.minutes) {
+		if (unit === Unit.minutes) {
 			setSeconds(0);
 			setMinutes(timerLength);
 		} else {
@@ -43,7 +43,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 	useEffect(() => {
 		if (started && !paused) {
 			const interval = setInterval(() => {
-				if (unit === Units.minutes) {
+				if (unit === Unit.minutes) {
 					if (seconds === 0) {
 						if (minutes === 0) {
 							clearInterval(interval);
@@ -70,21 +70,21 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 		setPaused((prev) => !prev);
 	};
 
-	useEffect(() => {
-		console.log(unit, minutes, seconds);
-	}, []);
-
 	return (
-		<Card color={CardColor.lightHorizon} size={CardSize.medium}>
+		<Card
+			cardColor={ThemeColor.horizon}
+			cardShade={ThemeShade.light}
+			size={CardSize.medium}
+		>
 			<div className="flex flex-col gap-4 m-4 items-center">
 				<div className={`${roboto_mono.className} text-6xl`}>
-					{unit === Units.minutes
+					{unit === Unit.minutes
 						? `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
 						: String(seconds)}
 				</div>
 				<div className="flex justify-center text-2xl gap-10">
 					<Button
-						buttonColor={ButtonColor.horizon}
+						buttonColor={ThemeColor.horizon}
 						onClick={started ? handlePause : handleStart}
 						className="p-10"
 					>
@@ -98,7 +98,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 							<Play size="40" />
 						)}
 					</Button>
-					<Button buttonColor={ButtonColor.horizon} onClick={handleStop}>
+					<Button buttonColor={ThemeColor.horizon} onClick={handleStop}>
 						<Stop size="40" />
 					</Button>
 				</div>

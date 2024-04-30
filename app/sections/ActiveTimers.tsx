@@ -1,19 +1,25 @@
 import React from "react";
 import Card from "../components/Card";
 import DeletableListItem from "../components/DeletableListItem";
-import { CardColor, CardSize, Units } from "../utilities/componentTypings";
+import { CardSize, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
 import { removeTimer } from "../utilities/helperFunctions";
 import { Timers } from "../utilities/interfaces";
 
 interface ActiveTimers {
 	timers: Timers;
 	setTimers: (timers: Timers) => void;
-	unit: Units;
+	unit: Unit;
 }
 
 const ActiveTimers: React.FC<ActiveTimers> = ({ timers, setTimers, unit }) => {
 	return (
-		<Card color={CardColor.lightJade} size={CardSize.medium} column className="h-fit">
+		<Card
+			cardColor={ThemeColor.jade}
+			cardShade={ThemeShade.medium}
+			size={CardSize.medium}
+			column
+			className="h-fit"
+		>
 			<div className={`text-2xl font-bold text-center mx-10 mb-2`}>Active Timers</div>
 			{timers.minuteTimers.length === 0 && timers.secondTimers.length === 0 ? (
 				<div className="flex justify-center text-jade-950 text-md">Set some timers!</div>
@@ -31,9 +37,9 @@ const ActiveTimers: React.FC<ActiveTimers> = ({ timers, setTimers, unit }) => {
 								key={`dltsec-${timer}-${index}`}
 								index={index}
 								length={timer.toString()}
-								unit={Units.seconds}
+								unit={Unit.seconds}
 								deleteItem={(index) =>
-									removeTimer(index, timers, (timers) => setTimers(timers), Units.seconds)
+									removeTimer(index, timers, (timers) => setTimers(timers), Unit.seconds)
 								}
 							/>
 						);
@@ -44,9 +50,9 @@ const ActiveTimers: React.FC<ActiveTimers> = ({ timers, setTimers, unit }) => {
 								key={`dltmin-${timer}-${index}`}
 								index={index}
 								length={timer.toString()}
-								unit={Units.minutes}
+								unit={Unit.minutes}
 								deleteItem={(index) =>
-									removeTimer(index, timers, (timers) => setTimers(timers), Units.minutes)
+									removeTimer(index, timers, (timers) => setTimers(timers), Unit.minutes)
 								}
 							/>
 						);

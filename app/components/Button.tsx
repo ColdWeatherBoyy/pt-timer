@@ -1,8 +1,8 @@
 import React from "react";
-import { ButtonColor } from "../utilities/componentTypings";
+import { ComponentColor, ThemeColor } from "../utilities/themeTypes";
 
 interface ButtonProps {
-	buttonColor: ButtonColor;
+	buttonColor: ThemeColor;
 	onClick: () => void;
 	animate?: boolean;
 	className?: string;
@@ -19,7 +19,9 @@ const Button: React.FC<ButtonProps> = ({
 	return (
 		<button
 			onClick={onClick}
-			className={`w-fit p-2 rounded-lg shadow-lg hover:shadow-xl ${buttonColor}  ${
+			className={`w-fit p-2 rounded-lg shadow-lg hover:shadow-xl ${
+				ComponentColor[buttonColor].button
+			}  ${
 				animate
 					? "hover:animate-trembleHover active:animate-trembleActive"
 					: "hover:scale-105 hover:-translate-y-0.5 hover:translate-x-0.5 active:translate-y-0 active:translate-x-0 active:scale-95"
