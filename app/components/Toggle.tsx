@@ -28,16 +28,16 @@ const Toggle: React.FC<ToggleProps> = ({
 			>
 				<div
 					className={`absolute ${
-						toggled ? "translate-x-0" : "translate-x-[125%]"
+						toggled ? "translate-x-[125%]" : "translate-x-0"
 					} rounded-full ${
-						ComponentColor.jade.toggle.thumb
+						ComponentColor[toggleColor].toggle.thumb
 					} w-8 h-8 hover:shadow-left transition-all duration-100 ease-in-out`}
 				/>
 				<div
 					className={`absolute w-7 ${
-						toggled ? "translate-x-[142%]" : "translate-x-[15%]"
+						toggled ? "translate-x-[15%]" : "translate-x-[142%]"
 					} top-2 text-xs ${
-						ComponentColor.jade.toggle.text
+						ComponentColor[toggleColor].toggle.text
 					} select-none transition-all duration-100 ease-in-out`}
 				>
 					{toggled ? optionOne : optionTwo}

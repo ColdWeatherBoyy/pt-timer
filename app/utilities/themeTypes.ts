@@ -56,7 +56,7 @@ export const ComponentColor: Record<ThemeColor, ComponentColorClassList> = {
 			dark: "bg-gradient-to-br from-jade-600 to-jade-900 border-jade-700 text-jade-100 ",
 		},
 		button:
-			"bg-gradient-to-r from-jade-500 to-jade-800 text-jade-50 border border-jade-500 hover:border-jade-300 active:from-jade-950 active:to-jade-700 active:text-jade-100",
+			"bg-gradient-to-r from-jade-500 to-jade-800 text-jade-50 border border-jade-600 hover:border-jade-200 active:from-jade-950 active:to-jade-700 active:text-jade-100",
 		toggle: {
 			thumb:
 				"bg-gradient-to-r from-jade-500 to-jade-800 border border-jade-100 hover:border-jade-600 hover:from-jade-500 hover:to-jade-700 transition-all duration-200 ease-in-out",
@@ -79,10 +79,10 @@ export const ComponentColor: Record<ThemeColor, ComponentColorClassList> = {
 			dark: "bg-gradient-to-br from-horizon-600 to-horizon-900 border-horizon-700 text-horizon-100",
 		},
 		button:
-			"bg-gradient-to-r from-horizon-500 to-horizon-800 text-horizon-100 border border-horizon-500 hover:border-horizon-300 active:from-horizon-950 active:to-horizon-700 active:text-horizon-200",
+			"bg-gradient-to-r from-horizon-500 to-horizon-800 text-horizon-100 border border-horizon-600 hover:border-horizon-300 active:from-horizon-950 active:to-horizon-700 active:text-horizon-200",
 		toggle: {
 			thumb:
-				"bg-gradient-to-r from-horizon-500 to-horizon-800 border border-horizon-100 hover:border-horizon-600 hover:from-horizon-500 hover:to-horizon-700 transition-all duration-200 ease-in-out",
+				"bg-gradient-to-r from-horizon-400 to-horizon-800 border border-horizon-100 hover:border-horizon-600 hover:from-horizon-500 hover:to-horizon-700 transition-all duration-200 ease-in-out",
 			track: "bg-horizon-100 border border-horizon-300",
 			text: "text-horizon-500",
 		},
