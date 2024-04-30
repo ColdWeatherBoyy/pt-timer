@@ -1,5 +1,5 @@
 import React from "react";
-import { CardColor, CardSize } from "./ComponentTypings";
+import { CardColor, CardSize } from "../utilities/componentTypings";
 
 interface CardProps {
 	color: CardColor;

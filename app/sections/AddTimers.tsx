@@ -1,15 +1,19 @@
 import React from "react";
 import Button from "../components/Button";
-import { ButtonColor } from "../components/ComponentTypings";
 import Input from "../components/Input";
-import { addNewTimer } from "../utilities/helperFunctions";
 import Toggle from "../components/Toggle";
+import { ButtonColor, Units } from "../utilities/componentTypings";
+import { addNewTimer } from "../utilities/helperFunctions";
+import { Timers } from "../utilities/interfaces";
 
 interface AddTimerProps {
 	newTimer: string;
 	setNewTimer: (newTimer: string) => void;
-	timers: number[];
-	setTimers: (timers: number[]) => void;
+	timers: Timers;
+	setTimers: (timers: Timers) => void;
+	toggled: boolean;
+	setToggled: (toggled: boolean) => void;
+	units: Units;
 }
 
 const AddTimers: React.FC<AddTimerProps> = ({
@@ -17,9 +21,10 @@ const AddTimers: React.FC<AddTimerProps> = ({
 	setNewTimer,
 	timers,
 	setTimers,
+	toggled,
+	setToggled,
+	units,
 }) => {
-	const [toggled, setToggled] = React.useState(false);
-
 	return (
 		<div className="flex flex-col items-center justify-around">
 			<div className="text-4xl font-bold self-start">PT Timers</div>
@@ -32,12 +37,12 @@ const AddTimers: React.FC<AddTimerProps> = ({
 				<Toggle
 					toggled={toggled}
 					setToggled={setToggled}
-					optionOne="mins"
-					optionTwo="secs"
+					optionOne={Units.minutes}
+					optionTwo={Units.seconds}
 				/>
 				<Button
 					buttonColor={ButtonColor.jade}
-					onClick={() => addNewTimer(newTimer, timers, setTimers, setNewTimer)}
+					onClick={() => addNewTimer(newTimer, timers, setTimers, setNewTimer, units)}
 					animate
 				>
 					Add Timer

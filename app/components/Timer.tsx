@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { roboto_mono } from "../utilities/fonts";
 import Button from "./Button";
 import Card from "./Card";
-import { ButtonColor, CardColor, CardSize } from "./ComponentTypings";
+import { ButtonColor, CardColor, CardSize } from "../utilities/componentTypings";
 import Pause from "./SVGs/Pause";
 import Play from "./SVGs/Play";
 import Resume from "./SVGs/Resume";

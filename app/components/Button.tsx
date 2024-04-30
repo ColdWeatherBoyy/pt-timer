@@ -1,5 +1,5 @@
 import React from "react";
-import { ButtonColor } from "./ComponentTypings";
+import { ButtonColor } from "../utilities/componentTypings";
 
 interface ButtonProps {
 	buttonColor: ButtonColor;
