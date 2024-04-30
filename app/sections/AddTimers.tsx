@@ -13,7 +13,7 @@ interface AddTimerProps {
 	setTimers: (timers: Timers) => void;
 	toggled: boolean;
 	setToggled: (toggled: boolean) => void;
-	units: Units;
+	unit: Units;
 }
 
 const AddTimers: React.FC<AddTimerProps> = ({
@@ -23,7 +23,7 @@ const AddTimers: React.FC<AddTimerProps> = ({
 	setTimers,
 	toggled,
 	setToggled,
-	units,
+	unit,
 }) => {
 	return (
 		<div className="flex flex-col items-center justify-around">
@@ -42,7 +42,7 @@ const AddTimers: React.FC<AddTimerProps> = ({
 				/>
 				<Button
 					buttonColor={ButtonColor.jade}
-					onClick={() => addNewTimer(newTimer, timers, setTimers, setNewTimer, units)}
+					onClick={() => addNewTimer(newTimer, timers, setTimers, setNewTimer, unit)}
 					animate
 				>
 					Add Timer

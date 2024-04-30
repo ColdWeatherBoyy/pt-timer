@@ -1,9 +1,10 @@
 import React from "react";
+import { Units } from "../utilities/componentTypings";
 
 interface DeletableListItemProps {
 	index: number;
 	length: string;
-	unit: string;
+	unit: Units;
 	deleteItem: (index: number) => void;
 }
 
