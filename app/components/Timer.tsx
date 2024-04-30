@@ -74,10 +74,18 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 		<Card
 			cardColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
 			cardShade={ThemeShade.light}
-			size={CardSize.medium}
+			size={CardSize.large}
+			column
 		>
-			<div className="flex flex-col gap-4 m-4 items-center">
-				<div className={`${roboto_mono.className} text-6xl`}>
+			<div className={`${roboto_mono.className} text-2xl text-center`}>
+				Timer <span className="text-lg">(in {unit})</span>
+			</div>
+			<div className="flex flex-col gap-4 items-center">
+				<div
+					className={`${roboto_mono.className} text-6xl ${
+						paused ? "animate-slowFlicker" : "opacity-100"
+					}`}
+				>
 					{unit === Unit.minutes
 						? `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
 						: String(seconds)}

@@ -15,9 +15,11 @@ export const addNewTimer = (
 		alert("Whole numbers only, please.");
 	} else if (timer < 0) {
 		alert("Positive values only, please.");
-	} else if (unit === Unit.minutes ? timer > 120 : timer > 500) {
+	} else if (unit === Unit.minutes ? timer > 30 : timer > 500) {
 		alert(
-			`Only values ${unit === Unit.minutes ? "2 hours" : "5 minutes"} and below, please.`
+			`Only values ${
+				unit === Unit.minutes ? "30 minutes" : "5 minutes"
+			} and below, please.`
 		);
 	} else if (
 		unit === Unit.minutes

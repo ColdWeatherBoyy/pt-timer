@@ -11,6 +11,7 @@ const config: Config = {
 			animation: {
 				trembleHover: "trembleHover 0.3s ease-in-out infinite",
 				trembleActive: "trembleActive 0.3s ease-in-out infinite",
+				slowFlicker: "slowFlicker 1.5s ease-in-out infinite",
 			},
 			keyframes: {
 				trembleHover: {
@@ -28,6 +29,14 @@ const config: Config = {
 					},
 					"0%, 100%": {
 						transform: "translateX(0.25px) translateY(0.25px) rotate(0.25deg) scale(.95)",
+					},
+				},
+				slowFlicker: {
+					"0%, 100%": {
+						opacity: ".65",
+					},
+					"50%": {
+						opacity: "0.25",
 					},
 				},
 			},
