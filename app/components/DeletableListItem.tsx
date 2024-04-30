@@ -18,7 +18,7 @@ const DeletableListItem: React.FC<DeletableListItemProps> = ({
 }) => {
 	return (
 		<div
-			className={`flex relative items-start max-w-24 text-nowrap ${ComponentColor[listItemColor].listItem.item} py-2.5 px-5 rounded-lg shadow-lg`}
+			className={`flex relative items-start max-w-24 text-nowrap ${ComponentColor[listItemColor].listItem.item} py-2.5 px-5 rounded-lg shadow-md`}
 		>
 			<div
 				className={`flex flex-col items-center ${ComponentColor[listItemColor].listItem.itemText}`}

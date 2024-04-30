@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
 	return (
 		<button
 			onClick={onClick}
-			className={`w-fit p-2 rounded-lg shadow-lg hover:shadow-xl ${
+			className={`w-fit p-2 rounded-lg shadow-md hover:shadow-lg ${
 				ComponentColor[buttonColor].button
 			}  ${
 				animate

@@ -84,7 +84,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 				</div>
 				<div className="flex justify-center text-2xl gap-10">
 					<Button
-						buttonColor={ThemeColor.horizon}
+						buttonColor={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
 						onClick={started ? handlePause : handleStart}
 						className="p-10"
 					>
@@ -98,7 +98,10 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 							<Play size="40" />
 						)}
 					</Button>
-					<Button buttonColor={ThemeColor.horizon} onClick={handleStop}>
+					<Button
+						buttonColor={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
+						onClick={handleStop}
+					>
 						<Stop size="40" />
 					</Button>
 				</div>

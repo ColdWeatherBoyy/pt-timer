@@ -23,7 +23,7 @@ const Toggle: React.FC<ToggleProps> = ({
 	return (
 		<div className="flex items-center justify-center gap-2">
 			<div
-				className={`relative ${ComponentColor[toggleColor].toggle.track} box-content rounded-full w-18 h-8 shadow-inner-outer-lg cursor-pointer`}
+				className={`relative ${ComponentColor[toggleColor].toggle.track} box-content rounded-full w-18 h-8 shadow-inner-outer-md cursor-pointer`}
 				onClick={handleToggle}
 			>
 				<div
