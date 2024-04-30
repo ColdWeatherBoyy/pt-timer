@@ -1,3 +1,5 @@
+import { inter } from "./fonts";
+
 export enum ThemeColor {
 	jade = "jade",
 	horizon = "horizon",
@@ -32,16 +34,24 @@ interface CardShade {
 	dark: string;
 }
 
+interface ListItemPart {
+	item: string;
+	itemText: string;
+	delete: string;
+	deleteText: string;
+}
+
 interface ComponentColorClassList {
 	card: CardShade;
 	button: string;
 	toggle: TogglePart;
+	listItem: ListItemPart;
 }
 
 export const ComponentColor: Record<ThemeColor, ComponentColorClassList> = {
 	jade: {
 		card: {
-			light: "bg-gradient-to-br from-jade-300 to-jade-100 border-jade-200 text-jade-950",
+			light: "bg-gradient-to-br from-jade-325 to-jade-125 border-jade-200 text-jade-950",
 			medium: "bg-gradient-to-br from-jade-400 to-jade-200 border-jade-300 text-jade-950",
 			dark: "bg-gradient-to-br from-jade-600 to-jade-900 border-jade-700 text-jade-100 ",
 		},
@@ -52,6 +62,12 @@ export const ComponentColor: Record<ThemeColor, ComponentColorClassList> = {
 				"bg-gradient-to-r from-jade-500 to-jade-800 border border-jade-100 hover:border-jade-600 hover:from-jade-500 hover:to-jade-700 transition-all duration-200 ease-in-out",
 			track: "bg-jade-100 border border-jade-300",
 			text: "text-jade-500",
+		},
+		listItem: {
+			item: "bg-gradient-to-r from-jade-600 to-jade-900 border border-jade-200",
+			itemText: "text-jade-100",
+			delete: "bg-jade-50 border border-jade-400 hover:bg-jade-200 active:bg-jade-600 ",
+			deleteText: "text-jade-950 active:text-jade-50",
 		},
 	},
 	horizon: {
@@ -69,6 +85,13 @@ export const ComponentColor: Record<ThemeColor, ComponentColorClassList> = {
 				"bg-gradient-to-r from-horizon-500 to-horizon-800 border border-horizon-100 hover:border-horizon-600 hover:from-horizon-500 hover:to-horizon-700 transition-all duration-200 ease-in-out",
 			track: "bg-horizon-100 border border-horizon-300",
 			text: "text-horizon-500",
+		},
+		listItem: {
+			item: "bg-gradient-to-r from-horizon-600 to-horizon-900 border border-horizon-200",
+			itemText: "text-horizon-100",
+			delete:
+				"bg-horizon-50 border border-horizon-400 hover:bg-horizon-200 active:bg-horizon-600 ",
+			deleteText: "text-horizon-950 active:text-horizon-50",
 		},
 	},
 };

@@ -38,6 +38,7 @@ const ActiveTimers: React.FC<ActiveTimers> = ({ timers, setTimers, unit }) => {
 								index={index}
 								length={timer.toString()}
 								unit={Unit.seconds}
+								listItemColor={ThemeColor.jade}
 								deleteItem={(index) =>
 									removeTimer(index, timers, (timers) => setTimers(timers), Unit.seconds)
 								}
@@ -51,6 +52,7 @@ const ActiveTimers: React.FC<ActiveTimers> = ({ timers, setTimers, unit }) => {
 								index={index}
 								length={timer.toString()}
 								unit={Unit.minutes}
+								listItemColor={ThemeColor.horizon}
 								deleteItem={(index) =>
 									removeTimer(index, timers, (timers) => setTimers(timers), Unit.minutes)
 								}

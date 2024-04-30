@@ -72,7 +72,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 
 	return (
 		<Card
-			cardColor={ThemeColor.horizon}
+			cardColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
 			cardShade={ThemeShade.light}
 			size={CardSize.medium}
 		>
