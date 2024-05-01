@@ -8,16 +8,10 @@ import { Unit } from "./utilities/themeTypes";
 
 export default function Home() {
 	const [timers, setTimers] = useState<Timers>({ secondTimers: [], minuteTimers: [] });
-	const [newTimer, setNewTimer] = useState<string>("");
 
 	return (
 		<MainWrapper>
-			<TopCard
-				timers={timers}
-				newTimer={newTimer}
-				setTimers={setTimers}
-				setNewTimer={setNewTimer}
-			/>
+			<TopCard timers={timers} setTimers={setTimers} />
 			<TimersSection timers={timers} />
 		</MainWrapper>
 	);

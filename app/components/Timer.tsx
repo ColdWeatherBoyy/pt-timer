@@ -7,6 +7,7 @@ import Pause from "../components/SVGs/Pause";
 import Play from "../components/SVGs/Play";
 import Resume from "../components/SVGs/Resume";
 import Stop from "../components/SVGs/Stop";
+import NumberInput from "./NumberInput";
 
 interface TimerProps {
 	timerLength: number;
@@ -18,6 +19,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 	const [seconds, setSeconds] = useState(unit === Unit.seconds ? timerLength : 0);
 	const [started, setStarted] = useState<boolean>(false);
 	const [paused, setPaused] = useState<boolean>(false);
+	const [reps, setReps] = useState<number>(1);
 
 	const handleStart = () => {
 		setStarted(true);
@@ -77,9 +79,10 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 			size={CardSize.large}
 			column
 		>
-			<div className={`${roboto_mono.className} text-2xl text-center`}>
-				Timer <span className="text-lg">(in {unit})</span>
+			<div className={`${roboto_mono.className} text-3xl text-center`}>
+				Timer<span className="text-base"> (in {unit})</span>
 			</div>
+
 			<div className="flex flex-col gap-4 items-center">
 				<div
 					className={`${roboto_mono.className} text-6xl ${
@@ -90,7 +93,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 						? `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
 						: String(seconds)}
 				</div>
-				<div className="flex justify-center text-2xl gap-10">
+				<div className="flex justify-center text-2xl gap-10 items-center">
 					<Button
 						buttonColor={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
 						onClick={started ? handlePause : handleStart}
@@ -112,6 +115,11 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 					>
 						<Stop size="40" />
 					</Button>
+					<NumberInput
+						color={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
+						title="Reps"
+						// onChange={(event) => setReps(Number(event.target.value))}
+					/>
 				</div>
 			</div>
 		</Card>

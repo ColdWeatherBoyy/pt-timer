@@ -7,17 +7,11 @@ import AddTimers from "./AddTimers";
 
 interface TopCardProps {
 	timers: Timers;
-	newTimer: string;
 	setTimers: (timers: Timers) => void;
-	setNewTimer: (newTimer: string) => void;
 }
 
-const TopCard: React.FC<TopCardProps> = ({
-	timers,
-	newTimer,
-	setTimers,
-	setNewTimer,
-}) => {
+const TopCard: React.FC<TopCardProps> = ({ timers, setTimers }) => {
+	const [newTimer, setNewTimer] = useState<string>("");
 	const [toggled, setToggled] = useState(false);
 	// toggled = false means seconds, toggled = true means minutes
 	const unit = toggled ? Unit.minutes : Unit.seconds;
