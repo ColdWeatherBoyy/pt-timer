@@ -17,21 +17,26 @@ export enum CardSize {
 	large = "w-3/4 min-w-fit p-6",
 }
 
+interface CardShade {
+	light: string;
+	medium: string;
+	dark: string;
+}
+
 export enum Unit {
 	seconds = "secs",
 	minutes = "mins",
 }
 
+interface NumberInputPart {
+	title: string;
+	buttonWrapper: string;
+	button: string;
+}
 interface TogglePart {
 	thumb: string;
 	track: string;
 	text: string;
-}
-
-interface CardShade {
-	light: string;
-	medium: string;
-	dark: string;
 }
 
 interface ListItemPart {
@@ -43,6 +48,7 @@ interface ListItemPart {
 
 interface ComponentColorClassList {
 	card: CardShade;
+	numberInput: NumberInputPart;
 	button: string;
 	toggle: TogglePart;
 	listItem: ListItemPart;
@@ -53,7 +59,13 @@ export const ComponentColor: Record<ThemeColor, ComponentColorClassList> = {
 		card: {
 			light: "bg-gradient-to-br from-jade-325 to-jade-125 border-jade-200 text-jade-950",
 			medium: "bg-gradient-to-br from-jade-400 to-jade-200 border-jade-300 text-jade-950",
-			dark: "bg-gradient-to-br from-jade-600 to-jade-900 border-jade-700 text-jade-100 ",
+			dark: "bg-gradient-to-br from-jade-600 to-jade-900 border-jade-700 text-jade-100",
+		},
+		numberInput: {
+			title: "bg-gradient-to-br from-jade-600 to-jade-900 border-jade-800 text-jade-100 ",
+			buttonWrapper: "border-jade-800 bg-gradient-to-br from-jade-200 to-jade-100",
+			button:
+				"bg-gradient-to-br from-jade-600 to-jade-900 border-jade-700 text-jade-100 hover:from-jade-500 hover:to-jade-800 hover:border-jade-500 active:from-jade-950 active:to-jade-700 active:border-jade-700 active:text-jade-200",
 		},
 		button:
 			"bg-gradient-to-r from-jade-500 to-jade-800 text-jade-50 border border-jade-600 hover:border-jade-200 active:from-jade-950 active:to-jade-700 active:text-jade-100",
@@ -77,6 +89,14 @@ export const ComponentColor: Record<ThemeColor, ComponentColorClassList> = {
 			medium:
 				"bg-gradient-to-br from-horizon-500 to-horizon-300 border-horizon-400 text-jade-950",
 			dark: "bg-gradient-to-br from-horizon-600 to-horizon-900 border-horizon-700 text-horizon-100",
+		},
+		numberInput: {
+			title:
+				"bg-gradient-to-br from-horizon-600 to-horizon-900 border-horizon-800 text-horizon-100",
+			buttonWrapper:
+				"border-horizon-800 bg-gradient-to-br from-horizon-300 to-horizon-200",
+			button:
+				"bg-gradient-to-br from-horizon-600 to-horizon-900 border-horizon-700 text-horizon-100 hover:from-horizon-500 hover:to-horizon-800 hover:border-horizon-500 active:from-horizon-950 active:to-horizon-700 active:border-horizon-700 active:text-horizon-200",
 		},
 		button:
 			"bg-gradient-to-r from-horizon-500 to-horizon-800 text-horizon-100 border border-horizon-600 hover:border-horizon-300 active:from-horizon-950 active:to-horizon-700 active:text-horizon-200",

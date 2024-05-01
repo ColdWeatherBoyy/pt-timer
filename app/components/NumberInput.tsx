@@ -35,13 +35,15 @@ const NumberInput: React.FC<InputProps> = ({
 	return (
 		<div className="flex flex-col rounded-lg h-full shadow-md">
 			<div
-				className={`px-4 border border-jade-800 border-b-0 rounded-lg rounded-b-none text-sm text-center ${ComponentColor[color].card.dark}`}
+				className={`px-4 border border-b-0 rounded-lg rounded-b-none text-sm text-center ${ComponentColor[color].numberInput.title}`}
 			>
 				{title}
 			</div>
-			<div className="w-full h-full flex items-center justify-between border border-jade-800 rounded-b-lg px-1">
+			<div
+				className={`w-full h-full flex items-center justify-between border ${ComponentColor[color].numberInput.buttonWrapper} rounded-b-lg px-1 shadow-inner`}
+			>
 				<div
-					className={`${ComponentColor[color].card.dark} text-base rounded-full shadow-md cursor-pointer h-5 w-5 flex items-center justify-center`}
+					className={`${ComponentColor[color].numberInput.button} border text-base rounded-full shadow-md cursor-pointer h-5 w-5 flex items-center justify-center hover:shadow-lg hover:text-lg active:text-sm active:shadow-sm`}
 					onClick={handleDecrement}
 				>
 					<span className="-translate-y-px -translate-x-px">{"<"}</span>
@@ -50,7 +52,7 @@ const NumberInput: React.FC<InputProps> = ({
 					{number}
 				</div>
 				<div
-					className={`${ComponentColor[color].card.dark} text-base rounded-full shadow-md cursor-pointer h-5 w-5 flex items-center justify-center`}
+					className={`${ComponentColor[color].numberInput.button} border text-base rounded-full shadow-md cursor-pointer h-5 w-5 flex items-center justify-center hover:shadow-lg hover:text-lg active:text-sm active:shadow-sm`}
 					onClick={handleIncrement}
 				>
 					<span className="-translate-y-px translate-x-px">{">"}</span>
