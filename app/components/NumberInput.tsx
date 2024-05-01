@@ -50,14 +50,7 @@ const NumberInput: React.FC<InputProps> = ({
 					{number}
 				</div>
 				<div
-					className={`${
-						ComponentColor[color].card.dark
-					} text-base rounded-full shadow-md cursor-pointer h-5 w-5 flex items-center justify-center ${ComponentColor[
-						color
-					].card.light
-						.split(" ")
-						.map((color) => `hover:${color}`)
-						.join(" ")}`}
+					className={`${ComponentColor[color].card.dark} text-base rounded-full shadow-md cursor-pointer h-5 w-5 flex items-center justify-center`}
 					onClick={handleIncrement}
 				>
 					<span className="-translate-y-px translate-x-px">{">"}</span>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Timers } from "../utilities/interfaces";
-import Timer from "../components/Timer";
+import Timer from "./Timer";
 import { Unit } from "../utilities/themeTypes";
 
 interface TimersSectionProps {

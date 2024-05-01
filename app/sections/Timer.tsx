@@ -7,7 +7,7 @@ import Resume from "../components/SVGs/Resume";
 import Stop from "../components/SVGs/Stop";
 import { roboto_mono } from "../utilities/fonts";
 import { CardSize, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
-import NumberInput from "./NumberInput";
+import NumberInput from "../components/NumberInput";
 
 interface TimerProps {
 	timerLength: number;
@@ -156,13 +156,15 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 					>
 						<Stop size="40" />
 					</Button>
-					<NumberInput
-						color={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
-						title="Set Reps"
-						number={totalReps}
-						setNumber={setTotalReps}
-						limits={{ min: 1, max: 5 }}
-					/>
+					<div className={`${started ? "pointer-events-none opacity-65" : ""}`}>
+						<NumberInput
+							color={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
+							title="Set Reps"
+							number={totalReps}
+							setNumber={setTotalReps}
+							limits={{ min: 1, max: 5 }}
+						/>
+					</div>
 				</div>
 			</div>
 		</Card>
