@@ -4,33 +4,38 @@ import { ComponentColor, ThemeColor } from "../utilities/themeTypes";
 interface InputProps {
 	title: string;
 	color: ThemeColor;
-	// number: number;
-	// onChange: Dispatch<SetStateAction<number>>;
+	number: number;
+	setNumber: Dispatch<SetStateAction<number>>;
+	limits: { min: number; max: number };
 }
 
-const NumberInput: React.FC<InputProps> = ({ title, color }) => {
-	const [count, setCount] = useState<number>(1);
-
+const NumberInput: React.FC<InputProps> = ({
+	title,
+	color,
+	number,
+	setNumber,
+	limits,
+}) => {
 	const handleDecrement = () => {
-		if (count === 1) {
-			alert("Cannot go below 1");
+		if (number === limits.min) {
+			alert(`Cannot go below ${limits.min}`);
 			return;
 		}
-		setCount((prev) => prev - 1);
+		setNumber((prev) => prev - 1);
 	};
 
 	const handleIncrement = () => {
-		if (count === 5) {
-			alert("Cannot go above 5");
+		if (number === limits.max) {
+			alert(`Cannot go above ${limits.max}`);
 			return;
 		}
-		setCount((prev) => prev + 1);
+		setNumber((prev) => prev + 1);
 	};
 
 	return (
 		<div className="flex flex-col rounded-lg h-full shadow-md">
 			<div
-				className={`px-7 border border-jade-800 border-b-0 rounded-lg rounded-b-none text-sm text-center ${ComponentColor[color].card.dark}`}
+				className={`px-4 border border-jade-800 border-b-0 rounded-lg rounded-b-none text-sm text-center ${ComponentColor[color].card.dark}`}
 			>
 				{title}
 			</div>
@@ -42,7 +47,7 @@ const NumberInput: React.FC<InputProps> = ({ title, color }) => {
 					<span className="-translate-y-px -translate-x-px">{"<"}</span>
 				</div>
 				<div className="text-2xl px-3 leading-none flex items-center justify-center">
-					{count}
+					{number}
 				</div>
 				<div
 					className={`${

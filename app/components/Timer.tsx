@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { roboto_mono } from "../utilities/fonts";
 import Button from "../components/Button";
 import Card from "../components/Card";
-import { ThemeShade, CardSize, ThemeColor, Unit } from "../utilities/themeTypes";
 import Pause from "../components/SVGs/Pause";
 import Play from "../components/SVGs/Play";
 import Resume from "../components/SVGs/Resume";
 import Stop from "../components/SVGs/Stop";
+import { roboto_mono } from "../utilities/fonts";
+import { CardSize, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
 import NumberInput from "./NumberInput";
 
 interface TimerProps {
@@ -19,7 +19,8 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 	const [seconds, setSeconds] = useState(unit === Unit.seconds ? timerLength : 0);
 	const [started, setStarted] = useState<boolean>(false);
 	const [paused, setPaused] = useState<boolean>(false);
-	const [reps, setReps] = useState<number>(1);
+	const [totalReps, setTotalReps] = useState<number>(1);
+	const [activeReps, setActiveReps] = useState<number>(totalReps);
 
 	const handleStart = () => {
 		setStarted(true);
@@ -29,6 +30,25 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 		} else {
 			setSeconds(timerLength - 1);
 		}
+	};
+
+	const handlePause = () => {
+		setPaused((prev) => !prev);
+	};
+
+	const handleNextRep = () => {
+		setPaused(true);
+		setActiveReps((prev) => prev - 1);
+		if (unit === Unit.minutes) {
+			setMinutes(timerLength);
+			setSeconds(0);
+		} else {
+			setSeconds(timerLength);
+		}
+		setTimeout(() => {
+			setPaused(false);
+			handleStart();
+		}, 2000);
 	};
 
 	const handleStop = () => {
@@ -43,13 +63,21 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 	};
 
 	useEffect(() => {
+		setActiveReps(totalReps);
+	}, [totalReps, started]);
+
+	useEffect(() => {
 		if (started && !paused) {
 			const interval = setInterval(() => {
 				if (unit === Unit.minutes) {
 					if (seconds === 0) {
 						if (minutes === 0) {
 							clearInterval(interval);
-							handleStop();
+							if (activeReps > 1) {
+								handleNextRep();
+							} else {
+								handleStop();
+							}
 						} else {
 							setMinutes((prev) => prev - 1);
 							setSeconds(59);
@@ -60,7 +88,11 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 				} else {
 					if (seconds === 0) {
 						clearInterval(interval);
-						handleStop();
+						if (activeReps > 1) {
+							handleNextRep();
+						} else {
+							handleStop();
+						}
 					} else setSeconds((prev) => prev - 1);
 				}
 			}, 1000);
@@ -68,19 +100,27 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 		}
 	}, [started, paused, seconds, minutes, unit]);
 
-	const handlePause = () => {
-		setPaused((prev) => !prev);
-	};
-
 	return (
 		<Card
 			cardColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
 			cardShade={ThemeShade.light}
 			size={CardSize.large}
 			column
+			className="gap-2"
 		>
-			<div className={`${roboto_mono.className} text-3xl text-center`}>
-				Timer<span className="text-base"> (in {unit})</span>
+			<div className={`${roboto_mono.className} flex text-3xl justify-between`}>
+				<span className="font-bold">Timer</span>
+				<div className="flex flex-row">
+					<div className="tracking-tighter text-2xl">Reps:</div>
+					<Card
+						cardColor={ThemeColor.jade}
+						cardShade={ThemeShade.dark}
+						size={CardSize.small}
+						className="w-fit py-2 px-3 text-2xl ml-1 leading-none -translate-y-0.5"
+					>
+						{activeReps}
+					</Card>
+				</div>
 			</div>
 
 			<div className="flex flex-col gap-4 items-center">
@@ -92,6 +132,7 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 					{unit === Unit.minutes
 						? `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
 						: String(seconds)}
+					<div className="text-sm text-center">{unit}</div>
 				</div>
 				<div className="flex justify-center text-2xl gap-10 items-center">
 					<Button
@@ -117,8 +158,10 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 					</Button>
 					<NumberInput
 						color={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
-						title="Reps"
-						// onChange={(event) => setReps(Number(event.target.value))}
+						title="Set Reps"
+						number={totalReps}
+						setNumber={setTotalReps}
+						limits={{ min: 1, max: 5 }}
 					/>
 				</div>
 			</div>
