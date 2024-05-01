@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import Card from "../components/Card";
 import DeletableListItem from "../components/DeletableListItem";
 import { CardSize, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
@@ -7,7 +7,7 @@ import { Timers } from "../utilities/interfaces";
 
 interface ActiveTimers {
 	timers: Timers;
-	setTimers: (timers: Timers) => void;
+	setTimers: Dispatch<SetStateAction<Timers>>;
 	unit: Unit;
 }
 
@@ -40,7 +40,7 @@ const ActiveTimers: React.FC<ActiveTimers> = ({ timers, setTimers, unit }) => {
 								unit={Unit.seconds}
 								listItemColor={ThemeColor.jade}
 								deleteItem={(index) =>
-									removeTimer(index, timers, (timers) => setTimers(timers), Unit.seconds)
+									removeTimer(index, timers, setTimers, Unit.seconds)
 								}
 							/>
 						);
@@ -54,7 +54,7 @@ const ActiveTimers: React.FC<ActiveTimers> = ({ timers, setTimers, unit }) => {
 								unit={Unit.minutes}
 								listItemColor={ThemeColor.horizon}
 								deleteItem={(index) =>
-									removeTimer(index, timers, (timers) => setTimers(timers), Unit.minutes)
+									removeTimer(index, timers, setTimers, Unit.minutes)
 								}
 							/>
 						);

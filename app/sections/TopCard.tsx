@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Card from "../components/Card";
 import { ThemeShade, CardSize, ThemeColor, Unit } from "../utilities/themeTypes";
 import { Timers } from "../utilities/interfaces";
@@ -7,7 +7,7 @@ import AddTimers from "./AddTimers";
 
 interface TopCardProps {
 	timers: Timers;
-	setTimers: (timers: Timers) => void;
+	setTimers: Dispatch<SetStateAction<Timers>>;
 }
 
 const TopCard: React.FC<TopCardProps> = ({ timers, setTimers }) => {
@@ -27,16 +27,12 @@ const TopCard: React.FC<TopCardProps> = ({ timers, setTimers }) => {
 				newTimer={newTimer}
 				setNewTimer={setNewTimer}
 				timers={timers}
-				setTimers={(timers) => setTimers(timers)}
+				setTimers={setTimers}
 				toggled={toggled}
 				setToggled={setToggled}
 				unit={unit}
 			/>
-			<ActiveTimers
-				timers={timers}
-				setTimers={(timers) => setTimers(timers)}
-				unit={unit}
-			/>
+			<ActiveTimers timers={timers} setTimers={setTimers} unit={unit} />
 		</Card>
 	);
 };

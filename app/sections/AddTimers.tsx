@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Input from "../components/Input";
@@ -9,11 +9,11 @@ import { CardSize, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes"
 
 interface AddTimerProps {
 	newTimer: string;
-	setNewTimer: (newTimer: string) => void;
+	setNewTimer: Dispatch<SetStateAction<string>>;
 	timers: Timers;
-	setTimers: (timers: Timers) => void;
+	setTimers: Dispatch<SetStateAction<Timers>>;
 	toggled: boolean;
-	setToggled: (toggled: boolean) => void;
+	setToggled: Dispatch<SetStateAction<boolean>>;
 	unit: Unit;
 }
 

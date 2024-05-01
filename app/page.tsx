@@ -4,7 +4,6 @@ import MainWrapper from "./components/MainWrapper";
 import TopCard from "./sections/TopCard";
 import TimersSection from "./sections/TimersSection";
 import { Timers } from "./utilities/interfaces";
-import { Unit } from "./utilities/themeTypes";
 
 export default function Home() {
 	const [timers, setTimers] = useState<Timers>({ secondTimers: [], minuteTimers: [] });
