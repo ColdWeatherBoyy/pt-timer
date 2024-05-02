@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Pause from "../components/SVGs/Pause";
@@ -10,11 +10,20 @@ import { CardSize, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes"
 import NumberInput from "../components/NumberInput";
 
 interface TimerProps {
+	index: number;
 	timerLength: number;
 	unit: Unit;
+	setActiveTimer: Dispatch<SetStateAction<number | null>>;
+	className?: string;
 }
 
-const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
+const Timer: React.FC<TimerProps> = ({
+	index,
+	timerLength,
+	unit,
+	setActiveTimer,
+	className,
+}) => {
 	const [minutes, setMinutes] = useState(unit === Unit.minutes ? timerLength : 0);
 	const [seconds, setSeconds] = useState(unit === Unit.seconds ? timerLength : 0);
 	const [started, setStarted] = useState<boolean>(false);
@@ -100,13 +109,21 @@ const Timer: React.FC<TimerProps> = ({ timerLength, unit }) => {
 		}
 	}, [started, paused, seconds, minutes, unit]);
 
+	useEffect(() => {
+		if (!started) {
+			setActiveTimer(null);
+		} else {
+			setActiveTimer(index);
+		}
+	}, [started]);
+
 	return (
 		<Card
 			cardColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
 			cardShade={ThemeShade.light}
 			size={CardSize.large}
 			column
-			className="gap-2"
+			className={`${className} gap-2`}
 		>
 			<div className={`${roboto_mono.className} flex text-3xl justify-between`}>
 				<span className="font-bold">Timer</span>
