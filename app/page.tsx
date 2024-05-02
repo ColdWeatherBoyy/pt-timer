@@ -7,11 +7,16 @@ import { Timers } from "./utilities/interfaces";
 
 export default function Home() {
 	const [timers, setTimers] = useState<Timers>({ secondTimers: [], minuteTimers: [] });
+	const [activeTimer, setActiveTimer] = useState<number | null>(null);
 
 	return (
 		<MainWrapper>
-			<TopCard timers={timers} setTimers={setTimers} />
-			<TimersSection timers={timers} />
+			<TopCard timers={timers} setTimers={setTimers} activeTimer={activeTimer} />
+			<TimersSection
+				timers={timers}
+				activeTimer={activeTimer}
+				setActiveTimer={setActiveTimer}
+			/>
 		</MainWrapper>
 	);
 }

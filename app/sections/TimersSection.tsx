@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import { Timers } from "../utilities/interfaces";
 import { Unit } from "../utilities/themeTypes";
 import Timer from "./Timer";
 
 interface TimersSectionProps {
 	timers: Timers;
+	activeTimer: number | null;
+	setActiveTimer: Dispatch<React.SetStateAction<number | null>>;
 }
-const TimersSection: React.FC<TimersSectionProps> = ({ timers }) => {
-	const [activeTimer, setActiveTimer] = useState<number | null>(null);
-
-	useEffect(() => {
-		console.log(activeTimer);
-	}, [activeTimer]);
+const TimersSection: React.FC<TimersSectionProps> = ({
+	timers,
+	activeTimer,
+	setActiveTimer,
+}) => {
 	return (
 		<div className="grid grid-cols-3 grid-rows-2 gap-10">
 			{[...timers.secondTimers, ...timers.minuteTimers].map((timer, index) => {

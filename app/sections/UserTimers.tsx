@@ -5,20 +5,20 @@ import { CardSize, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes"
 import { removeTimer } from "../utilities/helperFunctions";
 import { Timers } from "../utilities/interfaces";
 
-interface ActiveTimers {
+interface UserTimers {
 	timers: Timers;
 	setTimers: Dispatch<SetStateAction<Timers>>;
-	unit: Unit;
+	activeTimer: number | null;
 }
 
-const ActiveTimers: React.FC<ActiveTimers> = ({ timers, setTimers, unit }) => {
+const UserTimers: React.FC<UserTimers> = ({ timers, setTimers, activeTimer }) => {
 	return (
 		<Card
 			cardColor={ThemeColor.jade}
 			cardShade={ThemeShade.medium}
 			size={CardSize.medium}
 			column
-			className="h-fit"
+			className={`h-fit ${activeTimer ? "opacity-65 pointer-events-none" : ""}`}
 		>
 			<div className={`text-2xl font-bold text-center mx-10 mb-2`}>Active Timers</div>
 			{timers.minuteTimers.length === 0 && timers.secondTimers.length === 0 ? (
@@ -65,4 +65,4 @@ const ActiveTimers: React.FC<ActiveTimers> = ({ timers, setTimers, unit }) => {
 	);
 };
 
-export default ActiveTimers;
+export default UserTimers;

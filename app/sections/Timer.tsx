@@ -1,13 +1,14 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Button from "../components/Button";
 import Card from "../components/Card";
+import NumberInput from "../components/NumberInput";
 import Pause from "../components/SVGs/Pause";
 import Play from "../components/SVGs/Play";
 import Resume from "../components/SVGs/Resume";
 import Stop from "../components/SVGs/Stop";
 import { roboto_mono } from "../utilities/fonts";
 import { CardSize, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
-import NumberInput from "../components/NumberInput";
+import { set } from "mongoose";
 
 interface TimerProps {
 	index: number;
@@ -24,13 +25,41 @@ const Timer: React.FC<TimerProps> = ({
 	setActiveTimer,
 	className,
 }) => {
+	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
 	const [minutes, setMinutes] = useState(unit === Unit.minutes ? timerLength : 0);
 	const [seconds, setSeconds] = useState(unit === Unit.seconds ? timerLength : 0);
 	const [started, setStarted] = useState<boolean>(false);
 	const [paused, setPaused] = useState<boolean>(false);
-	const [totalReps, setTotalReps] = useState<number>(1);
-	const [activeReps, setActiveReps] = useState<number>(totalReps);
+	const [reps, setReps] = useState<{ total: number; active: number }>({
+		total: 1,
+		active: 1,
+	});
 
+	// *********** UTILITY **************
+	// TO-DO: Move these into separate file?
+	// TO-DO: Move conditional into singular utility function?
+	// Use when unit is set to minutes
+	const updateMinutes = (minutes: number, seconds: number) => {
+		setMinutes(minutes);
+		setSeconds(seconds);
+	};
+	// Use when unit is set to seconds
+	const updateSeconds = (seconds: number) => {
+		setSeconds(seconds);
+	};
+	// TO-DO: Move these into separate file?
+	// Set active reps
+	const setActiveReps = (active: number) => {
+		setReps((prev) => ({ ...prev, active }));
+	};
+	// Set total reps
+	const setTotalReps = (total: number) => {
+		setReps((prev) => ({ ...prev, total }));
+	};
+
+	// *********** EVENT HANDLERS **************
+
+	// Start timer with increment
 	const handleStart = () => {
 		setStarted(true);
 		if (unit === Unit.minutes) {
@@ -41,73 +70,76 @@ const Timer: React.FC<TimerProps> = ({
 		}
 	};
 
+	// (Un)pause timer
 	const handlePause = () => {
 		setPaused((prev) => !prev);
 	};
 
+	// Move to next rep (if multiple are set)
 	const handleNextRep = () => {
+		// TO-DO: Use an additional state, not pause, for between intervals, with UI feedback
 		setPaused(true);
-		setActiveReps((prev) => prev - 1);
-		if (unit === Unit.minutes) {
-			setMinutes(timerLength);
-			setSeconds(0);
-		} else {
-			setSeconds(timerLength);
-		}
+		// decrement active reps
+		setActiveReps(reps.active - 1);
+		// Reset timer to initial value
+		unit === Unit.minutes ? updateMinutes(timerLength, 0) : updateSeconds(timerLength);
+		// Pause for 2 seconds between reps
 		setTimeout(() => {
 			setPaused(false);
 			handleStart();
 		}, 2000);
 	};
 
+	// Stop timer
 	const handleStop = () => {
 		setStarted(false);
 		setPaused(false);
-		if (unit === Unit.minutes) {
-			setSeconds(0);
-			setMinutes(timerLength);
-		} else {
-			setSeconds(timerLength);
-		}
+		// Reset active reps to total reps
+		setActiveReps(reps.total);
+		// Reset timer to initial value
+		unit === Unit.minutes ? updateMinutes(timerLength, 0) : updateSeconds(timerLength);
 	};
 
-	useEffect(() => {
-		setActiveReps(totalReps);
-	}, [totalReps, started]);
+	// *********** EFFECTS **************
 
+	// Keep active reps updated when total reps change
+	useEffect(() => {
+		setActiveReps(reps.total);
+	}, [reps.total]);
+
+	// Timer logic
 	useEffect(() => {
 		if (started && !paused) {
 			const interval = setInterval(() => {
+				// Logic for minutes
 				if (unit === Unit.minutes) {
 					if (seconds === 0) {
 						if (minutes === 0) {
+							// End of current timer
 							clearInterval(interval);
-							if (activeReps > 1) {
-								handleNextRep();
-							} else {
-								handleStop();
-							}
+							reps.active > 1 ? handleNextRep() : handleStop();
 						} else {
-							setMinutes((prev) => prev - 1);
-							setSeconds(59);
+							// Decrement minutes and reset seconds
+							updateMinutes(minutes - 1, 59);
 						}
 					} else {
-						setSeconds((prev) => prev - 1);
+						// Decrement seconds
+						updateSeconds(seconds - 1);
 					}
+					// Logic for seconds
 				} else {
 					if (seconds === 0) {
+						// End of current timer
 						clearInterval(interval);
-						if (activeReps > 1) {
-							handleNextRep();
-						} else {
-							handleStop();
-						}
-					} else setSeconds((prev) => prev - 1);
+						reps.active > 1 ? handleNextRep() : handleStop();
+						// Decrement second
+					} else updateSeconds(seconds - 1);
 				}
 			}, 1000);
+			// Clean up
 			return () => clearInterval(interval);
 		}
-	}, [started, paused, seconds, minutes, unit]);
+	}, [started, paused, seconds, minutes]);
 
 	useEffect(() => {
 		if (!started) {
@@ -135,7 +167,7 @@ const Timer: React.FC<TimerProps> = ({
 						size={CardSize.small}
 						className="w-fit py-2 px-3 text-2xl ml-1 leading-none -translate-y-0.5"
 					>
-						{activeReps}
+						{reps.active}
 					</Card>
 				</div>
 			</div>
@@ -177,7 +209,7 @@ const Timer: React.FC<TimerProps> = ({
 						<NumberInput
 							color={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
 							title="Set Reps"
-							number={totalReps}
+							number={reps.total}
 							setNumber={setTotalReps}
 							limits={{ min: 1, max: 5 }}
 						/>

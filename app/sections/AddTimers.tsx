@@ -15,6 +15,7 @@ interface AddTimerProps {
 	toggled: boolean;
 	setToggled: Dispatch<SetStateAction<boolean>>;
 	unit: Unit;
+	activeTimer: number | null;
 }
 
 const AddTimers: React.FC<AddTimerProps> = ({
@@ -25,6 +26,7 @@ const AddTimers: React.FC<AddTimerProps> = ({
 	toggled,
 	setToggled,
 	unit,
+	activeTimer,
 }) => {
 	return (
 		<div className="flex flex-col items-center">
@@ -33,6 +35,7 @@ const AddTimers: React.FC<AddTimerProps> = ({
 				cardColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
 				cardShade={ThemeShade.medium}
 				size={CardSize.medium}
+				className={`${activeTimer ? "opacity-65 pointer-events-none" : ""}`}
 			>
 				<div className="flex flex-col items-center gap-4">
 					<Input

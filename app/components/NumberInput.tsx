@@ -5,7 +5,7 @@ interface InputProps {
 	title: string;
 	color: ThemeColor;
 	number: number;
-	setNumber: Dispatch<SetStateAction<number>>;
+	setNumber: (number: number) => void;
 	limits: { min: number; max: number };
 }
 
@@ -21,7 +21,7 @@ const NumberInput: React.FC<InputProps> = ({
 			alert(`Cannot go below ${limits.min}`);
 			return;
 		}
-		setNumber((prev) => prev - 1);
+		setNumber(number - 1);
 	};
 
 	const handleIncrement = () => {
@@ -29,7 +29,7 @@ const NumberInput: React.FC<InputProps> = ({
 			alert(`Cannot go above ${limits.max}`);
 			return;
 		}
-		setNumber((prev) => prev + 1);
+		setNumber(number + 1);
 	};
 
 	return (

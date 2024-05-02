@@ -1,16 +1,17 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import Card from "../components/Card";
-import { ThemeShade, CardSize, ThemeColor, Unit } from "../utilities/themeTypes";
 import { Timers } from "../utilities/interfaces";
-import ActiveTimers from "./ActiveTimers";
+import { CardSize, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
 import AddTimers from "./AddTimers";
+import UserTimers from "./UserTimers";
 
 interface TopCardProps {
 	timers: Timers;
 	setTimers: Dispatch<SetStateAction<Timers>>;
+	activeTimer: number | null;
 }
 
-const TopCard: React.FC<TopCardProps> = ({ timers, setTimers }) => {
+const TopCard: React.FC<TopCardProps> = ({ timers, setTimers, activeTimer }) => {
 	const [newTimer, setNewTimer] = useState<string>("");
 	const [toggled, setToggled] = useState(false);
 	// toggled = false means seconds, toggled = true means minutes
@@ -31,8 +32,9 @@ const TopCard: React.FC<TopCardProps> = ({ timers, setTimers }) => {
 				toggled={toggled}
 				setToggled={setToggled}
 				unit={unit}
+				activeTimer={activeTimer}
 			/>
-			<ActiveTimers timers={timers} setTimers={setTimers} unit={unit} />
+			<UserTimers timers={timers} setTimers={setTimers} activeTimer={activeTimer} />
 		</Card>
 	);
 };
