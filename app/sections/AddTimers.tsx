@@ -35,18 +35,20 @@ const AddTimers: React.FC<AddTimerProps> = ({
 			className={`p-4 gap-4 w-1/2 ${activeTimer ? "opacity-65 pointer-events-none" : ""}`}
 			column
 		>
-			<Input
-				placeholder={`Enter ${unit === Unit.minutes ? "minutes" : "seconds"}`}
-				value={newTimer}
-				onChange={(event) => setNewTimer(event.target.value)}
-			/>
-			<Toggle
-				toggled={toggled}
-				setToggled={setToggled}
-				toggleColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
-				optionOne={Unit.minutes}
-				optionTwo={Unit.seconds}
-			/>
+			<div className="flex justify-center gap-8 lg:gap-20">
+				<Input
+					placeholder={`Enter ${unit}`}
+					value={newTimer}
+					onChange={(event) => setNewTimer(event.target.value)}
+				/>
+				<Toggle
+					toggled={toggled}
+					setToggled={setToggled}
+					toggleColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
+					optionOne={Unit.minutes}
+					optionTwo={Unit.seconds}
+				/>
+			</div>
 			<Button
 				buttonColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
 				onClick={() => addNewTimer(newTimer, timers, setTimers, setNewTimer, unit)}
