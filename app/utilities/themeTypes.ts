@@ -9,12 +9,6 @@ export enum ThemeShade {
 	dark = "dark",
 }
 
-export enum CardSize {
-	small = "p-2",
-	medium = "p-4",
-	large = "w-3/4 min-w-fit p-6",
-}
-
 interface CardShade {
 	light: string;
 	medium: string;

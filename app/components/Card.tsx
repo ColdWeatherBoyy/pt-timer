@@ -1,15 +1,9 @@
 import React from "react";
-import {
-	ComponentColor,
-	CardSize,
-	ThemeColor,
-	ThemeShade,
-} from "../utilities/themeTypes";
+import { ComponentColor, ThemeColor, ThemeShade } from "../utilities/themeTypes";
 
 interface CardProps {
 	cardColor: ThemeColor;
 	cardShade: ThemeShade;
-	size?: CardSize;
 	column?: boolean;
 	className?: string;
 	children: React.ReactNode;
@@ -18,16 +12,15 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({
 	cardColor,
 	cardShade,
-	size,
 	column = false,
 	className,
 	children,
 }) => {
 	return (
 		<div
-			className={`${ComponentColor[cardColor].card[cardShade]} ${size} flex ${
+			className={`min-w-fit p-4 ${ComponentColor[cardColor].card[cardShade]} flex ${
 				column ? "flex-col justify-between" : "flex-row justify-around"
-			} rounded-lg shadow-lg border ${className}`}
+			} items-center rounded-lg shadow-lg border ${className}`}
 		>
 			{children}
 		</div>

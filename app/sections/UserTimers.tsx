@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import Card from "../components/Card";
 import DeletableListItem from "../components/DeletableListItem";
-import { CardSize, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
+import { ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
 import { removeTimer } from "../utilities/helperFunctions";
 import { Timers } from "../utilities/interfaces";
 
@@ -16,7 +16,6 @@ const UserTimers: React.FC<UserTimers> = ({ timers, setTimers, activeTimer }) =>
 		<Card
 			cardColor={ThemeColor.jade}
 			cardShade={ThemeShade.medium}
-			size={CardSize.medium}
 			column
 			className={`h-fit ${activeTimer ? "opacity-65 pointer-events-none" : ""}`}
 		>

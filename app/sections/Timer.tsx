@@ -7,7 +7,7 @@ import Play from "../components/SVGs/Play";
 import Resume from "../components/SVGs/Resume";
 import Stop from "../components/SVGs/Stop";
 import { roboto_mono } from "../utilities/fonts";
-import { CardSize, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
+import { ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
 
 interface TimerProps {
 	index: number;
@@ -160,7 +160,6 @@ const Timer: React.FC<TimerProps> = ({
 		<Card
 			cardColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
 			cardShade={ThemeShade.light}
-			size={CardSize.large}
 			column
 			className={`${className} gap-2`}
 		>
@@ -171,7 +170,6 @@ const Timer: React.FC<TimerProps> = ({
 					<Card
 						cardColor={ThemeColor.jade}
 						cardShade={ThemeShade.dark}
-						size={CardSize.small}
 						className="w-fit py-2 px-3 text-2xl ml-1 leading-none -translate-y-0.5"
 					>
 						{reps.active}
