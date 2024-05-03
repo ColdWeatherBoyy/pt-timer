@@ -12,6 +12,9 @@ const config: Config = {
 				trembleHover: "trembleHover 0.3s ease-in-out infinite",
 				trembleActive: "trembleActive 0.3s ease-in-out infinite",
 				slowFlicker: "slowFlicker 1.5s ease-in-out infinite",
+				fadeUpOne: "fadeUpOne 1s ease-in-out",
+				fadeUpTwo: "fadeUpTwo 1s ease-in-out",
+				fadeUpThree: "fadeUpThree 1s ease-in-out",
 			},
 			keyframes: {
 				trembleHover: {
@@ -37,6 +40,30 @@ const config: Config = {
 					},
 					"50%": {
 						opacity: "0.25",
+					},
+				},
+				fadeUpOne: {
+					"0%": {
+						opacity: ".1",
+					},
+					"100%": {
+						opacity: ".5",
+					},
+				},
+				fadeUpTwo: {
+					"0%": {
+						opacity: ".3",
+					},
+					"100%": {
+						opacity: ".7",
+					},
+				},
+				fadeUpThree: {
+					"0%": {
+						opacity: ".5",
+					},
+					"100%": {
+						opacity: "1",
 					},
 				},
 			},

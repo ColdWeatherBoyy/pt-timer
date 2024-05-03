@@ -35,6 +35,7 @@ const Timer: React.FC<TimerProps> = ({
 		total: 1,
 		active: 1,
 	});
+	const [betweenRepsCountdown, setBetweenRepsCountdown] = useState<number>(3);
 
 	// *********** UTILITY **************
 	// TO-DO: Move these into separate file?
@@ -71,18 +72,30 @@ const Timer: React.FC<TimerProps> = ({
 			setBetweenReps(false);
 		}
 	};
+
+	const delay = (ms: number) => {
+		return new Promise((resolve) => setTimeout(resolve, ms));
+	};
+
+	useEffect(() => {
+		console.log("hi", betweenRepsCountdown);
+	}, [betweenRepsCountdown]);
+
 	// Move to next rep (if multiple are set)
-	const handleNextRep = () => {
+	const handleNextRep = async () => {
 		setBetweenReps(true);
 		// decrement active reps
 		setActiveReps(reps.active - 1);
 		// Reset timer to initial value
 		unit === Unit.minutes ? updateMinutes(timerLength, 0) : updateSeconds(timerLength);
-		// Pause for 2 seconds between reps
-		setTimeout(() => {
-			setBetweenReps(false);
-			handleStart();
-		}, 2000);
+		// Pause for 3 seconds between reps
+		for (let count = 3; count > 0; count--) {
+			if (count !== 3) setBetweenRepsCountdown(count);
+			await delay(1000);
+		}
+		setBetweenRepsCountdown(3);
+		setBetweenReps(false);
+		handleStart();
 	};
 	// Stop timer
 	const handleStop = () => {
@@ -167,17 +180,31 @@ const Timer: React.FC<TimerProps> = ({
 			</div>
 
 			<div className="flex flex-col gap-4 items-center">
-				<div
-					className={`${roboto_mono.className} text-6xl ${
-						betweenReps ? "animate-slowFlicker" : "opacity-100"
-					}`}
-				>
-					{seconds === 0 && minutes === 0
-						? "Done!"
-						: unit === Unit.minutes
-						? `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
-						: String(seconds)}
-					<div className="text-sm text-center">{unit}</div>
+				<div>
+					<div
+						className={`${roboto_mono.className} text-6xl ${
+							!betweenReps
+								? "opacity-100"
+								: betweenRepsCountdown === 3
+								? "animate-fadeUpOne"
+								: betweenRepsCountdown === 2
+								? "animate-fadeUpTwo"
+								: "animate-fadeUpThree"
+						}`}
+					>
+						{seconds === 0 && minutes === 0
+							? "Done!"
+							: betweenReps && betweenRepsCountdown === 3
+							? "Ready"
+							: betweenReps && betweenRepsCountdown === 2
+							? "Set"
+							: betweenReps && betweenRepsCountdown === 1
+							? "Go!"
+							: unit === Unit.minutes
+							? `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
+							: String(seconds)}
+					</div>
+					<div className="text-sm text-center">{betweenReps ? "Nice!" : unit}</div>
 				</div>
 				<div className="flex justify-center text-2xl gap-10 items-center">
 					<Button
