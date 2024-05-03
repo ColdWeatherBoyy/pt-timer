@@ -20,7 +20,7 @@ const UserTimers: React.FC<UserTimers> = ({ timers, setTimers, activeTimer }) =>
 			column
 			className={`h-fit ${activeTimer ? "opacity-65 pointer-events-none" : ""}`}
 		>
-			<div className={`text-2xl font-bold text-center mx-10 mb-2`}>Active Timers</div>
+			<div className={`text-2xl font-bold text-center mx-10 mb-2 px-3`}>User Timers</div>
 			{timers.minuteTimers.length === 0 && timers.secondTimers.length === 0 ? (
 				<div className="flex justify-center text-jade-950 text-md">Set some timers!</div>
 			) : (

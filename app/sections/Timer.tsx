@@ -8,7 +8,6 @@ import Resume from "../components/SVGs/Resume";
 import Stop from "../components/SVGs/Stop";
 import { roboto_mono } from "../utilities/fonts";
 import { CardSize, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
-import { set } from "mongoose";
 
 interface TimerProps {
 	index: number;
@@ -28,8 +27,10 @@ const Timer: React.FC<TimerProps> = ({
 	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
 	const [minutes, setMinutes] = useState(unit === Unit.minutes ? timerLength : 0);
 	const [seconds, setSeconds] = useState(unit === Unit.seconds ? timerLength : 0);
+	// TO-DO: Set an enum for the various stages the timer can be in (started, paused, betweenReps, stopped). Make one state that uses that type.
 	const [started, setStarted] = useState<boolean>(false);
 	const [paused, setPaused] = useState<boolean>(false);
+	const [betweenReps, setBetweenReps] = useState<boolean>(false);
 	const [reps, setReps] = useState<{ total: number; active: number }>({
 		total: 1,
 		active: 1,
@@ -59,41 +60,35 @@ const Timer: React.FC<TimerProps> = ({
 
 	// *********** EVENT HANDLERS **************
 
-	// Start timer with increment
+	// Start timer
 	const handleStart = () => {
 		setStarted(true);
-		if (unit === Unit.minutes) {
-			setMinutes(timerLength - 1);
-			setSeconds(59);
-		} else {
-			setSeconds(timerLength - 1);
-		}
 	};
-
 	// (Un)pause timer
 	const handlePause = () => {
 		setPaused((prev) => !prev);
+		if (betweenReps) {
+			setBetweenReps(false);
+		}
 	};
-
 	// Move to next rep (if multiple are set)
 	const handleNextRep = () => {
-		// TO-DO: Use an additional state, not pause, for between intervals, with UI feedback
-		setPaused(true);
+		setBetweenReps(true);
 		// decrement active reps
 		setActiveReps(reps.active - 1);
 		// Reset timer to initial value
 		unit === Unit.minutes ? updateMinutes(timerLength, 0) : updateSeconds(timerLength);
 		// Pause for 2 seconds between reps
 		setTimeout(() => {
-			setPaused(false);
+			setBetweenReps(false);
 			handleStart();
 		}, 2000);
 	};
-
 	// Stop timer
 	const handleStop = () => {
 		setStarted(false);
 		setPaused(false);
+		setBetweenReps(false);
 		// Reset active reps to total reps
 		setActiveReps(reps.total);
 		// Reset timer to initial value
@@ -101,7 +96,6 @@ const Timer: React.FC<TimerProps> = ({
 	};
 
 	// *********** EFFECTS **************
-
 	// Keep active reps updated when total reps change
 	useEffect(() => {
 		setActiveReps(reps.total);
@@ -109,7 +103,7 @@ const Timer: React.FC<TimerProps> = ({
 
 	// Timer logic
 	useEffect(() => {
-		if (started && !paused) {
+		if (started && !paused && !betweenReps) {
 			const interval = setInterval(() => {
 				// Logic for minutes
 				if (unit === Unit.minutes) {
@@ -139,7 +133,7 @@ const Timer: React.FC<TimerProps> = ({
 			// Clean up
 			return () => clearInterval(interval);
 		}
-	}, [started, paused, seconds, minutes]);
+	}, [started, paused, betweenReps, seconds, minutes]);
 
 	useEffect(() => {
 		if (!started) {
@@ -175,10 +169,12 @@ const Timer: React.FC<TimerProps> = ({
 			<div className="flex flex-col gap-4 items-center">
 				<div
 					className={`${roboto_mono.className} text-6xl ${
-						paused ? "animate-slowFlicker" : "opacity-100"
+						betweenReps ? "animate-slowFlicker" : "opacity-100"
 					}`}
 				>
-					{unit === Unit.minutes
+					{seconds === 0 && minutes === 0
+						? "Done!"
+						: unit === Unit.minutes
 						? `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
 						: String(seconds)}
 					<div className="text-sm text-center">{unit}</div>
