@@ -14,7 +14,7 @@ const TimersSection: React.FC<TimersSectionProps> = ({
 	setActiveTimer,
 }) => {
 	return (
-		<div className="grid grid-cols-3 grid-rows-2 gap-10">
+		<div className="grid md:grid-cols-2 lg:grid-cols-3 grid-rows-auto gap-x-10 gap-y-4 ">
 			{[...timers.secondTimers, ...timers.minuteTimers].map((timer, index) => {
 				const unit = index < timers.secondTimers.length ? Unit.seconds : Unit.minutes;
 				return (

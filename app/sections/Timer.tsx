@@ -161,14 +161,14 @@ const Timer: React.FC<TimerProps> = ({
 			cardColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
 			cardShade={ThemeShade.light}
 			column
-			className={`${className} gap-2`}
+			className={`${className} px-8`}
 		>
-			<div className={`${roboto_mono.className} flex text-3xl justify-between`}>
+			<div className={`${roboto_mono.className} w-full flex text-3xl justify-between`}>
 				<span className="font-bold">Timer</span>
 				<div className="flex flex-row">
 					<div className="tracking-tighter text-2xl">Reps:</div>
 					<Card
-						cardColor={ThemeColor.jade}
+						cardColor={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
 						cardShade={ThemeShade.dark}
 						className="w-fit py-2 px-3 text-2xl ml-1 leading-none -translate-y-0.5"
 					>
@@ -177,10 +177,10 @@ const Timer: React.FC<TimerProps> = ({
 				</div>
 			</div>
 
-			<div className="flex flex-col gap-4 items-center">
+			<div className="flex flex-col gap-2 items-center">
 				<div>
 					<div
-						className={`${roboto_mono.className} text-6xl ${
+						className={`${roboto_mono.className} text-5xl ${
 							!betweenReps
 								? "opacity-100"
 								: betweenRepsCountdown === 3
@@ -214,19 +214,13 @@ const Timer: React.FC<TimerProps> = ({
 					>
 						{started ? (
 							paused ? (
-								<Resume size="40" />
+								<Resume size="30" />
 							) : (
-								<Pause size="40" />
+								<Pause size="30" />
 							)
 						) : (
-							<Play size="40" />
+							<Play size="30" />
 						)}
-					</Button>
-					<Button
-						buttonColor={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
-						onClick={handleStop}
-					>
-						<Stop size="40" />
 					</Button>
 					<div className={`${started ? "pointer-events-none opacity-65" : ""}`}>
 						<NumberInput
@@ -237,6 +231,12 @@ const Timer: React.FC<TimerProps> = ({
 							limits={{ min: 1, max: 5 }}
 						/>
 					</div>
+					<Button
+						buttonColor={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
+						onClick={handleStop}
+					>
+						<Stop size="30" />
+					</Button>
 				</div>
 			</div>
 		</Card>
