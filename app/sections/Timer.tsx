@@ -192,8 +192,10 @@ const Timer: React.FC<TimerProps> = ({
 								: "animate-fadeUpThree"
 						}`}
 					>
-						{seconds === 0 && minutes === 0
+						{seconds === 0 && minutes === 0 && reps.active === 1
 							? "Done!"
+							: seconds === 0 && minutes === 0
+							? "Pause!"
 							: betweenReps && betweenRepsCountdown === 3
 							? "Ready"
 							: betweenReps && betweenRepsCountdown === 2

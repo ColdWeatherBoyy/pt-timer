@@ -1,5 +1,3 @@
-import { inter } from "./fonts";
-
 export enum ThemeColor {
 	jade = "jade",
 	horizon = "horizon",
