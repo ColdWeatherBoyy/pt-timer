@@ -1,9 +1,9 @@
 import React, { Dispatch, SetStateAction } from "react";
 import Card from "../components/Card";
 import DeletableListItem from "../components/DeletableListItem";
-import { ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
 import { removeTimer } from "../utilities/helperFunctions";
 import { Timers } from "../utilities/interfaces";
+import { ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
 
 interface UserTimers {
 	timers: Timers;

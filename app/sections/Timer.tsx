@@ -7,13 +7,14 @@ import Play from "../components/SVGs/Play";
 import Resume from "../components/SVGs/Resume";
 import Stop from "../components/SVGs/Stop";
 import { roboto_mono } from "../utilities/fonts";
-import { ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
+import { ComponentColor, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
 
 interface TimerProps {
 	index: number;
 	timerLength: number;
 	unit: Unit;
 	setActiveTimer: Dispatch<SetStateAction<number | null>>;
+	deleteTimer: (index: number) => void;
 	className?: string;
 }
 
@@ -22,6 +23,7 @@ const Timer: React.FC<TimerProps> = ({
 	timerLength,
 	unit,
 	setActiveTimer,
+	deleteTimer,
 	className,
 }) => {
 	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
@@ -76,10 +78,6 @@ const Timer: React.FC<TimerProps> = ({
 	const delay = (ms: number) => {
 		return new Promise((resolve) => setTimeout(resolve, ms));
 	};
-
-	useEffect(() => {
-		console.log("hi", betweenRepsCountdown);
-	}, [betweenRepsCountdown]);
 
 	// Move to next rep (if multiple are set)
 	const handleNextRep = async () => {
@@ -161,8 +159,20 @@ const Timer: React.FC<TimerProps> = ({
 			cardColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
 			cardShade={ThemeShade.light}
 			column
-			className={`${className} px-8`}
+			className={`${className} px-6 relative`}
 		>
+			<div
+				className={`${
+					ComponentColor[unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon]
+						.listItem.deleteText
+				} ${
+					ComponentColor[unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon]
+						.listItem.delete
+				} rounded-full text-[11px] px-1 py-0.5 absolute top-0.5 right-0.5 leading-none select-none cursor-pointer hover:shadow-2xl active:shadow-inner transition-all duration-100 ease-in-out`}
+				onClick={() => deleteTimer(index)}
+			>
+				x
+			</div>
 			<div className={`${roboto_mono.className} w-full flex text-3xl justify-between`}>
 				<span className="font-bold">Timer</span>
 				<div className="flex flex-row">

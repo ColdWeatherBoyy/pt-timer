@@ -3,7 +3,6 @@ import Card from "../components/Card";
 import { Timers } from "../utilities/interfaces";
 import { ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
 import AddTimers from "./AddTimers";
-import UserTimers from "./UserTimers";
 
 interface TopCardProps {
 	timers: Timers;

@@ -16,6 +16,7 @@ export default function Home() {
 				timers={timers}
 				activeTimer={activeTimer}
 				setActiveTimer={setActiveTimer}
+				setTimers={setTimers}
 			/>
 		</MainWrapper>
 	);
