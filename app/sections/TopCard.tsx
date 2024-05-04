@@ -23,8 +23,7 @@ const TopCard: React.FC<TopCardProps> = ({ timers, setTimers, activeTimer }) => 
 			className="min-h-64 mb-6 w-3/5 p-6"
 			column
 		>
-			<div className="text-4xl font-bold mb-6">Interval Timers</div>
-			{/* <div className="flex flex-row justify-between gap-4"> */}
+			<div className="text-4xl font-bold ">Interval Timers</div>
 			<AddTimers
 				newTimer={newTimer}
 				setNewTimer={setNewTimer}
@@ -35,8 +34,6 @@ const TopCard: React.FC<TopCardProps> = ({ timers, setTimers, activeTimer }) => 
 				unit={unit}
 				activeTimer={activeTimer}
 			/>
-			{/* <UserTimers timers={timers} setTimers={setTimers} activeTimer={activeTimer} /> */}
-			{/* </div> */}
 		</Card>
 	);
 };

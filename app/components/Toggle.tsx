@@ -35,7 +35,7 @@ const Toggle: React.FC<ToggleProps> = ({
 				/>
 				<div
 					className={`absolute w-7 ${
-						toggled ? "translate-x-[15%]" : "translate-x-[142%]"
+						toggled ? "translate-x-[20%]" : "translate-x-[142%]"
 					} top-2 text-xs ${
 						ComponentColor[toggleColor].toggle.text
 					} select-none transition-all duration-100 ease-in-out`}
