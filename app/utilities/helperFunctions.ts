@@ -2,7 +2,8 @@ import { TimerSettings, Timers } from "./interfaces";
 import { Unit } from "./themeTypes";
 
 const checkIfExists = (timer: number, timers: Timers, unit: Unit) => {
-	const timerArr = unit === Unit.minutes ? "minuteTimers" : "secondTimers";
+	const timerArr = timers[unit === Unit.minutes ? "minuteTimers" : "secondTimers"];
+	console.log(timerArr);
 
 	for (const timerSetting of timerArr) {
 		if (timerSetting.length === timer) {
@@ -60,9 +61,8 @@ export const removeTimer = (
 	const newTimers =
 		unit === Unit.minutes ? [...timers.minuteTimers] : [...timers.secondTimers];
 	newTimers.splice(index, 1);
-	setTimers(
-		unit === Unit.minutes
-			? { secondTimers: timers.secondTimers, minuteTimers: newTimers }
-			: { secondTimers: newTimers, minuteTimers: timers.minuteTimers }
-	);
+	setTimers({
+		...timers,
+		[unit === Unit.minutes ? "minuteTimers" : "secondTimers"]: newTimers,
+	});
 };
