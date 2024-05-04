@@ -7,8 +7,8 @@ import Play from "../components/SVGs/Play";
 import Resume from "../components/SVGs/Resume";
 import Stop from "../components/SVGs/Stop";
 import { roboto_mono } from "../utilities/fonts";
-import { ComponentColor, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
 import { Timers } from "../utilities/interfaces";
+import { ComponentColor, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
 
 interface TimerProps {
 	index: number;

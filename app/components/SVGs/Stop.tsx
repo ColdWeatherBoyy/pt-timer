@@ -4,6 +4,8 @@ interface StopProps extends React.SVGProps<SVGSVGElement> {
 	size: string;
 }
 
+// Thanks to https://flowbite.com/ for the SVG path
+
 const Stop: React.FC<StopProps> = ({ size }) => {
 	return (
 		<svg

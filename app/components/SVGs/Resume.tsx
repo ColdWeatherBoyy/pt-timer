@@ -4,6 +4,8 @@ interface ResumeProps extends React.SVGProps<SVGSVGElement> {
 	size: string;
 }
 
+// Thanks to https://flowbite.com/ for the SVG path
+
 const Resume: React.FC<ResumeProps> = ({ size }) => {
 	return (
 		<svg

@@ -4,6 +4,8 @@ interface PauseProps extends React.SVGProps<SVGSVGElement> {
 	size: string;
 }
 
+// Thanks to https://flowbite.com/ for the SVG path
+
 const Pause: React.FC<PauseProps> = ({ size }) => {
 	return (
 		<svg

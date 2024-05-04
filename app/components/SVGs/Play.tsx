@@ -4,6 +4,8 @@ interface PlayProps extends React.SVGProps<SVGSVGElement> {
 	size: string;
 }
 
+// Thanks to https://flowbite.com/ for the SVG path
+
 const Play: React.FC<PlayProps> = ({ size }) => {
 	return (
 		<svg

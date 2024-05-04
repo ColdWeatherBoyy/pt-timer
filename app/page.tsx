@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import MainWrapper from "./components/MainWrapper";
-import TopCard from "./sections/TopCard";
 import TimersSection from "./sections/TimersSection";
+import TopCard from "./sections/TopCard";
 import { Timers } from "./utilities/interfaces";
 
 export default function Home() {
