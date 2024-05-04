@@ -18,7 +18,7 @@ const TopCard: React.FC<TopCardProps> = ({ timers, setTimers, activeTimer }) => 
 
 	return (
 		<Card
-			cardColor={ThemeColor.jade}
+			cardColor={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
 			cardShade={ThemeShade.medium}
 			className="min-h-64 mb-6 w-3/5 p-6"
 			column
