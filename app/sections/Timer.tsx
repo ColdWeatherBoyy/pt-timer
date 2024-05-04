@@ -8,34 +8,39 @@ import Resume from "../components/SVGs/Resume";
 import Stop from "../components/SVGs/Stop";
 import { roboto_mono } from "../utilities/fonts";
 import { ComponentColor, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
+import { Timers } from "../utilities/interfaces";
 
 interface TimerProps {
 	index: number;
-	timerLength: number;
+	length: number;
+	interval: number;
 	unit: Unit;
 	setActiveTimer: Dispatch<SetStateAction<number | null>>;
 	deleteTimer: (index: number) => void;
+	setTimers: Dispatch<SetStateAction<Timers>>;
 	className?: string;
 }
 
 const Timer: React.FC<TimerProps> = ({
 	index,
-	timerLength,
+	length,
+	interval,
 	unit,
 	setActiveTimer,
 	deleteTimer,
+	setTimers,
 	className,
 }) => {
 	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
-	const [minutes, setMinutes] = useState(unit === Unit.minutes ? timerLength : 0);
-	const [seconds, setSeconds] = useState(unit === Unit.seconds ? timerLength : 0);
+	const [minutes, setMinutes] = useState(unit === Unit.minutes ? length : 0);
+	const [seconds, setSeconds] = useState(unit === Unit.seconds ? length : 0);
 	// TO-DO: Set an enum for the various stages the timer can be in (started, paused, betweenReps, stopped). Make one state that uses that type.
 	const [started, setStarted] = useState<boolean>(false);
 	const [paused, setPaused] = useState<boolean>(false);
 	const [betweenReps, setBetweenReps] = useState<boolean>(false);
 	const [reps, setReps] = useState<{ total: number; active: number }>({
-		total: 1,
-		active: 1,
+		total: interval,
+		active: interval,
 	});
 	const [betweenRepsCountdown, setBetweenRepsCountdown] = useState<number>(3);
 
@@ -59,6 +64,13 @@ const Timer: React.FC<TimerProps> = ({
 	// Set total reps
 	const setTotalReps = (total: number) => {
 		setReps((prev) => ({ ...prev, total }));
+		setTimers((prev) => {
+			const unitTimers = unit === Unit.minutes ? prev.minuteTimers : prev.secondTimers;
+			unitTimers[index].interval = total;
+			return unit === Unit.minutes
+				? { secondTimers: prev.secondTimers, minuteTimers: unitTimers }
+				: { secondTimers: unitTimers, minuteTimers: prev.minuteTimers };
+		});
 	};
 
 	// *********** EVENT HANDLERS **************
@@ -85,7 +97,7 @@ const Timer: React.FC<TimerProps> = ({
 		// decrement active reps
 		setActiveReps(reps.active - 1);
 		// Reset timer to initial value
-		unit === Unit.minutes ? updateMinutes(timerLength, 0) : updateSeconds(timerLength);
+		unit === Unit.minutes ? updateMinutes(length, 0) : updateSeconds(length);
 		// Pause for 3 seconds between reps
 		for (let count = 3; count > 0; count--) {
 			if (count !== 3) setBetweenRepsCountdown(count);
@@ -103,7 +115,7 @@ const Timer: React.FC<TimerProps> = ({
 		// Reset active reps to total reps
 		setActiveReps(reps.total);
 		// Reset timer to initial value
-		unit === Unit.minutes ? updateMinutes(timerLength, 0) : updateSeconds(timerLength);
+		unit === Unit.minutes ? updateMinutes(length, 0) : updateSeconds(length);
 	};
 
 	// *********** EFFECTS **************

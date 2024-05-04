@@ -23,10 +23,12 @@ const TimersSection: React.FC<TimersSectionProps> = ({
 					<Timer
 						key={`t${Unit.seconds}-${timer}-${index}`}
 						index={index}
-						timerLength={timer}
+						length={timer.length}
+						interval={timer.interval}
 						unit={Unit.seconds}
 						setActiveTimer={setActiveTimer}
 						deleteTimer={(index) => removeTimer(index, timers, setTimers, Unit.seconds)}
+						setTimers={setTimers}
 						className={`${
 							activeTimer !== index && activeTimer !== null
 								? "opacity-65 pointer-events-none"
@@ -40,10 +42,12 @@ const TimersSection: React.FC<TimersSectionProps> = ({
 					<Timer
 						key={`t${Unit.minutes}-${timer}-${index}`}
 						index={index}
-						timerLength={timer}
+						length={timer.length}
+						interval={timer.interval}
 						unit={Unit.minutes}
 						setActiveTimer={setActiveTimer}
 						deleteTimer={(index) => removeTimer(index, timers, setTimers, Unit.minutes)}
+						setTimers={setTimers}
 						className={`${
 							activeTimer !== index && activeTimer !== null
 								? "opacity-65 pointer-events-none"
