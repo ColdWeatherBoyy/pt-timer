@@ -1,4 +1,9 @@
 export interface Timers {
-	secondTimers: number[];
-	minuteTimers: number[];
+	secondTimers: TimerSettings[];
+	minuteTimers: TimerSettings[];
+}
+
+export interface TimerSettings {
+	length: number;
+	interval: number;
 }

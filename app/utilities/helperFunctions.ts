@@ -1,5 +1,16 @@
 import { Unit } from "./themeTypes";
-import { Timers } from "./interfaces";
+import { TimerSettings, Timers } from "./interfaces";
+
+const checkIfExists = (timer: number, timers: Timers, unit: Unit) => {
+	const timerArr = unit === Unit.minutes ? "minuteTimers" : "secondTimers";
+
+	for (const timerSetting of timerArr) {
+		if (timerSetting.length === timer) {
+			return true;
+		}
+		return false;
+	}
+};
 
 export const addNewTimer = (
 	newTimer: string,
@@ -8,33 +19,29 @@ export const addNewTimer = (
 	setNewTimer: (newTimer: string) => void,
 	unit: Unit
 ) => {
-	const timer = parseFloat(newTimer);
-	if (typeof timer !== "number" || isNaN(timer)) {
+	const length = parseFloat(newTimer);
+	if (typeof length !== "number" || isNaN(length)) {
 		alert("That is not a valid number. Please try again.");
-	} else if (Number.isInteger(timer) === false) {
+	} else if (Number.isInteger(length) === false) {
 		alert("Whole numbers only, please.");
-	} else if (timer < 0) {
+	} else if (length < 0) {
 		alert("Positive values only, please.");
-	} else if (unit === Unit.minutes ? timer > 30 : timer > 500) {
+	} else if (unit === Unit.minutes ? length > 30 : length > 500) {
 		alert(
 			`Only values ${
 				unit === Unit.minutes ? "30 minutes" : "5 minutes"
 			} and below, please.`
 		);
-	} else if (
-		unit === Unit.minutes
-			? timers.minuteTimers.includes(timer)
-			: timers.secondTimers.includes(timer)
-	) {
+	} else if (checkIfExists(length, timers, unit)) {
 		alert("That timer already exists.");
 	} else if (timers.minuteTimers.length + timers.secondTimers.length === 6) {
 		alert("You can only save 6 timers at once.");
 	} else {
 		const newTimers =
 			unit === Unit.minutes
-				? [...timers.minuteTimers, timer]
-				: [...timers.secondTimers, timer];
-		newTimers.sort((a: number, b: number) => a - b);
+				? [...timers.minuteTimers, { length, interval: 1 }]
+				: [...timers.secondTimers, { length, interval: 1 }];
+		newTimers.sort((a: TimerSettings, b: TimerSettings) => a.length - b.length);
 		setTimers(
 			unit === Unit.minutes
 				? { secondTimers: timers.secondTimers, minuteTimers: newTimers }

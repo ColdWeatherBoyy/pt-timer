@@ -10,9 +10,7 @@ export default function Home() {
 	const [activeTimer, setActiveTimer] = useState<number | null>(null);
 
 	useEffect(() => {
-		console.log("hi");
 		const storedTimers = window.localStorage.getItem("timers");
-		console.log(storedTimers);
 		if (storedTimers) {
 			setTimers(JSON.parse(storedTimers));
 		}
