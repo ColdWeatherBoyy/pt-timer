@@ -21,7 +21,7 @@ const TimersSection: React.FC<TimersSectionProps> = ({
 			{timers.secondTimers.map((timer, index) => {
 				return (
 					<Timer
-						key={`t${Unit.seconds}-${timer}-${index}`}
+						key={`t${Unit.seconds}-${timer.length}`}
 						index={index}
 						length={timer.length}
 						interval={timer.interval}
@@ -40,7 +40,7 @@ const TimersSection: React.FC<TimersSectionProps> = ({
 			{timers.minuteTimers.map((timer, index) => {
 				return (
 					<Timer
-						key={`t${Unit.minutes}-${timer}-${index}`}
+						key={`t${Unit.minutes}-${timer.length}`}
 						index={index}
 						length={timer.length}
 						interval={timer.interval}

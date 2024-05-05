@@ -3,7 +3,6 @@ import { Unit } from "./themeTypes";
 
 const checkIfExists = (timer: number, timers: Timers, unit: Unit) => {
 	const timerArr = timers[unit === Unit.minutes ? "minuteTimers" : "secondTimers"];
-	console.log(timerArr);
 
 	for (const timerSetting of timerArr) {
 		if (timerSetting.length === timer) {
