@@ -65,3 +65,7 @@ export const removeTimer = (
 		[unit === Unit.minutes ? "minuteTimers" : "secondTimers"]: newTimers,
 	});
 };
+
+export const delay = (ms: number) => {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+};

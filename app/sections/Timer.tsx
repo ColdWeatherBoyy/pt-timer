@@ -7,8 +7,9 @@ import Play from "../components/SVGs/Play";
 import Resume from "../components/SVGs/Resume";
 import Stop from "../components/SVGs/Stop";
 import { roboto_mono } from "../utilities/fonts";
-import { Timers } from "../utilities/interfaces";
+import { ClockTime, Timers } from "../utilities/interfaces";
 import { ComponentColor, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
+import { delay } from "../utilities/helperFunctions";
 
 interface TimerProps {
 	index: number;
@@ -32,8 +33,12 @@ const Timer: React.FC<TimerProps> = ({
 	className,
 }) => {
 	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
-	const [minutes, setMinutes] = useState(unit === Unit.minutes ? length : 0);
-	const [seconds, setSeconds] = useState(unit === Unit.seconds ? length : 0);
+	const [clockTime, setClockTime] = useState<ClockTime>(
+		unit === Unit.minutes
+			? { minutes: length, seconds: 0 }
+			: { minutes: 0, seconds: length }
+	);
+
 	// TO-DO: Set an enum for the various stages the timer can be in (started, paused, betweenReps, stopped). Make one state that uses that type.
 	const [started, setStarted] = useState<boolean>(false);
 	const [paused, setPaused] = useState<boolean>(false);
@@ -47,15 +52,27 @@ const Timer: React.FC<TimerProps> = ({
 	// *********** UTILITY **************
 	// TO-DO: Move these into separate file?
 	// TO-DO: Move conditional into singular utility function?
-	// Use when unit is set to minutes
-	const updateMinutes = (minutes: number, seconds: number) => {
-		setMinutes(minutes);
-		setSeconds(seconds);
+	// Resets clocktime
+	const resetClockTime = (length: number) => {
+		unit === Unit.minutes
+			? setClockTime({ minutes: length, seconds: 0 })
+			: setClockTime({ minutes: 0, seconds: length });
 	};
-	// Use when unit is set to seconds
-	const updateSeconds = (seconds: number) => {
-		setSeconds(seconds);
+	// Decrements either seconds or minutes
+	const decrementTime = () => {
+		if (clockTime.seconds !== 0) {
+			setClockTime((prev) => ({
+				minutes: prev.minutes,
+				seconds: prev.seconds - 1,
+			}));
+		} else {
+			setClockTime((prev) => ({
+				minutes: prev.minutes - 1,
+				seconds: 59,
+			}));
+		}
 	};
+
 	// TO-DO: Move these into separate file?
 	// Set active reps
 	const setActiveReps = (active: number) => {
@@ -86,23 +103,17 @@ const Timer: React.FC<TimerProps> = ({
 			setBetweenReps(false);
 		}
 	};
-
-	const delay = (ms: number) => {
-		return new Promise((resolve) => setTimeout(resolve, ms));
-	};
-
 	// Move to next rep (if multiple are set)
 	const handleNextRep = async () => {
-		setBetweenReps(true);
-		// decrement active reps
-		setActiveReps(reps.active - 1);
-		// Reset timer to initial value
-		unit === Unit.minutes ? updateMinutes(length, 0) : updateSeconds(length);
-		// Pause for 3 seconds between reps
+		setBetweenReps(true); // decrement active reps
+		setActiveReps(reps.active - 1); // Reset timer to initial value
+		resetClockTime(length); // Pause for 3 seconds between reps
+		// Countdown
 		for (let count = 3; count > 0; count--) {
 			if (count !== 3) setBetweenRepsCountdown(count);
 			await delay(1000);
 		}
+		// Start next rep
 		setBetweenRepsCountdown(3);
 		setBetweenReps(false);
 		handleStart();
@@ -115,7 +126,7 @@ const Timer: React.FC<TimerProps> = ({
 		// Reset active reps to total reps
 		setActiveReps(reps.total);
 		// Reset timer to initial value
-		unit === Unit.minutes ? updateMinutes(length, 0) : updateSeconds(length);
+		resetClockTime(length);
 	};
 
 	// *********** EFFECTS **************
@@ -128,35 +139,17 @@ const Timer: React.FC<TimerProps> = ({
 	useEffect(() => {
 		if (started && !paused && !betweenReps) {
 			const interval = setInterval(() => {
-				// Logic for minutes
-				if (unit === Unit.minutes) {
-					if (seconds === 0) {
-						if (minutes === 0) {
-							// End of current timer
-							clearInterval(interval);
-							reps.active > 1 ? handleNextRep() : handleStop();
-						} else {
-							// Decrement minutes and reset seconds
-							updateMinutes(minutes - 1, 59);
-						}
-					} else {
-						// Decrement seconds
-						updateSeconds(seconds - 1);
-					}
-					// Logic for seconds
+				if (clockTime.seconds === 0 && clockTime.minutes === 0) {
+					clearInterval(interval);
+					reps.active > 1 ? handleNextRep() : handleStop();
 				} else {
-					if (seconds === 0) {
-						// End of current timer
-						clearInterval(interval);
-						reps.active > 1 ? handleNextRep() : handleStop();
-						// Decrement second
-					} else updateSeconds(seconds - 1);
+					decrementTime();
 				}
 			}, 1000);
 			// Clean up
 			return () => clearInterval(interval);
 		}
-	}, [started, paused, betweenReps, seconds, minutes]);
+	}, [started, paused, betweenReps, clockTime.seconds, clockTime.minutes]);
 
 	useEffect(() => {
 		if (!started) {
@@ -212,9 +205,9 @@ const Timer: React.FC<TimerProps> = ({
 								: "animate-fadeUpThree"
 						}`}
 					>
-						{seconds === 0 && minutes === 0 && reps.active === 1
+						{clockTime.seconds === 0 && clockTime.minutes === 0 && reps.active === 1
 							? "Done!"
-							: seconds === 0 && minutes === 0
+							: clockTime.seconds === 0 && clockTime.minutes === 0
 							? "Pause!"
 							: betweenReps && betweenRepsCountdown === 3
 							? "Ready"
@@ -223,8 +216,10 @@ const Timer: React.FC<TimerProps> = ({
 							: betweenReps && betweenRepsCountdown === 1
 							? "Go!"
 							: unit === Unit.minutes
-							? `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
-							: String(seconds)}
+							? `${String(clockTime.minutes).padStart(2, "0")}:${String(
+									clockTime.seconds
+							  ).padStart(2, "0")}`
+							: String(clockTime.seconds)}
 					</div>
 					<div className="text-sm text-center">{betweenReps ? "Nice!" : unit}</div>
 				</div>
