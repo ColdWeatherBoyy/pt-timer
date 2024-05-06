@@ -1,9 +1,11 @@
 import React from "react";
+import { ComponentColor, ThemeColor } from "../utilities/themeTypes";
 
 interface InputProps {
 	type: string;
 	placeholder: string;
 	value: string;
+	inputColor: ThemeColor;
 	centered?: boolean;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -12,12 +14,15 @@ const Input: React.FC<InputProps> = ({
 	type,
 	placeholder,
 	value,
+	inputColor,
 	centered = false,
 	onChange,
 }) => {
 	return (
 		<input
-			className={` text-3xl bg-jade-50 border border-jade-300 rounded-lg shadow-md p-2 ${
+			className={`text-3xl border ${
+				ComponentColor[inputColor].input
+			} rounded-lg shadow-md p-2 ${
 				centered
 					? "w-2/5 md:w-1/4 text-center placeholder:text-lg placeholder:-translate-y-1"
 					: "text-lg"

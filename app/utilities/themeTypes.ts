@@ -44,6 +44,7 @@ interface ComponentColorClassList {
 	button: string;
 	toggle: TogglePart;
 	listItem: ListItemPart;
+	input: string;
 }
 
 export const ComponentColor: Record<ThemeColor, ComponentColorClassList> = {
@@ -73,6 +74,7 @@ export const ComponentColor: Record<ThemeColor, ComponentColorClassList> = {
 			delete: "bg-jade-50 border border-jade-400 hover:bg-jade-200 active:bg-jade-600 ",
 			deleteText: "text-jade-950 active:text-jade-50",
 		},
+		input: "bg-jade-50 border-jade-300",
 	},
 	horizon: {
 		card: {
@@ -105,5 +107,6 @@ export const ComponentColor: Record<ThemeColor, ComponentColorClassList> = {
 				"bg-horizon-50 border border-horizon-400 hover:bg-horizon-200 active:bg-horizon-600 ",
 			deleteText: "text-horizon-950 active:text-horizon-50",
 		},
+		input: "bg-horizon-50 border-horizon-300",
 	},
 };

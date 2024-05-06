@@ -42,18 +42,21 @@ const Login = () => {
 								type="text"
 								placeholder="Enter Username"
 								value={username}
+								inputColor={ThemeColor.jade}
 								onChange={(event) => setUsername(event.target.value)}
 							/>
 							<Input
 								type="email"
 								placeholder="Enter Email"
 								value={email}
+								inputColor={ThemeColor.jade}
 								onChange={(event) => setEmail(event.target.value)}
 							/>
 							<Input
 								type="password"
 								placeholder="Enter Password"
 								value={password}
+								inputColor={ThemeColor.jade}
 								onChange={(event) => setPassword(event.target.value)}
 							/>
 						</Card>
