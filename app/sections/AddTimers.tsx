@@ -37,8 +37,10 @@ const AddTimers: React.FC<AddTimerProps> = ({
 		>
 			<div className="flex justify-center gap-8 lg:gap-20">
 				<Input
+					type="string"
 					placeholder={`Enter ${unit}`}
 					value={newTimer}
+					centered
 					onChange={(event) => setNewTimer(event.target.value)}
 				/>
 				<Toggle
