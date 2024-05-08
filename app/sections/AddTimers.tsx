@@ -40,6 +40,7 @@ const AddTimers: React.FC<AddTimerProps> = ({
 					type="string"
 					placeholder={`Enter ${unit}`}
 					value={newTimer}
+					inputColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
 					centered
 					onChange={(event) => setNewTimer(event.target.value)}
 				/>
