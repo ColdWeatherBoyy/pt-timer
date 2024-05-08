@@ -15,23 +15,21 @@ const SignUp = () => {
 	return (
 		<div>
 			<Card
-				cardColor={ThemeColor.jade}
+				cardColor={ThemeColor.horizon}
 				cardShade={ThemeShade.medium}
 				column
 				className="p-8 gap-6"
 			>
-				<div className="text-horizon-950 text-6xl">Sign In</div>
-				<div className="text-horizon-950 font-bold text-lg text-center">
-					Sign in to access your timers!
-				</div>
+				<div className="text-horizon-950 text-6xl">Create Account</div>
+				<div className="text-horizon-950 font-bold text-lg text-center">Enter</div>
 				<div className="flex flex-col items-center gap-4">
 					<Card
-						cardColor={ThemeColor.horizon}
+						cardColor={ThemeColor.jade}
 						cardShade={ThemeShade.medium}
 						className="p-8 gap-8"
 					>
 						<Card
-							cardColor={ThemeColor.jade}
+							cardColor={ThemeColor.horizon}
 							cardShade={ThemeShade.light}
 							column
 							className="gap-4 p-8"
@@ -40,19 +38,19 @@ const SignUp = () => {
 								type="email"
 								placeholder="Enter Email"
 								value={email}
-								inputColor={ThemeColor.horizon}
+								inputColor={ThemeColor.jade}
 								onChange={(event) => setEmail(event.target.value)}
 							/>
 							<Input
 								type="password"
 								placeholder="Enter Password"
 								value={password}
-								inputColor={ThemeColor.horizon}
+								inputColor={ThemeColor.jade}
 								onChange={(event) => setPassword(event.target.value)}
 							/>
 						</Card>
 						<Button buttonColor={ThemeColor.horizon} animate onClick={handleSubmit}>
-							Sign Up
+							Login
 						</Button>
 					</Card>
 				</div>
@@ -60,5 +58,4 @@ const SignUp = () => {
 		</div>
 	);
 };
-
 export default SignUp;
