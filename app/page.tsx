@@ -9,8 +9,8 @@ export default function Home() {
 	return (
 		<MainWrapper>
 			<TimerHomepage />
-			<SignUp />
-			<LogIn />
+			{/* <SignUp />
+			<LogIn /> */}
 		</MainWrapper>
 	);
 }
