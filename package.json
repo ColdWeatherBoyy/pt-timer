@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
+		"dev": "concurrently \"next dev\" \"npx ampx sandbox\"",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"
@@ -22,6 +22,7 @@
 		"@types/react-dom": "^18",
 		"aws-cdk": "^2.141.0",
 		"aws-cdk-lib": "^2.141.0",
+		"concurrently": "^8.2.2",
 		"constructs": "^10.3.0",
 		"esbuild": "^0.21.2",
 		"eslint": "^8",
