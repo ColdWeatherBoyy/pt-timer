@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import TimersSection from "../sections/TimersSection";
 import TopCard from "../sections/TopCard";

@@ -1,4 +1,5 @@
 "use client";
+
 import MainWrapper from "./components/MainWrapper";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
