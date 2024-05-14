@@ -1,8 +1,8 @@
 "use client";
 
 import MainWrapper from "./components/MainWrapper";
-import LogIn from "./pages/LogIn";
-import SignUp from "./pages/SignUp";
+import LogIn from "./pages/LogInPage";
+import SignUp from "./pages/SignUpPage";
 
 import TimerHomepage from "./pages/TimerHomepage";
 
