@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Timers } from "../utilities/interfaces";
-import MainWrapper from "../components/MainWrapper";
-import TopCard from "../sections/TopCard";
+import { useEffect, useState } from "react";
 import TimersSection from "../sections/TimersSection";
+import TopCard from "../sections/TopCard";
+import { Timers } from "../utilities/interfaces";
 
 const TimerHomepage = () => {
 	// set initial load tracker
