@@ -26,7 +26,7 @@ export const addNewTimer = (
 		alert("Whole numbers only, please.");
 	} else if (length < 0) {
 		alert("Positive values only, please.");
-	} else if (unit === Unit.minutes ? length > 30 : length > 500) {
+	} else if (unit === Unit.minutes ? length > 30 : length > 5 * 60) {
 		alert(
 			`Only values ${
 				unit === Unit.minutes ? "30 minutes" : "5 minutes"
