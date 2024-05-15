@@ -5,29 +5,27 @@ import Input from "../components/Input";
 import { ThemeColor, ThemeShade } from "../utilities/themeTypes";
 
 interface FormText {
-	purpose: string;
+	title: string;
 	subtitle: string;
+	button: string;
+}
+
+interface FormInput {
+	value: string;
+	setValue: Dispatch<SetStateAction<string>>;
+	type: string;
+	placeholder: string;
 }
 
 interface UserForm {
-	email: string;
-	setEmail: Dispatch<SetStateAction<string>>;
-	password: string;
-	setPassword: Dispatch<SetStateAction<string>>;
+	formInputs: FormInput[];
 	formColor: ThemeColor;
 	formText: FormText;
 }
 
-const UserForm: React.FC<UserForm> = ({
-	email,
-	setEmail,
-	password,
-	setPassword,
-	formColor,
-	formText,
-}) => {
+const UserForm: React.FC<UserForm> = ({ formInputs, formColor, formText }) => {
 	const handleSubmit = () => {
-		console.log(email, password);
+		console.log("submit");
 	};
 
 	const formSecondaryColor =
@@ -41,7 +39,7 @@ const UserForm: React.FC<UserForm> = ({
 				column
 				className="p-8 gap-6"
 			>
-				<div className={`text-${formColor}-950 text-5xl`}>{formText.purpose}</div>
+				<div className={`text-${formColor}-950 text-5xl`}>{formText.title}</div>
 				<div className={`text-${formColor}-950 font-bold text-lg text-center`}>
 					{formText.subtitle}
 				</div>
@@ -57,27 +55,25 @@ const UserForm: React.FC<UserForm> = ({
 							column
 							className="gap-4 p-8"
 						>
-							<Input
-								type="email"
-								placeholder="Enter Email"
-								value={email}
-								inputColor={ThemeColor[formSecondaryColor]}
-								onChange={(event) => setEmail(event.target.value)}
-							/>
-							<Input
-								type="password"
-								placeholder="Enter Password"
-								value={password}
-								inputColor={ThemeColor[formSecondaryColor]}
-								onChange={(event) => setPassword(event.target.value)}
-							/>
+							{formInputs.map((formInput, index) => {
+								return (
+									<Input
+										key={index + "-" + formInput.type}
+										type={formInput.type}
+										placeholder={formInput.placeholder}
+										value={formInput.value}
+										inputColor={ThemeColor[formSecondaryColor]}
+										onChange={(event) => formInput.setValue(event.target.value)}
+									/>
+								);
+							})}
 						</Card>
 						<Button
 							buttonColor={ThemeColor[formSecondaryColor]}
 							animate
 							onClick={handleSubmit}
 						>
-							{formText.purpose}
+							{formText.button}
 						</Button>
 					</Card>
 				</div>

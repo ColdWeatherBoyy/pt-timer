@@ -5,17 +5,24 @@ import { ThemeColor } from "../utilities/themeTypes";
 const LogIn: React.FC = () => {
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
+	const LogInFormInputs = [
+		{ value: email, setValue: setEmail, type: "email", placeholder: "Enter email" },
+		{
+			value: password,
+			setValue: setPassword,
+			type: "password",
+			placeholder: "Enter password",
+		},
+	];
 
 	return (
 		<UserForm
-			email={email}
-			setEmail={setEmail}
-			password={password}
-			setPassword={setPassword}
+			formInputs={LogInFormInputs}
 			formColor={ThemeColor.jade}
 			formText={{
-				purpose: "Log In",
+				title: "Log In",
 				subtitle: "Please log in to access your saved timer",
+				button: "Log In",
 			}}
 		/>
 	);
