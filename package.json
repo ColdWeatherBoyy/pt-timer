@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "concurrently \"next dev\" \"npx ampx sandbox\"",
+		"dev": "next lint && concurrently \"next dev\" \"npx ampx sandbox\"",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"

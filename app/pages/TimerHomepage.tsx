@@ -20,7 +20,7 @@ const TimerHomepage = () => {
 	useEffect(() => {
 		if (!loaded) return;
 		localStorage.setItem("timers", JSON.stringify(timers));
-	}, [timers]);
+	}, [timers, loaded]);
 
 	return (
 		<>

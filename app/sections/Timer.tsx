@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import NumberInput from "../components/NumberInput";
@@ -53,31 +53,40 @@ const Timer: React.FC<TimerProps> = ({
 	// TO-DO: Move these into separate file?
 	// TO-DO: Move conditional into singular utility function?
 	// Resets clocktime
-	const resetClockTime = (length: number) => {
-		unit === Unit.minutes
-			? setClockTime({ minutes: length, seconds: 0 })
-			: setClockTime({ minutes: 0, seconds: length });
-	};
+	const resetClockTime = useCallback(
+		(length: number) => {
+			setClockTime(
+				unit === Unit.minutes
+					? { minutes: length, seconds: 0 }
+					: { minutes: 0, seconds: length }
+			);
+		},
+		[unit]
+	);
 	// Decrements either seconds or minutes
 	const decrementTime = () => {
-		if (clockTime.seconds !== 0) {
-			setClockTime((prev) => ({
-				minutes: prev.minutes,
-				seconds: prev.seconds - 1,
-			}));
-		} else {
-			setClockTime((prev) => ({
-				minutes: prev.minutes - 1,
-				seconds: 59,
-			}));
-		}
+		setClockTime((prev) =>
+			prev.seconds !== 0
+				? {
+						minutes: prev.minutes,
+						seconds: prev.seconds - 1,
+				  }
+				: {
+						minutes: prev.minutes - 1,
+						seconds: 59,
+				  }
+		);
 	};
 
 	// TO-DO: Move these into separate file?
-	// Set active reps
-	const setActiveReps = (active: number) => {
-		setReps((prev) => ({ ...prev, active }));
+	// Set active reps (making my own Dispatch of SetStateAction)
+	const setActiveReps: Dispatch<SetStateAction<number>> = (set) => {
+		setReps((prev) => ({
+			...prev,
+			active: typeof set === "function" ? set(prev.active) : set,
+		}));
 	};
+
 	// Set total reps
 	const setTotalReps = (total: number) => {
 		setReps((prev) => ({ ...prev, total }));
@@ -104,9 +113,9 @@ const Timer: React.FC<TimerProps> = ({
 		}
 	};
 	// Move to next rep (if multiple are set)
-	const handleNextRep = async () => {
+	const handleNextRep = useCallback(async () => {
 		setBetweenReps(true); // decrement active reps
-		setActiveReps(reps.active - 1); // Reset timer to initial value
+		setActiveReps((prev) => prev - 1); // Reset timer to initial value
 		resetClockTime(length); // Pause for 3 seconds between reps
 		// Countdown
 		for (let count = 3; count > 0; count--) {
@@ -117,17 +126,18 @@ const Timer: React.FC<TimerProps> = ({
 		setBetweenRepsCountdown(3);
 		setBetweenReps(false);
 		handleStart();
-	};
+	}, [length, resetClockTime]);
+
 	// Stop timer
-	const handleStop = () => {
+	const handleStop = useCallback(() => {
 		setStarted(false);
 		setPaused(false);
 		setBetweenReps(false);
 		// Reset active reps to total reps
-		setActiveReps(reps.total);
+		setReps((prev) => ({ ...prev, active: prev.total }));
 		// Reset timer to initial value
 		resetClockTime(length);
-	};
+	}, [length, resetClockTime]);
 
 	// *********** EFFECTS **************
 	// Keep active reps updated when total reps change
@@ -149,7 +159,7 @@ const Timer: React.FC<TimerProps> = ({
 			// Clean up
 			return () => clearInterval(interval);
 		}
-	}, [started, paused, betweenReps, clockTime.seconds, clockTime.minutes]);
+	}, [started, paused, betweenReps, clockTime, handleStop, handleNextRep, reps.active]);
 
 	useEffect(() => {
 		if (!started) {
@@ -157,7 +167,7 @@ const Timer: React.FC<TimerProps> = ({
 		} else {
 			setActiveTimer(index);
 		}
-	}, [started]);
+	}, [started, index, setActiveTimer]);
 
 	return (
 		<Card
