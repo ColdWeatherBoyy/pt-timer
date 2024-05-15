@@ -1,8 +1,11 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Amplify } from "aws-amplify";
+import outputs from "../../amplify_outputs.json";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Input from "../components/Input";
 import { ThemeColor, ThemeShade } from "../utilities/themeTypes";
+
+Amplify.configure(outputs);
 
 interface FormText {
 	title: string;
@@ -12,22 +15,24 @@ interface FormText {
 
 interface FormInput {
 	value: string;
-	setValue: Dispatch<SetStateAction<string>>;
+	setValue: (value: string) => void;
 	type: string;
 	placeholder: string;
 }
 
-interface UserForm {
+interface UserFormProps {
 	formInputs: FormInput[];
 	formColor: ThemeColor;
 	formText: FormText;
+	handleSubmit: () => void;
 }
 
-const UserForm: React.FC<UserForm> = ({ formInputs, formColor, formText }) => {
-	const handleSubmit = () => {
-		console.log("submit");
-	};
-
+const UserForm: React.FC<UserFormProps> = ({
+	formInputs,
+	formColor,
+	formText,
+	handleSubmit,
+}) => {
 	const formSecondaryColor =
 		formColor === ThemeColor.horizon ? ThemeColor.jade : ThemeColor.horizon;
 
