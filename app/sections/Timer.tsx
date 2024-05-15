@@ -53,16 +53,13 @@ const Timer: React.FC<TimerProps> = ({
 	// TO-DO: Move these into separate file?
 	// TO-DO: Move conditional into singular utility function?
 	// Resets clocktime
-	const resetClockTime = useCallback(
-		(length: number) => {
-			setClockTime(
-				unit === Unit.minutes
-					? { minutes: length, seconds: 0 }
-					: { minutes: 0, seconds: length }
-			);
-		},
-		[unit]
-	);
+	const resetClockTime = useCallback(() => {
+		setClockTime(
+			unit === Unit.minutes
+				? { minutes: length, seconds: 0 }
+				: { minutes: 0, seconds: length }
+		);
+	}, [unit, length]);
 	// Decrements either seconds or minutes
 	const decrementTime = () => {
 		setClockTime((prev) =>
@@ -116,7 +113,7 @@ const Timer: React.FC<TimerProps> = ({
 	const handleNextRep = useCallback(async () => {
 		setBetweenReps(true); // decrement active reps
 		setActiveReps((prev) => prev - 1); // Reset timer to initial value
-		resetClockTime(length); // Pause for 3 seconds between reps
+		resetClockTime(); // Pause for 3 seconds between reps
 		// Countdown
 		for (let count = 3; count > 0; count--) {
 			if (count !== 3) setBetweenRepsCountdown(count);
@@ -126,7 +123,7 @@ const Timer: React.FC<TimerProps> = ({
 		setBetweenRepsCountdown(3);
 		setBetweenReps(false);
 		handleStart();
-	}, [length, resetClockTime]);
+	}, [resetClockTime]);
 
 	// Stop timer
 	const handleStop = useCallback(() => {
@@ -136,8 +133,8 @@ const Timer: React.FC<TimerProps> = ({
 		// Reset active reps to total reps
 		setReps((prev) => ({ ...prev, active: prev.total }));
 		// Reset timer to initial value
-		resetClockTime(length);
-	}, [length, resetClockTime]);
+		resetClockTime();
+	}, [resetClockTime]);
 
 	// *********** EFFECTS **************
 	// Keep active reps updated when total reps change
