@@ -1,15 +1,15 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
-import Button from "../components/Button";
-import Card from "../components/Card";
-import NumberInput from "../components/NumberInput";
-import Pause from "../components/SVGs/Pause";
-import Play from "../components/SVGs/Play";
-import Resume from "../components/SVGs/Resume";
-import Stop from "../components/SVGs/Stop";
-import { roboto_mono } from "../utilities/fonts";
-import { ClockTime, Timers } from "../utilities/interfaces";
-import { ComponentColor, ThemeColor, ThemeShade, Unit } from "../utilities/themeTypes";
-import { delay } from "../utilities/helperFunctions";
+import Button from "../Button";
+import Card from "../Card";
+import NumberInput from "../NumberInput";
+import Pause from "../SVGs/Pause";
+import Play from "../SVGs/Play";
+import Resume from "../SVGs/Resume";
+import Stop from "../SVGs/Stop";
+import { roboto_mono } from "../../utilities/fonts";
+import { ClockTime, Timers } from "../../utilities/interfaces";
+import { ComponentColor, ThemeColor, ThemeShade, Unit } from "../../utilities/themeTypes";
+import { delay } from "../../utilities/helperFunctions";
 
 interface TimerProps {
 	index: number;

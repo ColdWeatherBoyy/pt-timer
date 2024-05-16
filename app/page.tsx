@@ -1,10 +1,8 @@
 "use client";
 
 import { getCurrentUser } from "aws-amplify/auth";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import MainWrapper from "./components/MainWrapper";
-import SignUp from "./pages/SignUpPage";
-import TimerHomepage from "./pages/TimerHomepage";
 
 export default function Home() {
 	const [loggedIn, setLoggedIn] = useState(false);
@@ -22,15 +20,5 @@ export default function Home() {
 		validateUserSession();
 	}, []);
 
-	return (
-		<MainWrapper>
-			{loggedIn ? (
-				<TimerHomepage />
-			) : (
-				<>
-					<SignUp />
-				</>
-			)}
-		</MainWrapper>
-	);
+	return <Link href="/timers">Click Here For Timers</Link>;
 }

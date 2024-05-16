@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import TimersSection from "../sections/TimersSection";
-import TopCard from "../sections/TopCard";
+import TimersSection from "../components/sections/TimersSection";
+import TopCard from "../components/sections/TopCard";
 import { Timers } from "../utilities/interfaces";
 import MainWrapper from "../components/MainWrapper";
 
@@ -26,7 +26,7 @@ const TimerHomepage = () => {
 	}, [timers, loaded]);
 
 	return (
-		<MainWrapper>
+		<>
 			<TopCard timers={timers} setTimers={setTimers} activeTimer={activeTimer} />
 			<TimersSection
 				timers={timers}
@@ -34,7 +34,7 @@ const TimerHomepage = () => {
 				setActiveTimer={setActiveTimer}
 				setTimers={setTimers}
 			/>
-		</MainWrapper>
+		</>
 	);
 };
 

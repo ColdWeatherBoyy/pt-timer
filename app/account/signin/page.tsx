@@ -2,9 +2,8 @@
 
 import React, { useState } from "react";
 import UserForm from "../../components/UserForm";
-import { ThemeColor } from "../../utilities/themeTypes";
 import { handleSignIn } from "../../utilities/amplifyFunctions";
-import MainWrapper from "@/app/components/MainWrapper";
+import { ThemeColor } from "../../utilities/themeTypes";
 
 const SignIn: React.FC = () => {
 	const [userData, setUserData] = useState({
@@ -31,7 +30,7 @@ const SignIn: React.FC = () => {
 	};
 
 	return (
-		<MainWrapper>
+		<>
 			<UserForm
 				formInputs={SignInFormInputs}
 				formColor={ThemeColor.horizon}
@@ -43,7 +42,7 @@ const SignIn: React.FC = () => {
 				}}
 				handleSubmit={handleSignInSubmit}
 			/>
-		</MainWrapper>
+		</>
 	);
 };
 export default SignIn;

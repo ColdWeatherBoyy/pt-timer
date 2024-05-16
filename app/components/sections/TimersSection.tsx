@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { removeTimer } from "../utilities/helperFunctions";
-import { Timers } from "../utilities/interfaces";
-import { Unit } from "../utilities/themeTypes";
+import { removeTimer } from "../../utilities/helperFunctions";
+import { Timers } from "../../utilities/interfaces";
+import { Unit } from "../../utilities/themeTypes";
 import Timer from "./Timer";
 
 interface TimersSectionProps {

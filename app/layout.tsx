@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { inter } from "./utilities/fonts";
 import "./globals.css";
+import MainWrapper from "./components/MainWrapper";
 
 export const metadata: Metadata = {
 	title: "PT Timers",
@@ -14,7 +15,11 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>{children}</body>
+			<body className={inter.className}>
+				<main>
+					<MainWrapper>{children}</MainWrapper>
+				</main>
+			</body>
 		</html>
 	);
 }

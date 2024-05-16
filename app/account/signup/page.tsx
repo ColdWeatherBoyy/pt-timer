@@ -7,9 +7,8 @@ import {
 	handleConfirmSignUp,
 	handleSignUp,
 } from "../../utilities/amplifyFunctions";
-import { ThemeColor } from "../../utilities/themeTypes";
 import { SignUpStep } from "../../utilities/enums";
-import MainWrapper from "@/app/components/MainWrapper";
+import { ThemeColor } from "../../utilities/themeTypes";
 
 const SignUp: React.FC = () => {
 	const [userData, setUserData] = useState({
@@ -71,7 +70,7 @@ const SignUp: React.FC = () => {
 	};
 
 	return (
-		<MainWrapper>
+		<>
 			{signUpStep === SignUpStep.NOT_SIGNED_UP && (
 				<UserForm
 					formInputs={SignUpFormInputs}
@@ -97,7 +96,7 @@ const SignUp: React.FC = () => {
 					handleSubmit={handleConfirmationSubmit}
 				/>
 			)}
-		</MainWrapper>
+		</>
 	);
 };
 export default SignUp;
