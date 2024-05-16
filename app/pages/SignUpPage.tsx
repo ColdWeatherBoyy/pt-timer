@@ -48,7 +48,7 @@ const SignUp: React.FC = () => {
 		await handleSignUp(userData.email, userData.password);
 	};
 
-	const handleConfirmationSubmit = async () => {
+	const handleConfirmSubmitAndAutoSignIn = async () => {
 		await handleConfirmSignUp(userData.email, userData.confirmationCode);
 		await handleAutoSignIn();
 	};
@@ -73,7 +73,7 @@ const SignUp: React.FC = () => {
 					subtitle: "Please enter the code sent to your email",
 					button: "Confirm Account",
 				}}
-				handleSubmit={handleConfirmationSubmit}
+				handleSubmit={handleConfirmSubmitAndAutoSignIn}
 			/>
 		</>
 	);
