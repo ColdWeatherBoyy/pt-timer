@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import UserForm from "../components/UserForm";
 import { ThemeColor } from "../utilities/themeTypes";
-import { handleSignUp, handleConfirmSignUp } from "../utilities/amplifyFunctions";
+import {
+	handleSignUp,
+	handleConfirmSignUp,
+	handleAutoSignIn,
+} from "../utilities/amplifyFunctions";
 
 const SignUp: React.FC = () => {
 	const [userData, setUserData] = useState({
@@ -46,6 +50,7 @@ const SignUp: React.FC = () => {
 
 	const handleConfirmationSubmit = async () => {
 		await handleConfirmSignUp(userData.email, userData.confirmationCode);
+		await handleAutoSignIn();
 	};
 
 	return (

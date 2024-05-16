@@ -23,14 +23,14 @@ export const handleConfirmSignUp = async (username: string, confirmationCode: st
 };
 
 export const handleSignIn = async (username: string, password: string) => {
-	const data = await signIn({
+	const { isSignedIn, nextStep } = await signIn({
 		username,
 		password,
 	});
-	console.log(data);
+	console.log(isSignedIn, nextStep);
 };
 
 export const handleAutoSignIn = async () => {
-	const data = await autoSignIn();
-	console.log(data);
+	const { isSignedIn, nextStep } = await autoSignIn();
+	console.log(isSignedIn, nextStep);
 };
