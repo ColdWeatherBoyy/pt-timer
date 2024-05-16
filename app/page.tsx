@@ -1,7 +1,7 @@
 "use client";
 
 import MainWrapper from "./components/MainWrapper";
-import LogIn from "./pages/LogInPage";
+import SignIn from "./pages/SignInPage";
 import SignUp from "./pages/SignUpPage";
 
 import TimerHomepage from "./pages/TimerHomepage";
@@ -11,7 +11,7 @@ export default function Home() {
 		<MainWrapper>
 			<TimerHomepage />
 			<SignUp />
-			<LogIn />
+			<SignIn />
 		</MainWrapper>
 	);
 }
