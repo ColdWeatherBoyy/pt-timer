@@ -11,6 +11,7 @@ interface FormText {
 	title: string;
 	subtitle: string;
 	button: string;
+	redirect?: string;
 }
 
 interface FormInput {
@@ -42,7 +43,7 @@ const UserForm: React.FC<UserFormProps> = ({
 				cardColor={ThemeColor[formColor]}
 				cardShade={ThemeShade.medium}
 				column
-				className="p-8 gap-6"
+				className="p-8 gap-6 relative"
 			>
 				<div className={`text-${formColor}-950 text-5xl`}>{formText.title}</div>
 				<div className={`text-${formColor}-950 font-bold text-lg text-center`}>
@@ -52,7 +53,7 @@ const UserForm: React.FC<UserFormProps> = ({
 					<Card
 						cardColor={ThemeColor[formSecondaryColor]}
 						cardShade={ThemeShade.medium}
-						className="p-8 gap-8"
+						className="p-8 gap-8 "
 					>
 						<Card
 							cardColor={ThemeColor[formColor]}
@@ -82,6 +83,11 @@ const UserForm: React.FC<UserFormProps> = ({
 						</Button>
 					</Card>
 				</div>
+				{formText.redirect && (
+					<div className="text-xs absolute bottom-1.5">
+						{formText.redirect} Please click here.
+					</div>
+				)}
 			</Card>
 		</div>
 	);
