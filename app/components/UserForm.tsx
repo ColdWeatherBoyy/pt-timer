@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import Card from "../components/Card";
 import Input from "../components/Input";
 import { ThemeColor, ThemeShade } from "../utilities/themeTypes";
+import Link from "next/link";
 
 Amplify.configure(outputs);
 
@@ -12,6 +13,7 @@ interface FormText {
 	subtitle: string;
 	button: string;
 	redirect?: string;
+	redirectPath?: string;
 }
 
 interface FormInput {
@@ -83,9 +85,10 @@ const UserForm: React.FC<UserFormProps> = ({
 						</Button>
 					</Card>
 				</div>
-				{formText.redirect && (
+				{formText.redirect && formText.redirectPath && (
 					<div className="text-xs absolute bottom-1.5">
-						{formText.redirect} Please click here.
+						{formText.redirect} Please click{" "}
+						<Link href={formText.redirectPath}>here</Link>.
 					</div>
 				)}
 			</Card>

@@ -1,10 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import UserForm from "../../components/UserForm";
 import { handleSignIn } from "../../utilities/amplifyFunctions";
 import { ThemeColor } from "../../utilities/themeTypes";
-import { useRouter } from "next/navigation";
 
 const SignIn: React.FC = () => {
 	const router = useRouter();
@@ -42,6 +42,7 @@ const SignIn: React.FC = () => {
 					subtitle: "Please sign in to access your saved timers.",
 					button: "Sign In",
 					redirect: "Don't have an account?",
+					redirectPath: "/account/signup",
 				}}
 				handleSubmit={handleSignInSubmit}
 			/>

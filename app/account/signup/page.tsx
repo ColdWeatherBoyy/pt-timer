@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import UserForm from "../../components/UserForm";
 import {
@@ -9,9 +10,9 @@ import {
 } from "../../utilities/amplifyFunctions";
 import { SignUpStep } from "../../utilities/enums";
 import { ThemeColor } from "../../utilities/themeTypes";
-import { useRouter } from "next/router";
 
 const SignUp: React.FC = () => {
+	const router = useRouter();
 	const [userData, setUserData] = useState({
 		email: "",
 		password: "",
@@ -19,7 +20,6 @@ const SignUp: React.FC = () => {
 		confirmationCode: "",
 	});
 	const [signUpStep, setSignUpStep] = useState<SignUpStep>(SignUpStep.NOT_SIGNED_UP);
-	const router = useRouter();
 	const SignUpFormInputs = [
 		{
 			value: userData.email,
@@ -51,18 +51,13 @@ const SignUp: React.FC = () => {
 	];
 
 	const handleSignUpSubmit = async () => {
-		const { isSignUpComplete, userId, nextStep } = await handleSignUp(
-			userData.email,
-			userData.password
-		);
+		const res = await handleSignUp(userData.email, userData.password);
+		if (res) setSignUpStep(SignUpStep.CONFIRM_SIGN_UP);
 	};
 
 	const handleConfirmationSubmit = async () => {
-		const { isSignUpComplete, nextStep } = await handleConfirmSignUp(
-			userData.email,
-			userData.confirmationCode
-		);
-		completeAutoSignIn();
+		const res = await handleConfirmSignUp(userData.email, userData.confirmationCode);
+		if (res) completeAutoSignIn();
 	};
 
 	const completeAutoSignIn = async () => {
@@ -81,6 +76,7 @@ const SignUp: React.FC = () => {
 						subtitle: "Please create an account to use PT Timers.",
 						button: "Create Account",
 						redirect: "Already have an account?",
+						redirectPath: "/account/signin",
 					}}
 					handleSubmit={handleSignUpSubmit}
 				/>
