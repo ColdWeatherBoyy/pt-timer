@@ -1,4 +1,10 @@
-import { confirmSignUp, signIn, signUp, autoSignIn } from "aws-amplify/auth";
+import {
+	confirmSignUp,
+	signIn,
+	signUp,
+	autoSignIn,
+	getCurrentUser,
+} from "aws-amplify/auth";
 
 export const handleSignUp = async (username: string, password: string) => {
 	const { isSignUpComplete, userId, nextStep } = await signUp({
@@ -32,5 +38,17 @@ export const handleSignIn = async (username: string, password: string) => {
 		username,
 		password,
 	});
-	console.log(isSignedIn, nextStep);
+	// console.log(isSignedIn, nextStep);
+};
+
+export const validateUserSession = async () => {
+	try {
+		const { username, userId, signInDetails } = await getCurrentUser();
+		console.log(username, userId, signInDetails);
+		return true;
+	} catch (error) {
+		// To-Do: Handle Error
+		// console.log(error);
+		return false;
+	}
 };

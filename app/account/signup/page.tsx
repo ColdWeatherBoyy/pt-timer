@@ -60,13 +60,13 @@ const SignUp: React.FC = () => {
 			userData.email,
 			userData.confirmationCode
 		);
-		console.log(isSignUpComplete, nextStep);
+		// console.log(isSignUpComplete, nextStep);
 		completeAutoSignIn();
 	};
 
 	const completeAutoSignIn = async () => {
 		const { isSignedIn, nextStep } = await handleAutoSignIn();
-		console.log(isSignedIn, nextStep);
+		// console.log(isSignedIn, nextStep);
 	};
 
 	return (

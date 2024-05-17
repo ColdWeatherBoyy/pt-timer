@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import TimersSection from "../components/sections/TimersSection";
 import TopCard from "../components/sections/TopCard";
 import { Timers } from "../utilities/interfaces";
-import MainWrapper from "../components/MainWrapper";
 
 const TimerHomepage = () => {
 	// set initial load tracker

@@ -1,24 +1,29 @@
 "use client";
 
-import { getCurrentUser } from "aws-amplify/auth";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Amplify } from "aws-amplify";
+import { useRouter } from "next/navigation";
+import outputs from "../amplify_outputs.json";
+import { validateUserSession } from "./utilities/amplifyFunctions";
+import { useEffect } from "react";
+
+Amplify.configure(outputs);
 
 export default function Home() {
-	const [loggedIn, setLoggedIn] = useState(false);
-	const validateUserSession = async () => {
-		try {
-			const { username, userId, signInDetails } = await getCurrentUser();
-			setLoggedIn(true);
-		} catch (error) {
-			// To-Do: Handle Error
-			console.log(error);
-		}
-	};
+	const router = useRouter();
 
 	useEffect(() => {
-		validateUserSession();
+		const validate = async () => {
+			const res = await validateUserSession();
+			if (res) {
+				console.log("timers");
+				router.push("/timers");
+			} else {
+				console.log("signin");
+				router.push("/account/signin");
+			}
+		};
+		validate();
 	}, []);
 
-	return <Link href="/timers">Click Here For Timers</Link>;
+	return <div>Loading</div>;
 }
