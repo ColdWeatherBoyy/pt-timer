@@ -1,12 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UserForm from "../../components/UserForm";
 import {
 	handleAutoSignIn,
 	handleConfirmSignUp,
 	handleSignUp,
+	validateUserSession,
 } from "../../utilities/amplifyFunctions";
 import { SignUpStep } from "../../utilities/enums";
 import { ThemeColor } from "../../utilities/themeTypes";
@@ -64,6 +65,18 @@ const SignUp: React.FC = () => {
 		const res = await handleAutoSignIn();
 		if (res) router.push("/timers");
 	};
+
+	useEffect(() => {
+		const validate = async () => {
+			const res = await validateUserSession();
+
+			if (res) {
+				router.push("/timers");
+			}
+		};
+
+		validate();
+	}, [router]);
 
 	return (
 		<>

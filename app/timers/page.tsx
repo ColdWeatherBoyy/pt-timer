@@ -4,20 +4,39 @@ import { useEffect, useState } from "react";
 import TimersSection from "../components/sections/TimersSection";
 import TopCard from "../components/sections/TopCard";
 import { Timers } from "../utilities/interfaces";
+import { useRouter } from "next/navigation";
+import { validateUserSession } from "../utilities/amplifyFunctions";
+import { Amplify } from "aws-amplify";
+import outputs from "../../amplify_outputs.json";
+
+Amplify.configure(outputs);
 
 const TimerHomepage = () => {
-	// set initial load tracker
 	const [loaded, setLoaded] = useState(false);
 	const [timers, setTimers] = useState<Timers>({ secondTimers: [], minuteTimers: [] });
 	const [activeTimer, setActiveTimer] = useState<number | null>(null);
+	const router = useRouter();
 
 	useEffect(() => {
 		const storedTimers = window.localStorage.getItem("timers");
-		if (storedTimers) {
-			setTimers(JSON.parse(storedTimers));
-		}
-		setLoaded(true);
-	}, []);
+
+		const validate = async () => {
+			const res = await validateUserSession();
+
+			if (!res) {
+				router.push("/account/signin");
+			} else {
+				if (storedTimers) {
+					setTimers(JSON.parse(storedTimers));
+				}
+				setLoaded(true);
+			}
+		};
+
+		validate();
+	}, [router]);
+
+	useEffect(() => {}, []);
 
 	useEffect(() => {
 		if (!loaded) return;
