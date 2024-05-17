@@ -9,6 +9,7 @@ import {
 } from "../../utilities/amplifyFunctions";
 import { SignUpStep } from "../../utilities/enums";
 import { ThemeColor } from "../../utilities/themeTypes";
+import { useRouter } from "next/router";
 
 const SignUp: React.FC = () => {
 	const [userData, setUserData] = useState({
@@ -18,6 +19,7 @@ const SignUp: React.FC = () => {
 		confirmationCode: "",
 	});
 	const [signUpStep, setSignUpStep] = useState<SignUpStep>(SignUpStep.NOT_SIGNED_UP);
+	const router = useRouter();
 	const SignUpFormInputs = [
 		{
 			value: userData.email,
@@ -60,13 +62,12 @@ const SignUp: React.FC = () => {
 			userData.email,
 			userData.confirmationCode
 		);
-		// console.log(isSignUpComplete, nextStep);
 		completeAutoSignIn();
 	};
 
 	const completeAutoSignIn = async () => {
-		const { isSignedIn, nextStep } = await handleAutoSignIn();
-		// console.log(isSignedIn, nextStep);
+		const res = await handleAutoSignIn();
+		if (res) router.push("/timers");
 	};
 
 	return (

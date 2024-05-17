@@ -4,8 +4,10 @@ import React, { useState } from "react";
 import UserForm from "../../components/UserForm";
 import { handleSignIn } from "../../utilities/amplifyFunctions";
 import { ThemeColor } from "../../utilities/themeTypes";
+import { useRouter } from "next/navigation";
 
 const SignIn: React.FC = () => {
+	const router = useRouter();
 	const [userData, setUserData] = useState({
 		email: "",
 		password: "",
@@ -26,7 +28,8 @@ const SignIn: React.FC = () => {
 	];
 
 	const handleSignInSubmit = async () => {
-		await handleSignIn(userData.email, userData.password);
+		const res = await handleSignIn(userData.email, userData.password);
+		if (res) router.push("/timers");
 	};
 
 	return (
