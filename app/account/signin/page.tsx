@@ -1,13 +1,15 @@
 "use client";
 
+import { UserContext } from "@/app/providers/UserProvider";
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import UserForm from "../../components/UserForm";
-import { handleSignIn, validateUserSession } from "../../utilities/amplifyFunctions";
+import { handleSignIn } from "../../utilities/amplifyFunctions";
 import { ThemeColor } from "../../utilities/themeTypes";
 
 const SignIn: React.FC = () => {
 	const router = useRouter();
+	const { validated, toggleValidation } = useContext(UserContext);
 	const [userData, setUserData] = useState({
 		email: "",
 		password: "",
@@ -33,16 +35,10 @@ const SignIn: React.FC = () => {
 	};
 
 	useEffect(() => {
-		const validate = async () => {
-			const res = await validateUserSession();
-
-			if (res) {
-				router.push("/timers");
-			}
-		};
-
-		validate();
-	}, [router]);
+		if (validated) {
+			router.push("/timers");
+		}
+	}, [validated]);
 
 	return (
 		<>

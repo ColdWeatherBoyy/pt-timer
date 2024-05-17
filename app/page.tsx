@@ -2,24 +2,19 @@
 
 import { Amplify } from "aws-amplify";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import outputs from "../amplify_outputs.json";
-import { validateUserSession } from "./utilities/amplifyFunctions";
+import { UserContext } from "./providers/UserProvider";
 
 Amplify.configure(outputs);
 
 export default function Home() {
 	const router = useRouter();
+	const { validated, toggleValidation } = useContext(UserContext);
 
-	useEffect(() => {
-		const validate = async () => {
-			const res = await validateUserSession();
-			if (res) {
-				router.push("/timers");
-			} else {
-				router.push("/account/signin");
-			}
-		};
-		validate();
-	}, [router]);
+	if (validated) {
+		router.push("/timers");
+	} else {
+		router.push("/account/signin");
+	}
 }

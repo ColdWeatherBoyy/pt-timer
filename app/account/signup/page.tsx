@@ -1,19 +1,20 @@
 "use client";
 
+import { UserContext } from "@/app/providers/UserProvider";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import UserForm from "../../components/UserForm";
 import {
 	handleAutoSignIn,
 	handleConfirmSignUp,
 	handleSignUp,
-	validateUserSession,
 } from "../../utilities/amplifyFunctions";
 import { SignUpStep } from "../../utilities/enums";
 import { ThemeColor } from "../../utilities/themeTypes";
 
 const SignUp: React.FC = () => {
 	const router = useRouter();
+	const { validated, toggleValidation } = useContext(UserContext);
 	const [userData, setUserData] = useState({
 		email: "",
 		password: "",
@@ -67,16 +68,10 @@ const SignUp: React.FC = () => {
 	};
 
 	useEffect(() => {
-		const validate = async () => {
-			const res = await validateUserSession();
-
-			if (res) {
-				router.push("/timers");
-			}
-		};
-
-		validate();
-	}, [router]);
+		if (validated) {
+			router.push("/timers");
+		}
+	}, [validated]);
 
 	return (
 		<>
