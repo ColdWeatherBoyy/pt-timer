@@ -17,19 +17,22 @@ const Header: React.FC = () => {
 	};
 
 	return (
-		<div className="flex py-4 shadow-md w-full bg-jade-300 text-center mb-8 justify-between px-4">
+		<div className="flex py-4 shadow-md w-full bg-jade-200 text-center mb-8 justify-between px-4">
 			<span>Welcome to Physical Therapy Interval Timers!</span>
 			{validated ? (
-				<Button buttonColor={ThemeColor.horizon} onClick={handleSignOut}>
+				<div
+					className="text-horizon-800 cursor-pointer underline underline-offset-2 hover:tracking-wide hover:-translate-y-0.5 transition-all ease"
+					onClick={handleSignOut}
+				>
 					Sign Out
-				</Button>
+				</div>
 			) : (
-				<Button
-					buttonColor={ThemeColor.horizon}
+				<div
+					className="text-horizon-800 cursor-pointer underline underline-offset-2 hover:tracking-wide hover:-translate-y-0.5 transition-all ease"
 					onClick={() => router.push("/account/signin")}
 				>
 					Sign In
-				</Button>
+				</div>
 			)}
 		</div>
 	);
