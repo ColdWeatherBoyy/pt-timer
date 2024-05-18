@@ -83,7 +83,7 @@ const SignUp: React.FC = () => {
 					formInputs={SignUpFormInputs}
 					formColor={ThemeColor.horizon}
 					formText={{
-						title: "New Account Sign Up",
+						title: "User Sign Up",
 						subtitle: "Please create an account to use PT Timers.",
 						button: "Create Account",
 						redirect: "Already have an account?",

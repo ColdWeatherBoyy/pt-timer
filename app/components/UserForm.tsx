@@ -52,20 +52,21 @@ const UserForm: React.FC<UserFormProps> = ({
 				cardColor={ThemeColor[formColor]}
 				cardShade={ThemeShade.medium}
 				column
-				className="p-8 gap-6 relative"
+				className="p-4 pb-8 gap-3 relative"
 			>
 				<div className={`text-${formColor}-950 text-5xl`}>{formText.title}</div>
-				<div className={`text-${formColor}-950 font-bold text-lg text-center`}>
+				<div className={`text-${formColor}-950 font-bold text-lg text-center w-3/4`}>
 					{formText.subtitle}
 				</div>
-				<div className="flex flex-col items-center gap-4">
+				<div className="flex flex-col items-center">
 					<Card
 						cardColor={ThemeColor[formSecondaryColor]}
 						cardShade={ThemeShade.medium}
-						className="p-8 gap-8 "
+						className="gap-3 pb-3"
+						column
 					>
 						<Card cardColor={ThemeColor[formColor]} cardShade={ThemeShade.light}>
-							<form className="gap-4 p-8 flex flex-col" onKeyDown={handleEnterDown}>
+							<form className="gap-2 flex flex-col" onKeyDown={handleEnterDown}>
 								{formInputs.map((formInput, index) => {
 									return (
 										<Input
