@@ -22,11 +22,9 @@ const Input: React.FC<InputProps> = ({
 }) => {
 	return (
 		<input
-			className={`text-3xl border ${
-				ComponentColor[inputColor].input
-			} rounded-lg shadow-md p-2 ${
+			className={`border ${ComponentColor[inputColor].input} rounded-lg shadow-md p-2 ${
 				centered
-					? "w-2/5 md:w-1/4 text-center placeholder:text-lg placeholder:-translate-y-1"
+					? "text-3xl w-2/5 md:w-1/4 text-center placeholder:text-lg placeholder:-translate-y-1"
 					: "text-lg"
 			} focus-visible:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-jade-100 transition duration-200 ease-in-out`}
 			type={type}
