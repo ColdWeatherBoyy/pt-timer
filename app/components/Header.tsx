@@ -18,8 +18,11 @@ const Header: React.FC = () => {
 	};
 
 	return (
-		<div className="flex py-4 shadow-md w-full bg-jade-200 text-center mb-8 justify-between px-4">
-			<span>Welcome to Physical Therapy Interval Timers!</span>
+		<div className="flex py-4 shadow-md w-full bg-jade-200 mb-8 justify-between px-4 items-center">
+			<div className="flex flex-col">
+				<span>Welcome to Physical</span>
+				<span>Therapy Interval Timers!</span>
+			</div>
 			{validated ? (
 				<LinkButton text="Sign Out" onClick={handleSignOut} />
 			) : (

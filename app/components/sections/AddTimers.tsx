@@ -45,7 +45,7 @@ const AddTimers: React.FC<AddTimerProps> = ({
 			className={`p-4 gap-4 w-1/2 ${activeTimer ? "opacity-65 pointer-events-none" : ""}`}
 			column
 		>
-			<div className="flex justify-center gap-8 lg:gap-20">
+			<div className="flex justify-center gap-20">
 				<Input
 					type="string"
 					placeholder={`Enter ${unit}`}
