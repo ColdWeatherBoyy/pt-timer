@@ -1,10 +1,11 @@
 import { Amplify } from "aws-amplify";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import outputs from "../../amplify_outputs.json";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Input from "../components/Input";
 import { ThemeColor, ThemeShade } from "../utilities/themeTypes";
+import LinkButton from "./LinkButton";
 
 Amplify.configure(outputs);
 
@@ -36,6 +37,7 @@ const UserForm: React.FC<UserFormProps> = ({
 	formText,
 	handleSubmit,
 }) => {
+	const router = useRouter();
 	const formSecondaryColor =
 		formColor === ThemeColor.horizon ? ThemeColor.jade : ThemeColor.horizon;
 
@@ -99,9 +101,14 @@ const UserForm: React.FC<UserFormProps> = ({
 					</Card>
 				</div>
 				{formText.redirect && formText.redirectPath && (
-					<div className="text-xs absolute bottom-1.5">
-						{formText.redirect} Please click{" "}
-						<Link href={formText.redirectPath}>here</Link>.
+					<div className="text-xs absolute bottom-1.5 flex">
+						{formText.redirect} Please click
+						<LinkButton
+							text="here"
+							onClick={() => router.push(formText.redirectPath!)}
+							marginLeft={true}
+						/>
+						.
 					</div>
 				)}
 			</Card>
