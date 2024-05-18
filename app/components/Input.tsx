@@ -8,6 +8,7 @@ interface InputProps {
 	inputColor: ThemeColor;
 	centered?: boolean;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -17,6 +18,7 @@ const Input: React.FC<InputProps> = ({
 	inputColor,
 	centered = false,
 	onChange,
+	onKeyDown,
 }) => {
 	return (
 		<input
@@ -31,6 +33,7 @@ const Input: React.FC<InputProps> = ({
 			placeholder={placeholder}
 			value={value}
 			onChange={onChange}
+			onKeyDown={onKeyDown}
 		/>
 	);
 };

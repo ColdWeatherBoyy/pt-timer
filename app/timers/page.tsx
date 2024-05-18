@@ -1,13 +1,13 @@
 "use client";
 
+import { Amplify } from "aws-amplify";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import outputs from "../../amplify_outputs.json";
 import TimersSection from "../components/sections/TimersSection";
 import TopCard from "../components/sections/TopCard";
-import { Timers } from "../utilities/interfaces";
-import { useRouter } from "next/navigation";
-import { Amplify } from "aws-amplify";
-import outputs from "../../amplify_outputs.json";
 import { UserContext } from "../providers/UserProvider";
+import { Timers } from "../utilities/interfaces";
 
 Amplify.configure(outputs);
 

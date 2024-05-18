@@ -1,10 +1,10 @@
 import { Amplify } from "aws-amplify";
+import Link from "next/link";
 import outputs from "../../amplify_outputs.json";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Input from "../components/Input";
 import { ThemeColor, ThemeShade } from "../utilities/themeTypes";
-import Link from "next/link";
 
 Amplify.configure(outputs);
 
@@ -39,6 +39,13 @@ const UserForm: React.FC<UserFormProps> = ({
 	const formSecondaryColor =
 		formColor === ThemeColor.horizon ? ThemeColor.jade : ThemeColor.horizon;
 
+	const handleEnterDown = (event: React.KeyboardEvent) => {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			handleSubmit();
+		}
+	};
+
 	return (
 		<div>
 			<Card
@@ -57,24 +64,21 @@ const UserForm: React.FC<UserFormProps> = ({
 						cardShade={ThemeShade.medium}
 						className="p-8 gap-8 "
 					>
-						<Card
-							cardColor={ThemeColor[formColor]}
-							cardShade={ThemeShade.light}
-							column
-							className="gap-4 p-8"
-						>
-							{formInputs.map((formInput, index) => {
-								return (
-									<Input
-										key={index + "-" + formInput.type}
-										type={formInput.type}
-										placeholder={formInput.placeholder}
-										value={formInput.value}
-										inputColor={ThemeColor[formSecondaryColor]}
-										onChange={(event) => formInput.setValue(event.target.value)}
-									/>
-								);
-							})}
+						<Card cardColor={ThemeColor[formColor]} cardShade={ThemeShade.light}>
+							<form className="gap-4 p-8 flex flex-col" onKeyDown={handleEnterDown}>
+								{formInputs.map((formInput, index) => {
+									return (
+										<Input
+											key={index + "-" + formInput.type}
+											type={formInput.type}
+											placeholder={formInput.placeholder}
+											value={formInput.value}
+											inputColor={ThemeColor[formSecondaryColor]}
+											onChange={(event) => formInput.setValue(event.target.value)}
+										/>
+									);
+								})}
+							</form>
 						</Card>
 						<Button
 							buttonColor={ThemeColor[formSecondaryColor]}

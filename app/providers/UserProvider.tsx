@@ -22,7 +22,6 @@ export default function UserProvider({ children }: { children: React.ReactNode }
 	useEffect(() => {
 		const validate = async () => {
 			const res = await validateUserSession();
-			console.log("res", res);
 			if (res) setValidated(true);
 		};
 		validate();

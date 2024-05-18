@@ -3,7 +3,6 @@ import {
 	confirmSignUp,
 	getCurrentUser,
 	signIn,
-	signOut,
 	signUp,
 } from "aws-amplify/auth";
 

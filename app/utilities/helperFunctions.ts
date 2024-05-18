@@ -8,8 +8,8 @@ const checkIfExists = (timer: number, timers: Timers, unit: Unit) => {
 		if (timerSetting.length === timer) {
 			return true;
 		}
-		return false;
 	}
+	return false;
 };
 
 export const addNewTimer = (
