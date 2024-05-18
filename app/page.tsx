@@ -12,9 +12,11 @@ export default function Home() {
 	const router = useRouter();
 	const { validated, toggleValidation } = useContext(UserContext);
 
-	if (validated) {
-		router.push("/timers");
-	} else {
-		router.push("/account/signin");
-	}
+	useEffect(() => {
+		if (validated) {
+			router.push("/timers");
+		} else {
+			router.push("/account/signin");
+		}
+	}, [validated, router]);
 }

@@ -29,9 +29,7 @@ const TimerHomepage = () => {
 			}
 			setLoaded(true);
 		}
-	}, [validated]);
-
-	useEffect(() => {}, []);
+	}, [validated, router]);
 
 	useEffect(() => {
 		if (!loaded) return;

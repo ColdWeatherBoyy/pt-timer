@@ -64,14 +64,17 @@ const SignUp: React.FC = () => {
 
 	const completeAutoSignIn = async () => {
 		const res = await handleAutoSignIn();
-		if (res) router.push("/timers");
+		if (res) {
+			toggleValidation();
+			router.push("/timers");
+		}
 	};
 
 	useEffect(() => {
 		if (validated) {
 			router.push("/timers");
 		}
-	}, [validated]);
+	}, [validated, router]);
 
 	return (
 		<>

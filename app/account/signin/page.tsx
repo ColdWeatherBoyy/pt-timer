@@ -31,14 +31,17 @@ const SignIn: React.FC = () => {
 
 	const handleSignInSubmit = async () => {
 		const res = await handleSignIn(userData.email, userData.password);
-		if (res) router.push("/timers");
+		if (res) {
+			toggleValidation();
+			router.push("/timers");
+		}
 	};
 
 	useEffect(() => {
 		if (validated) {
 			router.push("/timers");
 		}
-	}, [validated]);
+	}, [validated, router]);
 
 	return (
 		<>
