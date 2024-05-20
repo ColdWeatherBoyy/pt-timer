@@ -18,7 +18,7 @@ const Header: React.FC = () => {
 	};
 
 	return (
-		<div className="flex py-4 shadow-md w-full bg-jade-200 mb-8 justify-between px-4 items-center">
+		<div className="flex py-4 shadow-md w-full bg-jade-200 mb-8 justify-between px-10 items-center">
 			<div className="flex flex-col">
 				<span>Welcome to Physical</span>
 				<span>Therapy Interval Timers!</span>

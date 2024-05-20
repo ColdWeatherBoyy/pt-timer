@@ -20,7 +20,7 @@ const TopCard: React.FC<TopCardProps> = ({ timers, setTimers, activeTimer }) => 
 		<Card
 			cardColor={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
 			cardShade={ThemeShade.medium}
-			className="min-h-64 mb-6 w-3/5 p-6"
+			className="min-h-64 mb-6 w-3/5 p-6 m-4"
 			column
 		>
 			<div className="text-4xl font-bold ">Interval Timers</div>
