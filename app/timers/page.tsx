@@ -22,20 +22,20 @@ const TimerHomepage = () => {
 
 	const client = generateClient<Schema>();
 
-	// const handleCreate = async () => {
-	// 	const { errors, data: newTimer } = await client.models.Timer.create({
-	//     userId,
+	const handleCreate = async () => {
+		const { errors, data: newTimer } = await client.models.Timer.create({
+			userId,
+			type: "SECOND",
+			length: 5,
+		});
+		console.log(newTimer, errors);
+	};
 
-	// 		length: 5,
-	// 	});
-	// 	console.log(errors, newTimer);
-	// };
+	const handleGet = async () => {
+		const { data: Timers, errors } = await client.models.Timer.list();
 
-	// const handleGet = async () => {
-	// 	const { data: secondTimers, errors } = await client.models.SecondTimer.list();
-
-	// 	console.log(secondTimers, errors);
-	// };
+		console.log(Timers, errors);
+	};
 
 	useEffect(() => {
 		const storedTimers = window.localStorage.getItem("timers");
@@ -64,8 +64,8 @@ const TimerHomepage = () => {
 				setActiveTimer={setActiveTimer}
 				setTimers={setTimers}
 			/>
-			{/* <button onClick={handleCreate}>create</button>
-			<button onClick={handleGet}>get</button> */}
+			<button onClick={handleCreate}>create</button>
+			<button onClick={handleGet}>get</button>
 		</>
 	);
 };
