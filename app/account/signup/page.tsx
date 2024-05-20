@@ -14,7 +14,7 @@ import { ThemeColor } from "../../utilities/themeTypes";
 
 const SignUp: React.FC = () => {
 	const router = useRouter();
-	const { validated, toggleValidation } = useContext(UserContext);
+	const { validated, setValidated, userId } = useContext(UserContext);
 	const [userData, setUserData] = useState({
 		email: "",
 		password: "",
@@ -65,7 +65,7 @@ const SignUp: React.FC = () => {
 	const completeAutoSignIn = async () => {
 		const res = await handleAutoSignIn();
 		if (res) {
-			toggleValidation();
+			setValidated(true);
 			router.push("/timers");
 		}
 	};

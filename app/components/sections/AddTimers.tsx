@@ -1,11 +1,12 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { addNewTimer } from "../../utilities/helperFunctions";
 import { Timers } from "../../utilities/interfaces";
-import { ThemeColor, ThemeShade, Unit } from "../../utilities/themeTypes";
+import { ThemeColor, ThemeShade } from "../../utilities/themeTypes";
 import Button from "../Button";
 import Card from "../Card";
 import Input from "../Input";
 import Toggle from "../Toggle";
+import { Unit } from "../../utilities/enums";
 
 interface AddTimerProps {
 	newTimer: string;

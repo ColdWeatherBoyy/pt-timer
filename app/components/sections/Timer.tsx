@@ -8,8 +8,9 @@ import Resume from "../SVGs/Resume";
 import Stop from "../SVGs/Stop";
 import { roboto_mono } from "../../utilities/fonts";
 import { ClockTime, Timers } from "../../utilities/interfaces";
-import { ComponentColor, ThemeColor, ThemeShade, Unit } from "../../utilities/themeTypes";
+import { ComponentColor, ThemeColor, ThemeShade } from "../../utilities/themeTypes";
 import { delay } from "../../utilities/helperFunctions";
+import { Unit } from "../../utilities/enums";
 
 interface TimerProps {
 	index: number;

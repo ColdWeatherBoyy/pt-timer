@@ -1,5 +1,5 @@
 import { TimerSettings, Timers } from "./interfaces";
-import { Unit } from "./themeTypes";
+import { Unit } from "./enums";
 
 const checkIfExists = (timer: number, timers: Timers, unit: Unit) => {
 	const timerArr = timers[unit === Unit.minutes ? "minuteTimers" : "secondTimers"];

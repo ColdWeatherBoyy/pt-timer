@@ -50,3 +50,13 @@ export const validateUserSession = async () => {
 		return false;
 	}
 };
+
+export const getUserId = async () => {
+	try {
+		const { username, userId, signInDetails } = await getCurrentUser();
+		return userId;
+	} catch (error) {
+		console.log(error);
+		throw new Error("error");
+	}
+};

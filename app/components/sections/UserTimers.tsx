@@ -3,7 +3,8 @@ import Card from "../Card";
 import DeletableListItem from "../DeletableListItem";
 import { removeTimer } from "../../utilities/helperFunctions";
 import { Timers } from "../../utilities/interfaces";
-import { ThemeColor, ThemeShade, Unit } from "../../utilities/themeTypes";
+import { ThemeColor, ThemeShade } from "../../utilities/themeTypes";
+import { Unit } from "../../utilities/enums";
 
 interface UserTimers {
 	timers: Timers;

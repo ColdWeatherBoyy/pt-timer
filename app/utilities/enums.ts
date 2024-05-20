@@ -5,3 +5,8 @@ export const enum SignUpStep {
 
 // 	COMPLETE_AUTO_SIGN_IN,
 // DONE,
+
+export enum Unit {
+	seconds = "secs",
+	minutes = "mins",
+}

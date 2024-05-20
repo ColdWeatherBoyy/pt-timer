@@ -8,6 +8,8 @@ import TimersSection from "../components/sections/TimersSection";
 import TopCard from "../components/sections/TopCard";
 import { UserContext } from "../providers/UserProvider";
 import { Timers } from "../utilities/interfaces";
+import { generateClient } from "aws-amplify/data";
+import { type Schema } from "../../amplify/data/resource";
 
 Amplify.configure(outputs);
 
@@ -16,7 +18,24 @@ const TimerHomepage = () => {
 	const [timers, setTimers] = useState<Timers>({ secondTimers: [], minuteTimers: [] });
 	const [activeTimer, setActiveTimer] = useState<number | null>(null);
 	const router = useRouter();
-	const { validated, toggleValidation } = useContext(UserContext);
+	const { validated, setValidated, userId } = useContext(UserContext);
+
+	const client = generateClient<Schema>();
+
+	// const handleCreate = async () => {
+	// 	const { errors, data: newTimer } = await client.models.Timer.create({
+	//     userId,
+
+	// 		length: 5,
+	// 	});
+	// 	console.log(errors, newTimer);
+	// };
+
+	// const handleGet = async () => {
+	// 	const { data: secondTimers, errors } = await client.models.SecondTimer.list();
+
+	// 	console.log(secondTimers, errors);
+	// };
 
 	useEffect(() => {
 		const storedTimers = window.localStorage.getItem("timers");
@@ -45,6 +64,8 @@ const TimerHomepage = () => {
 				setActiveTimer={setActiveTimer}
 				setTimers={setTimers}
 			/>
+			{/* <button onClick={handleCreate}>create</button>
+			<button onClick={handleGet}>get</button> */}
 		</>
 	);
 };

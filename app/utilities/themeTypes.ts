@@ -15,11 +15,6 @@ interface CardShade {
 	dark: string;
 }
 
-export enum Unit {
-	seconds = "secs",
-	minutes = "mins",
-}
-
 interface NumberInputPart {
 	title: string;
 	buttonWrapper: string;

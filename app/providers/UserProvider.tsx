@@ -1,33 +1,46 @@
 "use client";
 
-import { createContext, useEffect, useState } from "react";
-import { validateUserSession } from "../utilities/amplifyFunctions";
+import { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
+import { getUserId, validateUserSession } from "../utilities/amplifyFunctions";
 
 interface ContextInterface {
 	validated: boolean;
-	toggleValidation: () => void;
+	setValidated: Dispatch<SetStateAction<boolean>>;
+	userId: string;
 }
 
 export const UserContext = createContext<ContextInterface>({
 	validated: false,
-	toggleValidation: () => {},
+	setValidated: () => {},
+	userId: "",
 });
 
 export default function UserProvider({ children }: { children: React.ReactNode }) {
 	const [validated, setValidated] = useState(false);
-	const toggleValidation = () => {
-		setValidated((prevValidated) => !prevValidated);
-	};
+	const [userId, setUserId] = useState("");
 
 	useEffect(() => {
 		const validate = async () => {
 			const res = await validateUserSession();
-			if (res) setValidated(true);
+			res ? setValidated(true) : setValidated(false);
 		};
 		validate();
-	}, []);
+	}, [validated]);
+
+	useEffect(() => {
+		const getId = async () => {
+			const userId = await getUserId();
+			if (userId) setUserId(userId);
+		};
+		if (validated) {
+			getId();
+		} else {
+			setUserId("");
+		}
+	}, [validated, userId]);
+
 	return (
-		<UserContext.Provider value={{ validated, toggleValidation }}>
+		<UserContext.Provider value={{ validated, setValidated, userId }}>
 			{children}
 		</UserContext.Provider>
 	);

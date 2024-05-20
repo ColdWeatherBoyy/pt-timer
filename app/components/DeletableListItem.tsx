@@ -1,5 +1,6 @@
 import React from "react";
-import { ComponentColor, ThemeColor, Unit } from "../utilities/themeTypes";
+import { ComponentColor, ThemeColor } from "../utilities/themeTypes";
+import { Unit } from "../utilities/enums";
 
 interface DeletableListItemProps {
 	index: number;

@@ -1,8 +1,9 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import Card from "../Card";
 import { Timers } from "../../utilities/interfaces";
-import { ThemeColor, ThemeShade, Unit } from "../../utilities/themeTypes";
+import { ThemeColor, ThemeShade } from "../../utilities/themeTypes";
 import AddTimers from "./AddTimers";
+import { Unit } from "../../utilities/enums";
 
 interface TopCardProps {
 	timers: Timers;

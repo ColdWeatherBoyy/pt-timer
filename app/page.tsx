@@ -10,7 +10,7 @@ Amplify.configure(outputs);
 
 export default function Home() {
 	const router = useRouter();
-	const { validated, toggleValidation } = useContext(UserContext);
+	const { validated, setValidated, userId } = useContext(UserContext);
 
 	useEffect(() => {
 		if (validated) {
