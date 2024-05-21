@@ -7,6 +7,7 @@ import Input from "../components/Input";
 import { ThemeColor, ThemeShade } from "../utilities/themeTypes";
 import LinkButton from "./LinkButton";
 
+// Needed?
 Amplify.configure(outputs);
 
 interface FormText {

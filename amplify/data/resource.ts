@@ -1,30 +1,13 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
-// const schema = a.schema({
-// 	MinuteTimer: a
-// 		.model({
-// 			// userId: a.string(),
-// 			length: a.integer(),
-// 		})
-// 		// .secondaryIndexes((index) => [index("userId")])
-// 		// .authorization((allow) => [allow.owner()]),
-// 		.authorization((allow) => allow.authenticated()),
-// 	SecondTimer: a
-// 		.model({
-// 			// userId: a.string(),
-// 			length: a.integer(),
-// 		})
-// 		// .secondaryIndexes((index) => [index("userId")])
-// 		// .authorization((allow) => [allow.owner()]),
-// 		.authorization((allow) => allow.authenticated()),
-// });
-
 const schema = a.schema({
+	Type: a.enum(["secs", "mins"]),
 	Timer: a
 		.model({
-			userId: a.string(),
-			type: a.enum(["MINUTE", "SECOND"]),
-			length: a.integer(),
+			userId: a.string().required(),
+			type: a.ref("Type").required(),
+			length: a.integer().required(),
+			interval: a.integer().required(),
 		})
 		.secondaryIndexes((index) => [index("userId")])
 		.authorization((allow) => [allow.ownerDefinedIn("userId")]),
