@@ -6,6 +6,7 @@ export interface Timers {
 export interface TimerSettings {
 	length: number;
 	interval: number;
+	id: string;
 }
 
 export interface ClockTime {

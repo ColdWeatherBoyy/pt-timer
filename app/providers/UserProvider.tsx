@@ -1,7 +1,7 @@
 "use client";
 
 import { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
-import { getUserId, validateUserSession } from "../utilities/amplifyFunctions";
+import { getUserId, validateUserSession } from "../utilities/authFunctions";
 
 interface ContextInterface {
 	validated: boolean;

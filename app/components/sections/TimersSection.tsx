@@ -21,13 +21,15 @@ const TimersSection: React.FC<TimersSectionProps> = ({
 			{timers.secondTimers.map((timer, index) => {
 				return (
 					<Timer
-						key={`t${Unit.seconds}-${timer.length}`}
+						key={`${timer.id}`}
 						index={index}
 						length={timer.length}
 						interval={timer.interval}
 						unit={Unit.seconds}
 						setActiveTimer={setActiveTimer}
-						deleteTimer={(index) => removeTimer(index, timers, setTimers, Unit.seconds)}
+						deleteTimer={(index) =>
+							removeTimer(index, timers, setTimers, Unit.seconds, timer.id)
+						}
 						setTimers={setTimers}
 						className={`${
 							activeTimer !== index && activeTimer !== null
@@ -40,13 +42,15 @@ const TimersSection: React.FC<TimersSectionProps> = ({
 			{timers.minuteTimers.map((timer, index) => {
 				return (
 					<Timer
-						key={`t${Unit.minutes}-${timer.length}`}
+						key={`${timer.id}`}
 						index={index}
 						length={timer.length}
 						interval={timer.interval}
 						unit={Unit.minutes}
 						setActiveTimer={setActiveTimer}
-						deleteTimer={(index) => removeTimer(index, timers, setTimers, Unit.minutes)}
+						deleteTimer={(index) =>
+							removeTimer(index, timers, setTimers, Unit.minutes, timer.id)
+						}
 						setTimers={setTimers}
 						className={`${
 							activeTimer !== index && activeTimer !== null

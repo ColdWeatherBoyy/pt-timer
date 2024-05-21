@@ -8,7 +8,7 @@ import {
 	handleAutoSignIn,
 	handleConfirmSignUp,
 	handleSignUp,
-} from "../../utilities/amplifyFunctions";
+} from "../../utilities/authFunctions";
 import { SignUpStep } from "../../utilities/enums";
 import { ThemeColor } from "../../utilities/themeTypes";
 

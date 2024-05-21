@@ -5,7 +5,7 @@ import { TimerSettings, Timers } from "./interfaces";
 
 const client = generateClient<Schema>();
 
-export const saveDBTimer = async (
+export const createDBTimer = async (
 	userId: string,
 	type: Unit,
 	length: number,
@@ -18,12 +18,37 @@ export const saveDBTimer = async (
 			length,
 			interval,
 		});
-		console.log(newTimer);
 		if (errors) {
 			throw new Error(errors.toString());
 		}
+		return newTimer;
 	} catch (error) {
 		console.error("Error saving to db", error);
+	}
+};
+
+export const getDBTimers = async () => {
+	try {
+		const { data: Timers, errors } = await client.models.Timer.list();
+		if (errors) {
+			throw new Error(errors.toString());
+		}
+		return Timers;
+	} catch (error) {
+		console.error("Error getting from db", error);
+	}
+};
+
+export const deleteDBTimer = async (id: string) => {
+	try {
+		const { data: deletedTimer, errors } = await client.models.Timer.delete({ id });
+		if (errors) {
+			throw new Error(errors.toString());
+		}
+		console.log(deletedTimer);
+		return;
+	} catch (error) {
+		console.error("Error deleting timer from db", error);
 	}
 };
 
@@ -33,6 +58,7 @@ export const formatDBTimers = async (storedTimers: Schema["Timer"]["type"][]) =>
 		const newTimer: TimerSettings = {
 			length: storedTimer.length,
 			interval: storedTimer.interval,
+			id: storedTimer.id,
 		};
 		if (storedTimer.type === Unit.minutes) {
 			formatTimers.minuteTimers.push(newTimer);
@@ -47,16 +73,4 @@ export const formatDBTimers = async (storedTimers: Schema["Timer"]["type"][]) =>
 		}
 	});
 	return formatTimers;
-};
-
-export const getDBTimers = async () => {
-	try {
-		const { data: Timers, errors } = await client.models.Timer.list();
-		if (errors) {
-			throw new Error(errors.toString());
-		}
-		return Timers;
-	} catch (error) {
-		console.error("Error getting from db", error);
-	}
 };

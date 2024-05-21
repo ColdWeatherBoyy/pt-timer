@@ -1,6 +1,6 @@
 import { TimerSettings, Timers } from "./interfaces";
 import { Unit } from "./enums";
-import { saveDBTimer } from "./databaseFunctions";
+import { createDBTimer, deleteDBTimer } from "./databaseFunctions";
 
 const checkIfExists = (timer: number, timers: Timers, unit: Unit) => {
 	const timerArr = timers[unit === Unit.minutes ? "minuteTimers" : "secondTimers"];
@@ -39,15 +39,19 @@ export const addNewTimer = async (
 	} else if (timers.minuteTimers.length + timers.secondTimers.length === 6) {
 		alert("You can only save 6 timers at once.");
 	} else {
-		await saveDBTimer(
+		const data = await createDBTimer(
 			userId,
 			unit === Unit.minutes ? Unit.minutes : Unit.seconds,
 			length
 		);
+		if (!data) {
+			console.error("uh oh");
+			return;
+		}
 		const newTimers =
 			unit === Unit.minutes
-				? [...timers.minuteTimers, { length, interval: 1 }]
-				: [...timers.secondTimers, { length, interval: 1 }];
+				? [...timers.minuteTimers, { length, interval: 1, id: data.id }]
+				: [...timers.secondTimers, { length, interval: 1, id: data.id }];
 		newTimers.sort((a: TimerSettings, b: TimerSettings) => a.length - b.length);
 		setTimers(
 			unit === Unit.minutes
@@ -58,12 +62,14 @@ export const addNewTimer = async (
 	setNewTimer("");
 };
 
-export const removeTimer = (
+export const removeTimer = async (
 	index: number,
 	timers: Timers,
 	setTimers: (timers: Timers) => void,
-	unit: Unit
+	unit: Unit,
+	id: string
 ) => {
+	await deleteDBTimer(id);
 	const newTimers =
 		unit === Unit.minutes ? [...timers.minuteTimers] : [...timers.secondTimers];
 	newTimers.splice(index, 1);

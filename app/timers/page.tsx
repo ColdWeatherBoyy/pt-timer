@@ -7,15 +7,13 @@ import outputs from "../../amplify_outputs.json";
 import TimersSection from "../components/sections/TimersSection";
 import TopCard from "../components/sections/TopCard";
 import { UserContext } from "../providers/UserProvider";
-import { formatDBTimers, getDBTimers, saveDBTimer } from "../utilities/databaseFunctions";
-import { Unit } from "../utilities/enums";
+import { formatDBTimers, getDBTimers } from "../utilities/databaseFunctions";
 import { Timers } from "../utilities/interfaces";
 
 // Needed?
 Amplify.configure(outputs);
 
 const TimerHomepage = () => {
-	// const [loaded, setLoaded] = useState(false);
 	const [timers, setTimers] = useState<Timers>({ secondTimers: [], minuteTimers: [] });
 	const [activeTimer, setActiveTimer] = useState<number | null>(null);
 	const router = useRouter();
@@ -30,7 +28,6 @@ const TimerHomepage = () => {
 		const formattedTimers = await formatDBTimers(dbTimers);
 
 		setTimers(formattedTimers);
-		// setLoaded(true);
 	}, []);
 
 	useEffect(() => {
@@ -57,7 +54,6 @@ const TimerHomepage = () => {
 				setActiveTimer={setActiveTimer}
 				setTimers={setTimers}
 			/>
-			<button onClick={() => saveDBTimer(userId, Unit.seconds, 1)}>create</button>
 		</>
 	);
 };
