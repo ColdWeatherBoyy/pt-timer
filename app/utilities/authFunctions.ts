@@ -56,7 +56,7 @@ export const getUserId = async () => {
 		const { username, userId, signInDetails } = await getCurrentUser();
 		return userId;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		throw new Error("error");
 	}
 };

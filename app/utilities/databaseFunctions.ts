@@ -27,6 +27,21 @@ export const createDBTimer = async (
 	}
 };
 
+export const updateIntervalDBTimers = async (id: string, interval: number) => {
+	try {
+		const { data: updatedTimer, errors } = await client.models.Timer.update({
+			id,
+			interval,
+		});
+		if (errors) {
+			throw new Error(errors.toString());
+		}
+		return updatedTimer;
+	} catch (error) {
+		console.error("Error updating db", error);
+	}
+};
+
 export const getDBTimers = async () => {
 	try {
 		const { data: Timers, errors } = await client.models.Timer.list();
@@ -45,7 +60,6 @@ export const deleteDBTimer = async (id: string) => {
 		if (errors) {
 			throw new Error(errors.toString());
 		}
-		console.log(deletedTimer);
 		return;
 	} catch (error) {
 		console.error("Error deleting timer from db", error);

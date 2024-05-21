@@ -26,6 +26,7 @@ const TimersSection: React.FC<TimersSectionProps> = ({
 						length={timer.length}
 						interval={timer.interval}
 						unit={Unit.seconds}
+						id={timer.id}
 						setActiveTimer={setActiveTimer}
 						deleteTimer={(index) =>
 							removeTimer(index, timers, setTimers, Unit.seconds, timer.id)
@@ -47,6 +48,7 @@ const TimersSection: React.FC<TimersSectionProps> = ({
 						length={timer.length}
 						interval={timer.interval}
 						unit={Unit.minutes}
+						id={timer.id}
 						setActiveTimer={setActiveTimer}
 						deleteTimer={(index) =>
 							removeTimer(index, timers, setTimers, Unit.minutes, timer.id)

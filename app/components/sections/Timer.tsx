@@ -11,12 +11,14 @@ import { ClockTime, Timers } from "../../utilities/interfaces";
 import { ComponentColor, ThemeColor, ThemeShade } from "../../utilities/themeTypes";
 import { delay } from "../../utilities/helperFunctions";
 import { Unit } from "../../utilities/enums";
+import { updateIntervalDBTimers } from "@/app/utilities/databaseFunctions";
 
 interface TimerProps {
 	index: number;
 	length: number;
 	interval: number;
 	unit: Unit;
+	id: string;
 	setActiveTimer: Dispatch<SetStateAction<number | null>>;
 	deleteTimer: (index: number) => void;
 	setTimers: Dispatch<SetStateAction<Timers>>;
@@ -28,6 +30,7 @@ const Timer: React.FC<TimerProps> = ({
 	length,
 	interval,
 	unit,
+	id,
 	setActiveTimer,
 	deleteTimer,
 	setTimers,
@@ -86,8 +89,9 @@ const Timer: React.FC<TimerProps> = ({
 	};
 
 	// Set total reps
-	const setTotalReps = (total: number) => {
+	const setTotalReps = async (total: number) => {
 		setReps((prev) => ({ ...prev, total }));
+		await updateIntervalDBTimers(id, total);
 		setTimers((prev) => {
 			const unitTimers = unit === Unit.minutes ? prev.minuteTimers : prev.secondTimers;
 			unitTimers[index].interval = total;
