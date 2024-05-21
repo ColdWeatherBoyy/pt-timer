@@ -1,5 +1,6 @@
 import { TimerSettings, Timers } from "./interfaces";
 import { Unit } from "./enums";
+import { saveDBTimer } from "./databaseFunctions";
 
 const checkIfExists = (timer: number, timers: Timers, unit: Unit) => {
 	const timerArr = timers[unit === Unit.minutes ? "minuteTimers" : "secondTimers"];
@@ -12,12 +13,13 @@ const checkIfExists = (timer: number, timers: Timers, unit: Unit) => {
 	return false;
 };
 
-export const addNewTimer = (
+export const addNewTimer = async (
 	newTimer: string,
 	timers: Timers,
 	setTimers: (timers: Timers) => void,
 	setNewTimer: (newTimer: string) => void,
-	unit: Unit
+	unit: Unit,
+	userId: string
 ) => {
 	const length = parseFloat(newTimer);
 	if (typeof length !== "number" || isNaN(length)) {
@@ -37,6 +39,11 @@ export const addNewTimer = (
 	} else if (timers.minuteTimers.length + timers.secondTimers.length === 6) {
 		alert("You can only save 6 timers at once.");
 	} else {
+		await saveDBTimer(
+			userId,
+			unit === Unit.minutes ? Unit.minutes : Unit.seconds,
+			length
+		);
 		const newTimers =
 			unit === Unit.minutes
 				? [...timers.minuteTimers, { length, interval: 1 }]

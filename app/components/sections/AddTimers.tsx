@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useContext } from "react";
 import { addNewTimer } from "../../utilities/helperFunctions";
 import { Timers } from "../../utilities/interfaces";
 import { ThemeColor, ThemeShade } from "../../utilities/themeTypes";
@@ -7,6 +7,7 @@ import Card from "../Card";
 import Input from "../Input";
 import Toggle from "../Toggle";
 import { Unit } from "../../utilities/enums";
+import { UserContext } from "@/app/providers/UserProvider";
 
 interface AddTimerProps {
 	newTimer: string;
@@ -29,6 +30,7 @@ const AddTimers: React.FC<AddTimerProps> = ({
 	unit,
 	activeTimer,
 }) => {
+	const { userId } = useContext(UserContext);
 	const handleEnterDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === "Enter") {
 			event.preventDefault();
@@ -37,7 +39,7 @@ const AddTimers: React.FC<AddTimerProps> = ({
 	};
 
 	const handleSubmit = () => {
-		addNewTimer(newTimer, timers, setTimers, setNewTimer, unit);
+		addNewTimer(newTimer, timers, setTimers, setNewTimer, unit, userId);
 	};
 	return (
 		<Card
