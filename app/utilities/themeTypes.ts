@@ -105,3 +105,14 @@ export const ComponentColor: Record<ThemeColor, ComponentColorClassList> = {
 		input: "bg-horizon-50 border-horizon-300",
 	},
 };
+
+export const themeColorOptions = {
+	jadePrimary: {
+		primary: ThemeColor.jade,
+		secondary: ThemeColor.horizon,
+	},
+	horizonPrimary: {
+		primary: ThemeColor.horizon,
+		secondary: ThemeColor.jade,
+	},
+};

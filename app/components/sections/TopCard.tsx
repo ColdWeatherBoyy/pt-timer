@@ -4,6 +4,7 @@ import { Timers } from "../../utilities/interfaces";
 import { ThemeColor, ThemeShade } from "../../utilities/themeTypes";
 import AddTimers from "./AddTimers";
 import { Unit } from "../../utilities/enums";
+import { getThemeColor } from "@/app/utilities/helperFunctions";
 
 interface TopCardProps {
 	timers: Timers;
@@ -14,12 +15,13 @@ interface TopCardProps {
 const TopCard: React.FC<TopCardProps> = ({ timers, setTimers, activeTimer }) => {
 	const [newTimer, setNewTimer] = useState<string>("");
 	const [toggled, setToggled] = useState(false);
-	// toggled = false means seconds, toggled = true means minutes
 	const unit = toggled ? Unit.minutes : Unit.seconds;
+	const isMinute = unit === Unit.minutes;
+	const themeColor = getThemeColor(isMinute);
 
 	return (
 		<Card
-			cardColor={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
+			cardColor={themeColor.secondary}
 			cardShade={ThemeShade.medium}
 			className="min-h-64 mb-6 w-3/5 p-6 m-4"
 			column

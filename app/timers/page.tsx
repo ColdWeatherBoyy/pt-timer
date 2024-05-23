@@ -7,7 +7,8 @@ import outputs from "../../amplify_outputs.json";
 import TimersSection from "../components/sections/TimersSection";
 import TopCard from "../components/sections/TopCard";
 import { UserContext } from "../providers/UserProvider";
-import { formatDBTimers, getDBTimers } from "../utilities/databaseFunctions";
+import { getDBTimers } from "../utilities/databaseFunctions";
+import { formatDBTimers } from "../utilities/helperFunctions";
 import { Timers } from "../utilities/interfaces";
 
 // Needed?

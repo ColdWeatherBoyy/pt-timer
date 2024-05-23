@@ -9,7 +9,7 @@ import Stop from "../SVGs/Stop";
 import { roboto_mono } from "../../utilities/fonts";
 import { ClockTime, Timers } from "../../utilities/interfaces";
 import { ComponentColor, ThemeColor, ThemeShade } from "../../utilities/themeTypes";
-import { delay } from "../../utilities/helperFunctions";
+import { delay, getThemeColor } from "../../utilities/helperFunctions";
 import { Unit } from "../../utilities/enums";
 import { updateIntervalDBTimers } from "@/app/utilities/databaseFunctions";
 
@@ -36,11 +36,12 @@ const Timer: React.FC<TimerProps> = ({
 	setTimers,
 	className,
 }) => {
+	const isMinute = unit === Unit.minutes;
+	const themeColor = getThemeColor(isMinute);
+
 	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
 	const [clockTime, setClockTime] = useState<ClockTime>(
-		unit === Unit.minutes
-			? { minutes: length, seconds: 0 }
-			: { minutes: 0, seconds: length }
+		isMinute ? { minutes: length, seconds: 0 } : { minutes: 0, seconds: length }
 	);
 
 	// TO-DO: Set an enum for the various stages the timer can be in (started, paused, betweenReps, stopped). Make one state that uses that type.
@@ -59,9 +60,7 @@ const Timer: React.FC<TimerProps> = ({
 	// Resets clocktime
 	const resetClockTime = useCallback(() => {
 		setClockTime(
-			unit === Unit.minutes
-				? { minutes: length, seconds: 0 }
-				: { minutes: 0, seconds: length }
+			isMinute ? { minutes: length, seconds: 0 } : { minutes: 0, seconds: length }
 		);
 	}, [unit, length]);
 	// Decrements either seconds or minutes
@@ -93,9 +92,9 @@ const Timer: React.FC<TimerProps> = ({
 		setReps((prev) => ({ ...prev, total }));
 		await updateIntervalDBTimers(id, total);
 		setTimers((prev) => {
-			const unitTimers = unit === Unit.minutes ? prev.minuteTimers : prev.secondTimers;
+			const unitTimers = isMinute ? prev.minuteTimers : prev.secondTimers;
 			unitTimers[index].interval = total;
-			return unit === Unit.minutes
+			return isMinute
 				? { secondTimers: prev.secondTimers, minuteTimers: unitTimers }
 				: { secondTimers: unitTimers, minuteTimers: prev.minuteTimers };
 		});
@@ -173,18 +172,14 @@ const Timer: React.FC<TimerProps> = ({
 
 	return (
 		<Card
-			cardColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
+			cardColor={themeColor.primary}
 			cardShade={ThemeShade.light}
 			column
 			className={`${className} px-6 relative`}
 		>
 			<div
-				className={`${
-					ComponentColor[unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon]
-						.listItem.deleteText
-				} ${
-					ComponentColor[unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon]
-						.listItem.delete
+				className={`${ComponentColor[themeColor.secondary].listItem.deleteText} ${
+					ComponentColor[themeColor.secondary].listItem.delete
 				} rounded-full text-[11px] px-1 py-0.5 absolute top-0.5 right-0.5 leading-none select-none cursor-pointer hover:shadow-2xl active:shadow-inner transition-all duration-100 ease-in-out`}
 				onClick={() => deleteTimer(index)}
 			>
@@ -195,7 +190,7 @@ const Timer: React.FC<TimerProps> = ({
 				<div className="flex flex-row">
 					<div className="tracking-tighter text-2xl">Reps:</div>
 					<Card
-						cardColor={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
+						cardColor={themeColor.secondary}
 						cardShade={ThemeShade.dark}
 						className="w-fit py-2 px-3 text-2xl ml-1 leading-none -translate-y-0.5"
 					>
@@ -227,7 +222,7 @@ const Timer: React.FC<TimerProps> = ({
 							? "Set"
 							: betweenReps && betweenRepsCountdown === 1
 							? "Go!"
-							: unit === Unit.minutes
+							: isMinute
 							? `${String(clockTime.minutes).padStart(2, "0")}:${String(
 									clockTime.seconds
 							  ).padStart(2, "0")}`
@@ -237,7 +232,7 @@ const Timer: React.FC<TimerProps> = ({
 				</div>
 				<div className="flex justify-center text-2xl gap-10 items-center">
 					<Button
-						buttonColor={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
+						buttonColor={themeColor.secondary}
 						onClick={started ? handlePause : handleStart}
 						className="p-10"
 					>
@@ -253,17 +248,14 @@ const Timer: React.FC<TimerProps> = ({
 					</Button>
 					<div className={`${started ? "pointer-events-none opacity-65" : ""}`}>
 						<NumberInput
-							color={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
+							color={themeColor.secondary}
 							title="Set Reps"
 							number={reps.total}
 							setNumber={setTotalReps}
 							limits={{ min: 1, max: 5 }}
 						/>
 					</div>
-					<Button
-						buttonColor={unit === Unit.minutes ? ThemeColor.jade : ThemeColor.horizon}
-						onClick={handleStop}
-					>
+					<Button buttonColor={themeColor.secondary} onClick={handleStop}>
 						<Stop size="30" />
 					</Button>
 				</div>

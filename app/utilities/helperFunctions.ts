@@ -1,6 +1,8 @@
-import { TimerSettings, Timers } from "./interfaces";
-import { Unit } from "./enums";
+import { type Schema } from "../../amplify/data/resource";
 import { createDBTimer, deleteDBTimer } from "./databaseFunctions";
+import { Unit } from "./enums";
+import { TimerSettings, Timers } from "./interfaces";
+import { ThemeColor, themeColorOptions } from "./themeTypes";
 
 const checkIfExists = (timer: number, timers: Timers, unit: Unit) => {
 	const timerArr = timers[unit === Unit.minutes ? "minuteTimers" : "secondTimers"];
@@ -22,6 +24,7 @@ export const addNewTimer = async (
 	userId: string
 ) => {
 	const length = parseFloat(newTimer);
+	const isMinute = unit === Unit.minutes;
 	if (typeof length !== "number" || isNaN(length)) {
 		alert("That is not a valid number. Please try again.");
 	} else if (Number.isInteger(length) === false) {
@@ -41,20 +44,19 @@ export const addNewTimer = async (
 	} else {
 		const data = await createDBTimer(
 			userId,
-			unit === Unit.minutes ? Unit.minutes : Unit.seconds,
+			isMinute ? Unit.minutes : Unit.seconds,
 			length
 		);
 		if (!data) {
 			console.error("uh oh");
 			return;
 		}
-		const newTimers =
-			unit === Unit.minutes
-				? [...timers.minuteTimers, { length, interval: 1, id: data.id }]
-				: [...timers.secondTimers, { length, interval: 1, id: data.id }];
+		const newTimers = isMinute
+			? [...timers.minuteTimers, { length, interval: 1, id: data.id }]
+			: [...timers.secondTimers, { length, interval: 1, id: data.id }];
 		newTimers.sort((a: TimerSettings, b: TimerSettings) => a.length - b.length);
 		setTimers(
-			unit === Unit.minutes
+			isMinute
 				? { secondTimers: timers.secondTimers, minuteTimers: newTimers }
 				: { secondTimers: newTimers, minuteTimers: timers.minuteTimers }
 		);
@@ -82,3 +84,29 @@ export const removeTimer = async (
 export const delay = (ms: number) => {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 };
+
+export const formatDBTimers = async (storedTimers: Schema["Timer"]["type"][]) => {
+	const formatTimers: Timers = { secondTimers: [], minuteTimers: [] };
+	storedTimers.map((storedTimer) => {
+		const newTimer: TimerSettings = {
+			length: storedTimer.length,
+			interval: storedTimer.interval,
+			id: storedTimer.id,
+		};
+		if (storedTimer.type === Unit.minutes) {
+			formatTimers.minuteTimers.push(newTimer);
+			formatTimers.minuteTimers = formatTimers.minuteTimers.sort(
+				(a: TimerSettings, b: TimerSettings) => a.length - b.length
+			);
+		} else {
+			formatTimers.secondTimers.push(newTimer);
+			formatTimers.secondTimers = formatTimers.secondTimers.sort(
+				(a: TimerSettings, b: TimerSettings) => a.length - b.length
+			);
+		}
+	});
+	return formatTimers;
+};
+
+export const getThemeColor = (isMinute: boolean) =>
+	isMinute ? themeColorOptions.horizonPrimary : themeColorOptions.jadePrimary;

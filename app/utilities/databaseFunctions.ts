@@ -1,7 +1,6 @@
 import { generateClient } from "aws-amplify/data";
 import { type Schema } from "../../amplify/data/resource";
 import { Unit } from "./enums";
-import { TimerSettings, Timers } from "./interfaces";
 
 const client = generateClient<Schema>();
 
@@ -64,27 +63,4 @@ export const deleteDBTimer = async (id: string) => {
 	} catch (error) {
 		console.error("Error deleting timer from db", error);
 	}
-};
-
-export const formatDBTimers = async (storedTimers: Schema["Timer"]["type"][]) => {
-	const formatTimers: Timers = { secondTimers: [], minuteTimers: [] };
-	storedTimers.map((storedTimer) => {
-		const newTimer: TimerSettings = {
-			length: storedTimer.length,
-			interval: storedTimer.interval,
-			id: storedTimer.id,
-		};
-		if (storedTimer.type === Unit.minutes) {
-			formatTimers.minuteTimers.push(newTimer);
-			formatTimers.minuteTimers = formatTimers.minuteTimers.sort(
-				(a: TimerSettings, b: TimerSettings) => a.length - b.length
-			);
-		} else {
-			formatTimers.secondTimers.push(newTimer);
-			formatTimers.secondTimers = formatTimers.secondTimers.sort(
-				(a: TimerSettings, b: TimerSettings) => a.length - b.length
-			);
-		}
-	});
-	return formatTimers;
 };

@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
-import { addNewTimer } from "../../utilities/helperFunctions";
+import { addNewTimer, getThemeColor } from "../../utilities/helperFunctions";
 import { Timers } from "../../utilities/interfaces";
 import { ThemeColor, ThemeShade } from "../../utilities/themeTypes";
 import Button from "../Button";
@@ -31,6 +31,9 @@ const AddTimers: React.FC<AddTimerProps> = ({
 	activeTimer,
 }) => {
 	const { userId } = useContext(UserContext);
+	const isMinute = unit === Unit.minutes;
+	const themeColor = getThemeColor(isMinute);
+
 	const handleEnterDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === "Enter") {
 			event.preventDefault();
@@ -43,7 +46,7 @@ const AddTimers: React.FC<AddTimerProps> = ({
 	};
 	return (
 		<Card
-			cardColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
+			cardColor={themeColor.primary}
 			cardShade={ThemeShade.medium}
 			className={`p-4 gap-4 w-1/2 ${activeTimer ? "opacity-65 pointer-events-none" : ""}`}
 			column
@@ -53,7 +56,7 @@ const AddTimers: React.FC<AddTimerProps> = ({
 					type="string"
 					placeholder={`Enter ${unit}`}
 					value={newTimer}
-					inputColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
+					inputColor={themeColor.primary}
 					centered
 					onChange={(event) => setNewTimer(event.target.value)}
 					onKeyDown={handleEnterDown}
@@ -61,16 +64,12 @@ const AddTimers: React.FC<AddTimerProps> = ({
 				<Toggle
 					toggled={toggled}
 					setToggled={setToggled}
-					toggleColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
+					toggleColor={themeColor.primary}
 					optionOne={Unit.minutes}
 					optionTwo={Unit.seconds}
 				/>
 			</div>
-			<Button
-				buttonColor={unit === Unit.minutes ? ThemeColor.horizon : ThemeColor.jade}
-				onClick={handleSubmit}
-				animate
-			>
+			<Button buttonColor={themeColor.primary} onClick={handleSubmit} animate>
 				Add Timer
 			</Button>
 		</Card>
