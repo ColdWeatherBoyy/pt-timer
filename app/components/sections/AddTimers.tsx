@@ -16,7 +16,7 @@ interface AddTimerProps {
 	setTimers: Dispatch<SetStateAction<Timers>>;
 	toggled: boolean;
 	setToggled: Dispatch<SetStateAction<boolean>>;
-	unit: Unit;
+	isMinute: boolean;
 	activeTimer: number | null;
 }
 
@@ -27,11 +27,10 @@ const AddTimers: React.FC<AddTimerProps> = ({
 	setTimers,
 	toggled,
 	setToggled,
-	unit,
+	isMinute,
 	activeTimer,
 }) => {
 	const { userId } = useContext(UserContext);
-	const isMinute = unit === Unit.minutes;
 	const themeColor = getThemeColor(isMinute);
 
 	const handleEnterDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -42,7 +41,7 @@ const AddTimers: React.FC<AddTimerProps> = ({
 	};
 
 	const handleSubmit = () => {
-		addNewTimer(newTimer, timers, setTimers, setNewTimer, unit, userId);
+		addNewTimer(newTimer, timers, setTimers, setNewTimer, isMinute, userId);
 	};
 	return (
 		<Card
@@ -54,7 +53,7 @@ const AddTimers: React.FC<AddTimerProps> = ({
 			<div className="flex justify-evenly gap-20">
 				<Input
 					type="string"
-					placeholder={`Enter ${unit}`}
+					placeholder={`Enter ${isMinute ? Unit.minutes : Unit.seconds}`}
 					value={newTimer}
 					inputColor={themeColor.primary}
 					centered

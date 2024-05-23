@@ -15,8 +15,7 @@ interface TopCardProps {
 const TopCard: React.FC<TopCardProps> = ({ timers, setTimers, activeTimer }) => {
 	const [newTimer, setNewTimer] = useState<string>("");
 	const [toggled, setToggled] = useState(false);
-	const unit = toggled ? Unit.minutes : Unit.seconds;
-	const isMinute = unit === Unit.minutes;
+	const isMinute = (toggled ? Unit.minutes : Unit.seconds) === Unit.minutes;
 	const themeColor = getThemeColor(isMinute);
 
 	return (
@@ -34,7 +33,7 @@ const TopCard: React.FC<TopCardProps> = ({ timers, setTimers, activeTimer }) => 
 				setTimers={setTimers}
 				toggled={toggled}
 				setToggled={setToggled}
-				unit={unit}
+				isMinute={isMinute}
 				activeTimer={activeTimer}
 			/>
 		</Card>

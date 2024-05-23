@@ -4,8 +4,8 @@ import { Unit } from "./enums";
 import { TimerSettings, Timers } from "./interfaces";
 import { ThemeColor, themeColorOptions } from "./themeTypes";
 
-const checkIfExists = (timer: number, timers: Timers, unit: Unit) => {
-	const timerArr = timers[unit === Unit.minutes ? "minuteTimers" : "secondTimers"];
+const checkIfExists = (timer: number, timers: Timers, isMinute: boolean) => {
+	const timerArr = timers[isMinute ? "minuteTimers" : "secondTimers"];
 
 	for (const timerSetting of timerArr) {
 		if (timerSetting.length === timer) {
@@ -20,24 +20,20 @@ export const addNewTimer = async (
 	timers: Timers,
 	setTimers: (timers: Timers) => void,
 	setNewTimer: (newTimer: string) => void,
-	unit: Unit,
+	// unit: Unit,
+	isMinute: boolean,
 	userId: string
 ) => {
 	const length = parseFloat(newTimer);
-	const isMinute = unit === Unit.minutes;
 	if (typeof length !== "number" || isNaN(length)) {
 		alert("That is not a valid number. Please try again.");
 	} else if (Number.isInteger(length) === false) {
 		alert("Whole numbers only, please.");
 	} else if (length < 0) {
 		alert("Positive values only, please.");
-	} else if (unit === Unit.minutes ? length > 30 : length > 5 * 60) {
-		alert(
-			`Only values ${
-				unit === Unit.minutes ? "30 minutes" : "5 minutes"
-			} and below, please.`
-		);
-	} else if (checkIfExists(length, timers, unit)) {
+	} else if (isMinute ? length > 30 : length > 5 * 60) {
+		alert(`Only values ${isMinute ? "30 minutes" : "5 minutes"} and below, please.`);
+	} else if (checkIfExists(length, timers, isMinute)) {
 		alert("That timer already exists.");
 	} else if (timers.minuteTimers.length + timers.secondTimers.length === 6) {
 		alert("You can only save 6 timers at once.");

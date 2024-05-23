@@ -17,7 +17,8 @@ interface TimerProps {
 	index: number;
 	length: number;
 	interval: number;
-	unit: Unit;
+	// unit: Unit;
+	isMinute: boolean;
 	id: string;
 	setActiveTimer: Dispatch<SetStateAction<number | null>>;
 	deleteTimer: (index: number) => void;
@@ -29,14 +30,13 @@ const Timer: React.FC<TimerProps> = ({
 	index,
 	length,
 	interval,
-	unit,
+	isMinute,
 	id,
 	setActiveTimer,
 	deleteTimer,
 	setTimers,
 	className,
 }) => {
-	const isMinute = unit === Unit.minutes;
 	const themeColor = getThemeColor(isMinute);
 
 	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
@@ -62,7 +62,7 @@ const Timer: React.FC<TimerProps> = ({
 		setClockTime(
 			isMinute ? { minutes: length, seconds: 0 } : { minutes: 0, seconds: length }
 		);
-	}, [unit, length]);
+	}, [isMinute, length]);
 	// Decrements either seconds or minutes
 	const decrementTime = () => {
 		setClockTime((prev) =>
@@ -228,7 +228,9 @@ const Timer: React.FC<TimerProps> = ({
 							  ).padStart(2, "0")}`
 							: String(clockTime.seconds)}
 					</div>
-					<div className="text-sm text-center">{betweenReps ? "Nice!" : unit}</div>
+					<div className="text-sm text-center">
+						{betweenReps ? "Nice!" : isMinute ? Unit.minutes : Unit.seconds}
+					</div>
 				</div>
 				<div className="flex justify-center text-2xl gap-10 items-center">
 					<Button
