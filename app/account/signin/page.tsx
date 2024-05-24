@@ -9,7 +9,7 @@ import { ThemeColor } from "../../utilities/types/theme.types";
 
 const SignIn: FC = () => {
 	const router = useRouter();
-	const { validated, setValidated, userId } = useContext(UserContext);
+	const { validated, externalSetValidated, userId } = useContext(UserContext);
 	const [userData, setUserData] = useState({
 		email: "",
 		password: "",
@@ -32,7 +32,7 @@ const SignIn: FC = () => {
 	const handleSignInSubmit = async () => {
 		const res = await handleSignIn(userData.email, userData.password);
 		if (res) {
-			setValidated(true);
+			externalSetValidated(true);
 			router.push("/timers");
 		}
 	};

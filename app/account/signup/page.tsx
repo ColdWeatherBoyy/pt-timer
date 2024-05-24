@@ -19,7 +19,7 @@ const enum SignUpStep {
 
 const SignUp: FC = () => {
 	const router = useRouter();
-	const { validated, setValidated, userId } = useContext(UserContext);
+	const { validated, externalSetValidated, userId } = useContext(UserContext);
 	const [userData, setUserData] = useState({
 		email: "",
 		password: "",
@@ -70,7 +70,7 @@ const SignUp: FC = () => {
 	const completeAutoSignIn = async () => {
 		const res = await handleAutoSignIn();
 		if (res) {
-			setValidated(true);
+			externalSetValidated(true);
 			router.push("/timers");
 		}
 	};

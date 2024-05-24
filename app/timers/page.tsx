@@ -16,7 +16,7 @@ const TimerHomepage = () => {
 	});
 	const [activeTimer, setActiveTimer] = useState<number | null>(null);
 	const router = useRouter();
-	const { validated, setValidated, userId } = useContext(UserContext);
+	const { validated, externalSetValidated, userId } = useContext(UserContext);
 
 	const initializeTimers = useCallback(async () => {
 		const dbTimers = await getDBTimers();

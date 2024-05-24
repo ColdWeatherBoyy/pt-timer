@@ -6,7 +6,7 @@ import { UserContext } from "./providers/UserProvider";
 
 export default function Home() {
 	const router = useRouter();
-	const { validated, setValidated, userId } = useContext(UserContext);
+	const { validated, externalSetValidated, userId } = useContext(UserContext);
 
 	useEffect(() => {
 		if (validated) {

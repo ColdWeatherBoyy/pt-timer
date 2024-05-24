@@ -5,13 +5,13 @@ import { validateUserSession } from "../utilities/amplify/amplify.auth";
 
 interface ContextInterface {
 	validated: boolean;
-	setValidated: Dispatch<SetStateAction<boolean>>;
+	externalSetValidated: (isValid: boolean) => void;
 	userId: string;
 }
 
 export const UserContext = createContext<ContextInterface>({
 	validated: false,
-	setValidated: () => {},
+	externalSetValidated: (isValid: boolean) => {},
 	userId: "",
 });
 
@@ -33,10 +33,24 @@ export default function UserProvider({ children }: { children: React.ReactNode }
 			}
 		};
 		validate();
-	}, [validated]);
+	}, []);
+
+	// To-Do: Decide if this is worth it. It avoids a call of the validateUserSession when signing out, but duplicates code
+	const externalSetValidated = async (isValid: boolean) => {
+		if (isValid) {
+			const data = await validateUserSession();
+			if (data) {
+				setUserId(data.userId);
+				setValidated(true);
+			}
+		} else {
+			setUserId("");
+			setValidated(false);
+		}
+	};
 
 	return (
-		<UserContext.Provider value={{ validated, setValidated, userId }}>
+		<UserContext.Provider value={{ validated, externalSetValidated, userId }}>
 			{children}
 		</UserContext.Provider>
 	);

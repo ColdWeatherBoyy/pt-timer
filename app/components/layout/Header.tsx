@@ -11,12 +11,12 @@ import LinkButton from "../general/LinkButton";
 Amplify.configure(outputs);
 
 const Header: FC = () => {
-	const { validated, setValidated, userId } = useContext(UserContext);
+	const { validated, externalSetValidated, userId } = useContext(UserContext);
 	const router = useRouter();
 
 	const handleSignOut = async () => {
 		await signOut();
-		setValidated(false);
+		externalSetValidated(false);
 	};
 
 	return (
