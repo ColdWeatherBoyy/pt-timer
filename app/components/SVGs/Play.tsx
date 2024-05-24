@@ -1,12 +1,9 @@
+import { SVGProps } from "@/app/utilities/types/svg.types";
 import React from "react";
-
-interface PlayProps extends React.SVGProps<SVGSVGElement> {
-	size: string;
-}
 
 // Thanks to https://flowbite.com/ for the SVG path
 
-const Play: React.FC<PlayProps> = ({ size }) => {
+const Play: React.FC<SVGProps> = ({ size }) => {
 	return (
 		<svg
 			aria-hidden="true"

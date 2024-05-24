@@ -1,5 +1,6 @@
+import { ThemeColor } from "@/app/utilities/types/theme.types";
 import React from "react";
-import { ComponentColor, ThemeColor } from "../utilities/types/theme.types";
+import { ComponentColor } from "../utilities/style/componentColor.styles";
 
 interface NumberInputProps {
 	title: string;

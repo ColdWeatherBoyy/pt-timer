@@ -4,7 +4,7 @@ import { UserContext } from "@/app/providers/UserProvider";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import UserForm from "../../components/UserForm";
-import { handleSignIn } from "../../utilities/authFunctions";
+import { handleSignIn } from "../../utilities/amplify/amplify.auth";
 import { ThemeColor } from "../../utilities/types/theme.types";
 
 const SignIn: React.FC = () => {

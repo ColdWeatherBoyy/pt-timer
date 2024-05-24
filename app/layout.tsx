@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import MainWrapper from "./components/MainWrapper";
 import "./globals.css";
-import { inter } from "./utilities/fonts";
+import { inter } from "./utilities/style/fonts";
 import UserProvider from "./providers/UserProvider";
 import Header from "./components/Header";
 

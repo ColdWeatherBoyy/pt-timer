@@ -1,7 +1,7 @@
 import { type Schema } from "../../amplify/data/resource";
-import { createDBTimer, deleteDBTimer } from "./databaseFunctions";
-import { Unit } from "./enums";
-import { themeColorOptions } from "./types/theme.types";
+import { createDBTimer, deleteDBTimer } from "./amplify/amplify.db";
+import { themeColorOptions } from "./style/componentColor.styles";
+import { Unit } from "./types/theme.types";
 import { TimerSettings, Timers } from "./types/timers.types";
 
 const checkIfExists = (timer: number, timers: Timers, isMinute: boolean) => {

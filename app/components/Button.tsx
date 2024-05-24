@@ -1,5 +1,6 @@
+import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
+import { ThemeColor } from "@/app/utilities/types/theme.types";
 import React from "react";
-import { ComponentColor, ThemeColor } from "../utilities/types/theme.types";
 
 interface ButtonProps {
 	buttonColor: ThemeColor;

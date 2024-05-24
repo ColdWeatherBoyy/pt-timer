@@ -1,5 +1,6 @@
-import React from "react";
-import { ComponentColor, ThemeColor } from "../utilities/types/theme.types";
+import React, { ChangeEvent, KeyboardEvent } from "react";
+import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
+import { ThemeColor } from "@/app/utilities/types/theme.types";
 
 interface InputProps {
 	type: string;
@@ -7,8 +8,8 @@ interface InputProps {
 	value: string;
 	inputColor: ThemeColor;
 	centered?: boolean;
-	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+	onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const Input: React.FC<InputProps> = ({

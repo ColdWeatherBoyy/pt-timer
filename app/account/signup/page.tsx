@@ -8,9 +8,14 @@ import {
 	handleAutoSignIn,
 	handleConfirmSignUp,
 	handleSignUp,
-} from "../../utilities/authFunctions";
-import { SignUpStep } from "../../utilities/enums";
-import { ThemeColor } from "../../utilities/types/theme.types";
+} from "../../utilities/amplify/amplify.auth";
+import { ThemeColor } from "@/app/utilities/types/theme.enums";
+
+const enum SignUpStep {
+	NOT_SIGNED_UP,
+	CONFIRM_SIGN_UP,
+	DONE, // Never used
+}
 
 const SignUp: React.FC = () => {
 	const router = useRouter();

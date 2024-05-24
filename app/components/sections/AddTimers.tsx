@@ -1,13 +1,12 @@
 import { UserContext } from "@/app/providers/UserProvider";
-import React, { Dispatch, SetStateAction, useContext } from "react";
-import { Unit } from "@/app/utilities/enums";
 import { addNewTimer, getThemeColor } from "@/app/utilities/helperFunctions";
-import { ThemeShade } from "@/app/utilities/types/theme.types";
+import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
+import { Timers } from "@/app/utilities/types/timers.types";
+import React, { Dispatch, SetStateAction, useContext } from "react";
 import Button from "../Button";
 import Card from "../Card";
 import Input from "../Input";
 import Toggle from "../Toggle";
-import { Timers } from "@/app/utilities/types/timers.types";
 
 interface AddTimerProps {
 	newTimer: string;

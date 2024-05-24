@@ -1,8 +1,7 @@
 import { getThemeColor } from "@/app/utilities/helperFunctions";
+import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
 import { Timers } from "@/app/utilities/types/timers.types";
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { Unit } from "@/app/utilities/enums";
-import { ThemeShade } from "@/app/utilities/types/theme.types";
 import Card from "../Card";
 import AddTimers from "./AddTimers";
 

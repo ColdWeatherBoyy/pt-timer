@@ -3,7 +3,7 @@
 import TimersSection from "@/app/components/sections/TimersSection";
 import TopCard from "@/app/components/sections/TopCard";
 import { UserContext } from "@/app/providers/UserProvider";
-import { getDBTimers } from "@/app/utilities/databaseFunctions";
+import { getDBTimers } from "@/app/utilities/amplify/amplify.db";
 import { formatDBTimers } from "@/app/utilities/helperFunctions";
 import { Timers } from "@/app/utilities/types/timers.types";
 import { useRouter } from "next/navigation";

@@ -1,5 +1,6 @@
+import { ThemeColor, ThemeShade } from "@/app/utilities/types/theme.types";
 import React from "react";
-import { ComponentColor, ThemeColor, ThemeShade } from "../utilities/types/theme.types";
+import { ComponentColor } from "../utilities/style/componentColor.styles";
 
 interface CardProps {
 	cardColor: ThemeColor;

@@ -1,6 +1,6 @@
 import { generateClient } from "aws-amplify/data";
-import { type Schema } from "../../amplify/data/resource";
-import { Unit } from "./enums";
+import { type Schema } from "../../../amplify/data/resource";
+import { Unit } from "../types/theme.types";
 
 const client = generateClient<Schema>();
 

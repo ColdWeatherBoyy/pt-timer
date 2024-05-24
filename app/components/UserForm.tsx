@@ -11,31 +11,27 @@ Amplify.configure(outputs);
 // This is handy as it covers both signin and signup,
 // but it may be smarter to move this to the actual pages, so that the form is useful in more situations
 
-interface FormText {
-	title: string;
-	subtitle: string;
-	button: string;
-	redirect?: string;
-	redirectPath?: string;
-}
-
-interface FormInput {
-	value: string;
-	setValue: (value: string) => void;
-	type: string;
-	placeholder: string;
-}
-
 interface UserFormProps {
-	formInputs: FormInput[];
 	formColor: ThemeColor;
-	formText: FormText;
+	formInputs: {
+		value: string;
+		setValue: (value: string) => void;
+		type: string;
+		placeholder: string;
+	}[];
+	formText: {
+		title: string;
+		subtitle: string;
+		button: string;
+		redirect?: string;
+		redirectPath?: string;
+	};
 	handleSubmit: () => void;
 }
 
 const UserForm: React.FC<UserFormProps> = ({
-	formInputs,
 	formColor,
+	formInputs,
 	formText,
 	handleSubmit,
 }) => {
