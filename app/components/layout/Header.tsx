@@ -1,12 +1,14 @@
 "use client";
 
+import { UserContext } from "@/app/providers/UserProvider";
+import { Amplify } from "aws-amplify";
 import { signOut } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import { FC, useContext } from "react";
-import { UserContext } from "../../providers/UserProvider";
+import outputs from "../../../amplify_outputs.json";
 import LinkButton from "../general/LinkButton";
 
-//To-Do Not clear why this doesn't need to configure Amplify
+Amplify.configure(outputs);
 
 const Header: FC = () => {
 	const { validated, setValidated, userId } = useContext(UserContext);

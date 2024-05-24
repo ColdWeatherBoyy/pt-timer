@@ -44,19 +44,9 @@ export const handleSignIn = async (username: string, password: string) => {
 export const validateUserSession = async () => {
 	try {
 		const { username, userId, signInDetails } = await getCurrentUser();
-		return true;
+		return { username, userId, signInDetails };
 	} catch (error) {
 		// To-Do: Handle Error
 		return false;
-	}
-};
-
-export const getUserId = async () => {
-	try {
-		const { username, userId, signInDetails } = await getCurrentUser();
-		return userId;
-	} catch (error) {
-		console.error(error);
-		throw new Error("error");
 	}
 };

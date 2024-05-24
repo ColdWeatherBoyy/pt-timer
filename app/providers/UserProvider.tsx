@@ -1,7 +1,7 @@
 "use client";
 
 import { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
-import { getUserId, validateUserSession } from "../utilities/amplify/amplify.auth";
+import { validateUserSession } from "../utilities/amplify/amplify.auth";
 
 interface ContextInterface {
 	validated: boolean;
@@ -20,24 +20,20 @@ export default function UserProvider({ children }: { children: React.ReactNode }
 	const [userId, setUserId] = useState("");
 
 	useEffect(() => {
+		console.log("userprovider");
 		const validate = async () => {
-			const res = await validateUserSession();
-			res ? setValidated(true) : setValidated(false);
+			const data = await validateUserSession();
+
+			if (data) {
+				setUserId(data.userId);
+				setValidated(true);
+			} else {
+				setUserId("");
+				setValidated(false);
+			}
 		};
 		validate();
 	}, [validated]);
-
-	useEffect(() => {
-		const getId = async () => {
-			const userId = await getUserId();
-			if (userId) setUserId(userId);
-		};
-		if (validated) {
-			getId();
-		} else {
-			setUserId("");
-		}
-	}, [validated, userId]);
 
 	return (
 		<UserContext.Provider value={{ validated, setValidated, userId }}>
