@@ -10,7 +10,7 @@ import {
 	handleSignUp,
 } from "../../utilities/authFunctions";
 import { SignUpStep } from "../../utilities/enums";
-import { ThemeColor } from "../../utilities/themeTypes";
+import { ThemeColor } from "../../utilities/types/theme.types";
 
 const SignUp: React.FC = () => {
 	const router = useRouter();

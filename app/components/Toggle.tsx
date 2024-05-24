@@ -1,5 +1,5 @@
 import React from "react";
-import { ComponentColor, ThemeColor } from "../utilities/themeTypes";
+import { ComponentColor, ThemeColor } from "../utilities/types/theme.types";
 
 interface ToggleProps {
 	toggled: boolean;

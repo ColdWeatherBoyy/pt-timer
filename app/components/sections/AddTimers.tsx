@@ -2,7 +2,7 @@ import { UserContext } from "@/app/providers/UserProvider";
 import React, { Dispatch, SetStateAction, useContext } from "react";
 import { Unit } from "@/app/utilities/enums";
 import { addNewTimer, getThemeColor } from "@/app/utilities/helperFunctions";
-import { ThemeShade } from "@/app/utilities/themeTypes";
+import { ThemeShade } from "@/app/utilities/types/theme.types";
 import Button from "../Button";
 import Card from "../Card";
 import Input from "../Input";

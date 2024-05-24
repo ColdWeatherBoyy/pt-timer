@@ -4,7 +4,7 @@ import outputs from "../../amplify_outputs.json";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Input from "../components/Input";
-import { ThemeColor, ThemeShade } from "../utilities/themeTypes";
+import { ThemeColor, ThemeShade } from "../utilities/types/theme.types";
 import LinkButton from "./LinkButton";
 
 Amplify.configure(outputs);

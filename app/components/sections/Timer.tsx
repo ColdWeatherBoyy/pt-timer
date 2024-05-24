@@ -2,7 +2,7 @@ import { updateIntervalDBTimers } from "@/app/utilities/databaseFunctions";
 import { Unit } from "@/app/utilities/enums";
 import { roboto_mono } from "@/app/utilities/fonts";
 import { delay, getThemeColor } from "@/app/utilities/helperFunctions";
-import { ComponentColor, ThemeShade } from "@/app/utilities/themeTypes";
+import { ComponentColor, ThemeShade } from "@/app/utilities/types/theme.types";
 import { Timers, ClockTime } from "@/app/utilities/types/timers.types";
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import Button from "../Button";
