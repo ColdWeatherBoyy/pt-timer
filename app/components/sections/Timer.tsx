@@ -1,3 +1,9 @@
+import { updateIntervalDBTimers } from "@/app/utilities/databaseFunctions";
+import { Unit } from "@/app/utilities/enums";
+import { roboto_mono } from "@/app/utilities/fonts";
+import { delay, getThemeColor } from "@/app/utilities/helperFunctions";
+import { ComponentColor, ThemeShade } from "@/app/utilities/themeTypes";
+import { Timers, ClockTime } from "@/app/utilities/types/timers.types";
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import Button from "../Button";
 import Card from "../Card";
@@ -6,18 +12,11 @@ import Pause from "../SVGs/Pause";
 import Play from "../SVGs/Play";
 import Resume from "../SVGs/Resume";
 import Stop from "../SVGs/Stop";
-import { roboto_mono } from "../../utilities/fonts";
-import { ClockTime, Timers } from "../../utilities/interfaces";
-import { ComponentColor, ThemeColor, ThemeShade } from "../../utilities/themeTypes";
-import { delay, getThemeColor } from "../../utilities/helperFunctions";
-import { Unit } from "../../utilities/enums";
-import { updateIntervalDBTimers } from "@/app/utilities/databaseFunctions";
 
 interface TimerProps {
 	index: number;
 	length: number;
 	interval: number;
-	// unit: Unit;
 	isMinute: boolean;
 	id: string;
 	setActiveTimer: Dispatch<SetStateAction<number | null>>;

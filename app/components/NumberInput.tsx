@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentColor, ThemeColor } from "../utilities/themeTypes";
 
-interface InputProps {
+interface NumberInputProps {
 	title: string;
 	color: ThemeColor;
 	number: number;
@@ -9,7 +9,7 @@ interface InputProps {
 	limits: { min: number; max: number };
 }
 
-const NumberInput: React.FC<InputProps> = ({
+const NumberInput: React.FC<NumberInputProps> = ({
 	title,
 	color,
 	number,

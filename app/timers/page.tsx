@@ -1,18 +1,13 @@
 "use client";
 
-import { Amplify } from "aws-amplify";
+import TimersSection from "@/app/components/sections/TimersSection";
+import TopCard from "@/app/components/sections/TopCard";
+import { UserContext } from "@/app/providers/UserProvider";
+import { getDBTimers } from "@/app/utilities/databaseFunctions";
+import { formatDBTimers } from "@/app/utilities/helperFunctions";
+import { Timers } from "@/app/utilities/types/timers.types";
 import { useRouter } from "next/navigation";
 import { useCallback, useContext, useEffect, useState } from "react";
-import outputs from "../../amplify_outputs.json";
-import TimersSection from "../components/sections/TimersSection";
-import TopCard from "../components/sections/TopCard";
-import { UserContext } from "../providers/UserProvider";
-import { getDBTimers } from "../utilities/databaseFunctions";
-import { formatDBTimers } from "../utilities/helperFunctions";
-import { Timers } from "../utilities/interfaces";
-
-// Needed?
-Amplify.configure(outputs);
 
 const TimerHomepage = () => {
 	const [timers, setTimers] = useState<Timers>({ secondTimers: [], minuteTimers: [] });

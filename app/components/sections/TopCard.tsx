@@ -1,10 +1,10 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import Card from "../Card";
-import { Timers } from "../../utilities/interfaces";
-import { ThemeColor, ThemeShade } from "../../utilities/themeTypes";
-import AddTimers from "./AddTimers";
-import { Unit } from "../../utilities/enums";
 import { getThemeColor } from "@/app/utilities/helperFunctions";
+import { Timers } from "@/app/utilities/types/timers.types";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import { Unit } from "@/app/utilities/enums";
+import { ThemeShade } from "@/app/utilities/themeTypes";
+import Card from "../Card";
+import AddTimers from "./AddTimers";
 
 interface TopCardProps {
 	timers: Timers;

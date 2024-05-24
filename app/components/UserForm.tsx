@@ -7,8 +7,9 @@ import Input from "../components/Input";
 import { ThemeColor, ThemeShade } from "../utilities/themeTypes";
 import LinkButton from "./LinkButton";
 
-// Needed?
 Amplify.configure(outputs);
+// This is handy as it covers both signin and signup,
+// but it may be smarter to move this to the actual pages, so that the form is useful in more situations
 
 interface FormText {
 	title: string;

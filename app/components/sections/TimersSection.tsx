@@ -1,7 +1,7 @@
+import { Timers } from "@/app/utilities/types/timers.types";
 import React, { Dispatch, SetStateAction } from "react";
 import { Unit } from "../../utilities/enums";
 import { removeTimer } from "../../utilities/helperFunctions";
-import { Timers } from "../../utilities/interfaces";
 import Timer from "./Timer";
 
 interface TimersSectionProps {
@@ -25,7 +25,7 @@ const TimersSection: React.FC<TimersSectionProps> = ({
 						index={index}
 						length={timer.length}
 						interval={timer.interval}
-						unit={Unit.seconds}
+						isMinute={false}
 						id={timer.id}
 						setActiveTimer={setActiveTimer}
 						deleteTimer={(index) =>
@@ -47,7 +47,7 @@ const TimersSection: React.FC<TimersSectionProps> = ({
 						index={index}
 						length={timer.length}
 						interval={timer.interval}
-						unit={Unit.minutes}
+						isMinute={true}
 						id={timer.id}
 						setActiveTimer={setActiveTimer}
 						deleteTimer={(index) =>

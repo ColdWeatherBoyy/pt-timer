@@ -6,6 +6,8 @@ import React, { useContext } from "react";
 import { UserContext } from "../providers/UserProvider";
 import LinkButton from "./LinkButton";
 
+//To-Do Not clear why this doesn't need to configure Amplify
+
 const Header: React.FC = () => {
 	const { validated, setValidated, userId } = useContext(UserContext);
 	const router = useRouter();
