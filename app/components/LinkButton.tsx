@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 
 interface LinkButtonProps {
 	text: string;
@@ -7,7 +7,7 @@ interface LinkButtonProps {
 	marginRight?: boolean;
 }
 
-const LinkButton: React.FC<LinkButtonProps> = ({
+const LinkButton: FC<LinkButtonProps> = ({
 	text,
 	onClick,
 	marginLeft = false,

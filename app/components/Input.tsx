@@ -1,6 +1,6 @@
-import React, { ChangeEvent, KeyboardEvent } from "react";
 import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
 import { ThemeColor } from "@/app/utilities/types/theme.types";
+import { ChangeEvent, FC, KeyboardEvent } from "react";
 
 interface InputProps {
 	type: string;
@@ -12,7 +12,7 @@ interface InputProps {
 	onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const Input: React.FC<InputProps> = ({
+const Input: FC<InputProps> = ({
 	type,
 	placeholder,
 	value,

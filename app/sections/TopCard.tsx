@@ -1,17 +1,17 @@
 import { getThemeColor } from "@/app/utilities/helperFunctions";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
-import { Timers } from "@/app/utilities/types/timers.types";
-import React, { Dispatch, SetStateAction, useState } from "react";
-import Card from "../Card";
+import { TimersCollection } from "@/app/utilities/types/timers.types";
+import { Dispatch, FC, SetStateAction, useState } from "react";
+import Card from "../components/Card";
 import AddTimers from "./AddTimers";
 
 interface TopCardProps {
-	timers: Timers;
-	setTimers: Dispatch<SetStateAction<Timers>>;
+	timers: TimersCollection;
+	setTimers: Dispatch<SetStateAction<TimersCollection>>;
 	activeTimer: number | null;
 }
 
-const TopCard: React.FC<TopCardProps> = ({ timers, setTimers, activeTimer }) => {
+const TopCard: FC<TopCardProps> = ({ timers, setTimers, activeTimer }) => {
 	const [newTimer, setNewTimer] = useState<string>("");
 	const [toggled, setToggled] = useState(false);
 	const isMinute = (toggled ? Unit.minutes : Unit.seconds) === Unit.minutes;

@@ -2,9 +2,9 @@ import { type Schema } from "../../amplify/data/resource";
 import { createDBTimer, deleteDBTimer } from "./amplify/amplify.db";
 import { themeColorOptions } from "./style/componentColor.styles";
 import { Unit } from "./types/theme.types";
-import { TimerSettings, Timers } from "./types/timers.types";
+import { TimerConfig, TimersCollection } from "./types/timers.types";
 
-const checkIfExists = (timer: number, timers: Timers, isMinute: boolean) => {
+const checkIfExists = (timer: number, timers: TimersCollection, isMinute: boolean) => {
 	const timerArr = timers[isMinute ? "minuteTimers" : "secondTimers"];
 
 	for (const timerSetting of timerArr) {
@@ -17,8 +17,8 @@ const checkIfExists = (timer: number, timers: Timers, isMinute: boolean) => {
 
 export const addNewTimer = async (
 	newTimer: string,
-	timers: Timers,
-	setTimers: (timers: Timers) => void,
+	timers: TimersCollection,
+	setTimers: (timers: TimersCollection) => void,
 	setNewTimer: (newTimer: string) => void,
 	// unit: Unit,
 	isMinute: boolean,
@@ -50,7 +50,7 @@ export const addNewTimer = async (
 		const newTimers = isMinute
 			? [...timers.minuteTimers, { length, interval: 1, id: data.id }]
 			: [...timers.secondTimers, { length, interval: 1, id: data.id }];
-		newTimers.sort((a: TimerSettings, b: TimerSettings) => a.length - b.length);
+		newTimers.sort((a: TimerConfig, b: TimerConfig) => a.length - b.length);
 		setTimers(
 			isMinute
 				? { secondTimers: timers.secondTimers, minuteTimers: newTimers }
@@ -62,8 +62,8 @@ export const addNewTimer = async (
 
 export const removeTimer = async (
 	index: number,
-	timers: Timers,
-	setTimers: (timers: Timers) => void,
+	timers: TimersCollection,
+	setTimers: (timers: TimersCollection) => void,
 	unit: Unit,
 	id: string
 ) => {
@@ -82,9 +82,9 @@ export const delay = (ms: number) => {
 };
 
 export const formatDBTimers = async (storedTimers: Schema["Timer"]["type"][]) => {
-	const formatTimers: Timers = { secondTimers: [], minuteTimers: [] };
+	const formatTimers: TimersCollection = { secondTimers: [], minuteTimers: [] };
 	storedTimers.map((storedTimer) => {
-		const newTimer: TimerSettings = {
+		const newTimer: TimerConfig = {
 			length: storedTimer.length,
 			interval: storedTimer.interval,
 			id: storedTimer.id,
@@ -92,12 +92,12 @@ export const formatDBTimers = async (storedTimers: Schema["Timer"]["type"][]) =>
 		if (storedTimer.type === Unit.minutes) {
 			formatTimers.minuteTimers.push(newTimer);
 			formatTimers.minuteTimers = formatTimers.minuteTimers.sort(
-				(a: TimerSettings, b: TimerSettings) => a.length - b.length
+				(a: TimerConfig, b: TimerConfig) => a.length - b.length
 			);
 		} else {
 			formatTimers.secondTimers.push(newTimer);
 			formatTimers.secondTimers = formatTimers.secondTimers.sort(
-				(a: TimerSettings, b: TimerSettings) => a.length - b.length
+				(a: TimerConfig, b: TimerConfig) => a.length - b.length
 			);
 		}
 	});

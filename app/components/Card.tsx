@@ -1,5 +1,5 @@
 import { ThemeColor, ThemeShade } from "@/app/utilities/types/theme.types";
-import React from "react";
+import React, { FC } from "react";
 import { ComponentColor } from "../utilities/style/componentColor.styles";
 
 interface CardProps {
@@ -10,7 +10,7 @@ interface CardProps {
 	children: React.ReactNode;
 }
 
-const Card: React.FC<CardProps> = ({
+const Card: FC<CardProps> = ({
 	cardColor,
 	cardShade,
 	column = false,

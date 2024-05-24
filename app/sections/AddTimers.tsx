@@ -1,25 +1,25 @@
 import { UserContext } from "@/app/providers/UserProvider";
 import { addNewTimer, getThemeColor } from "@/app/utilities/helperFunctions";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
-import { Timers } from "@/app/utilities/types/timers.types";
-import React, { Dispatch, SetStateAction, useContext } from "react";
-import Button from "../Button";
-import Card from "../Card";
-import Input from "../Input";
-import Toggle from "../Toggle";
+import { TimersCollection } from "@/app/utilities/types/timers.types";
+import React, { Dispatch, FC, SetStateAction, useContext } from "react";
+import Button from "../components/Button";
+import Card from "../components/Card";
+import Input from "../components/Input";
+import Toggle from "../components/Toggle";
 
 interface AddTimerProps {
 	newTimer: string;
 	setNewTimer: Dispatch<SetStateAction<string>>;
-	timers: Timers;
-	setTimers: Dispatch<SetStateAction<Timers>>;
+	timers: TimersCollection;
+	setTimers: Dispatch<SetStateAction<TimersCollection>>;
 	toggled: boolean;
 	setToggled: Dispatch<SetStateAction<boolean>>;
 	isMinute: boolean;
 	activeTimer: number | null;
 }
 
-const AddTimers: React.FC<AddTimerProps> = ({
+const AddTimers: FC<AddTimerProps> = ({
 	newTimer,
 	setNewTimer,
 	timers,

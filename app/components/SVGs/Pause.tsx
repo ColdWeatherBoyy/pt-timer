@@ -1,9 +1,9 @@
 import { SVGProps } from "@/app/utilities/types/svg.types";
-import React from "react";
+import { FC } from "react";
 
 // Thanks to https://flowbite.com/ for the SVG path
 
-const Pause: React.FC<SVGProps> = ({ size }) => {
+const Pause: FC<SVGProps> = ({ size }) => {
 	return (
 		<svg
 			aria-hidden="true"

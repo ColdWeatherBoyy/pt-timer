@@ -1,6 +1,6 @@
 import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
 import { ThemeColor } from "@/app/utilities/types/theme.types";
-import React from "react";
+import React, { FC } from "react";
 
 interface ButtonProps {
 	buttonColor: ThemeColor;
@@ -10,7 +10,7 @@ interface ButtonProps {
 	children: React.ReactNode;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const Button: FC<ButtonProps> = ({
 	buttonColor,
 	onClick,
 	animate,

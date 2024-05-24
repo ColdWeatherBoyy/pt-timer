@@ -1,5 +1,6 @@
 import { Amplify } from "aws-amplify";
 import { useRouter } from "next/navigation";
+import { FC } from "react";
 import outputs from "../../amplify_outputs.json";
 import Button from "../components/Button";
 import Card from "../components/Card";
@@ -29,7 +30,7 @@ interface UserFormProps {
 	handleSubmit: () => void;
 }
 
-const UserForm: React.FC<UserFormProps> = ({
+const UserForm: FC<UserFormProps> = ({
 	formColor,
 	formInputs,
 	formText,

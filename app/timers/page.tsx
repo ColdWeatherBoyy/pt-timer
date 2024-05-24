@@ -1,16 +1,19 @@
 "use client";
 
-import TimersSection from "@/app/components/sections/TimersSection";
-import TopCard from "@/app/components/sections/TopCard";
 import { UserContext } from "@/app/providers/UserProvider";
+import TopCard from "@/app/sections/TopCard";
+import TimersSection from "@/app/timers/components/TimersSection";
 import { getDBTimers } from "@/app/utilities/amplify/amplify.db";
 import { formatDBTimers } from "@/app/utilities/helperFunctions";
-import { Timers } from "@/app/utilities/types/timers.types";
+import { TimersCollection } from "@/app/utilities/types/timers.types";
 import { useRouter } from "next/navigation";
 import { useCallback, useContext, useEffect, useState } from "react";
 
 const TimerHomepage = () => {
-	const [timers, setTimers] = useState<Timers>({ secondTimers: [], minuteTimers: [] });
+	const [timers, setTimers] = useState<TimersCollection>({
+		secondTimers: [],
+		minuteTimers: [],
+	});
 	const [activeTimer, setActiveTimer] = useState<number | null>(null);
 	const router = useRouter();
 	const { validated, setValidated, userId } = useContext(UserContext);

@@ -1,16 +1,16 @@
 import { removeTimer } from "@/app/utilities/helperFunctions";
 import { Unit } from "@/app/utilities/types/theme.types";
-import { Timers } from "@/app/utilities/types/timers.types";
-import React, { Dispatch, SetStateAction } from "react";
-import Timer from "./Timer";
+import { TimersCollection } from "@/app/utilities/types/timers.types";
+import React, { Dispatch, FC, SetStateAction } from "react";
+import Timer from "../../sections/Timer";
 
 interface TimersSectionProps {
-	timers: Timers;
+	timers: TimersCollection;
 	activeTimer: number | null;
 	setActiveTimer: Dispatch<SetStateAction<number | null>>;
-	setTimers: Dispatch<SetStateAction<Timers>>;
+	setTimers: Dispatch<SetStateAction<TimersCollection>>;
 }
-const TimersSection: React.FC<TimersSectionProps> = ({
+const TimersSection: FC<TimersSectionProps> = ({
 	timers,
 	activeTimer,
 	setActiveTimer,

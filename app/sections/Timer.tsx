@@ -3,15 +3,15 @@ import { delay, getThemeColor } from "@/app/utilities/helperFunctions";
 import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
 import { roboto_mono } from "@/app/utilities/style/fonts";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
-import { ClockTime, Timers } from "@/app/utilities/types/timers.types";
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
-import Button from "../Button";
-import Card from "../Card";
-import NumberInput from "../NumberInput";
-import Pause from "../SVGs/Pause";
-import Play from "../SVGs/Play";
-import Resume from "../SVGs/Resume";
-import Stop from "../SVGs/Stop";
+import { ClockTimeConfig, TimersCollection } from "@/app/utilities/types/timers.types";
+import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from "react";
+import Button from "../components/Button";
+import Card from "../components/Card";
+import NumberInput from "../components/NumberInput";
+import Pause from "../components/SVGs/Pause";
+import Play from "../components/SVGs/Play";
+import Resume from "../components/SVGs/Resume";
+import Stop from "../components/SVGs/Stop";
 
 interface TimerProps {
 	index: number;
@@ -21,11 +21,11 @@ interface TimerProps {
 	id: string;
 	setActiveTimer: Dispatch<SetStateAction<number | null>>;
 	deleteTimer: (index: number) => void;
-	setTimers: Dispatch<SetStateAction<Timers>>;
+	setTimers: Dispatch<SetStateAction<TimersCollection>>;
 	className?: string;
 }
 
-const Timer: React.FC<TimerProps> = ({
+const Timer: FC<TimerProps> = ({
 	index,
 	length,
 	interval,
@@ -39,7 +39,7 @@ const Timer: React.FC<TimerProps> = ({
 	const themeColor = getThemeColor(isMinute);
 
 	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
-	const [clockTime, setClockTime] = useState<ClockTime>(
+	const [clockTime, setClockTime] = useState<ClockTimeConfig>(
 		isMinute ? { minutes: length, seconds: 0 } : { minutes: 0, seconds: length }
 	);
 

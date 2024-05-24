@@ -1,15 +1,15 @@
 "use client";
 
+import UserForm from "@/app/components/UserForm";
 import { UserContext } from "@/app/providers/UserProvider";
-import { useRouter } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
-import UserForm from "../../components/UserForm";
 import {
 	handleAutoSignIn,
 	handleConfirmSignUp,
 	handleSignUp,
-} from "../../utilities/amplify/amplify.auth";
-import { ThemeColor } from "@/app/utilities/types/theme.enums";
+} from "@/app/utilities/amplify/amplify.auth";
+import { ThemeColor } from "@/app/utilities/types/theme.types";
+import { useRouter } from "next/navigation";
+import { FC, useContext, useEffect, useState } from "react";
 
 const enum SignUpStep {
 	NOT_SIGNED_UP,
@@ -17,7 +17,7 @@ const enum SignUpStep {
 	DONE, // Never used
 }
 
-const SignUp: React.FC = () => {
+const SignUp: FC = () => {
 	const router = useRouter();
 	const { validated, setValidated, userId } = useContext(UserContext);
 	const [userData, setUserData] = useState({

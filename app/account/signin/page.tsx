@@ -2,12 +2,12 @@
 
 import { UserContext } from "@/app/providers/UserProvider";
 import { useRouter } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import UserForm from "../../components/UserForm";
 import { handleSignIn } from "../../utilities/amplify/amplify.auth";
 import { ThemeColor } from "../../utilities/types/theme.types";
 
-const SignIn: React.FC = () => {
+const SignIn: FC = () => {
 	const router = useRouter();
 	const { validated, setValidated, userId } = useContext(UserContext);
 	const [userData, setUserData] = useState({

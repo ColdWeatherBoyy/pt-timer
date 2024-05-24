@@ -1,13 +1,13 @@
-export interface ClockTime {
+export interface ClockTimeConfig {
 	minutes: number;
 	seconds: number;
 }
-export interface Timers {
-	secondTimers: TimerSettings[];
-	minuteTimers: TimerSettings[];
+export interface TimersCollection {
+	secondTimers: TimerConfig[];
+	minuteTimers: TimerConfig[];
 }
 
-export interface TimerSettings {
+export interface TimerConfig {
 	length: number;
 	interval: number;
 	id: string;

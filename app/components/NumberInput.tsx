@@ -1,5 +1,5 @@
 import { ThemeColor } from "@/app/utilities/types/theme.types";
-import React from "react";
+import { FC } from "react";
 import { ComponentColor } from "../utilities/style/componentColor.styles";
 
 interface NumberInputProps {
@@ -10,7 +10,7 @@ interface NumberInputProps {
 	limits: { min: number; max: number };
 }
 
-const NumberInput: React.FC<NumberInputProps> = ({
+const NumberInput: FC<NumberInputProps> = ({
 	title,
 	color,
 	number,
