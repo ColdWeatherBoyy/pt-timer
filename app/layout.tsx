@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import MainWrapper from "./components/MainWrapper";
+import MainWrapper from "./components/general/MainWrapper";
 import "./globals.css";
 import { inter } from "./utilities/style/fonts";
 import UserProvider from "./providers/UserProvider";
-import Header from "./components/Header";
+import Header from "./components/general/Header";
 
 export const metadata: Metadata = {
 	title: "PT Timers",

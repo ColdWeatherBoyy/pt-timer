@@ -1,12 +1,12 @@
 import { Amplify } from "aws-amplify";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
-import outputs from "../../amplify_outputs.json";
-import Button from "../components/Button";
-import Card from "../components/Card";
-import Input from "../components/Input";
-import { ThemeColor, ThemeShade } from "../utilities/types/theme.types";
-import LinkButton from "./LinkButton";
+import outputs from "../../../amplify_outputs.json";
+import Button from "../../components/general/Button";
+import Card from "../../components/general/Card";
+import Input from "../../components/general/Input";
+import { ThemeColor, ThemeShade } from "../../utilities/types/theme.types";
+import LinkButton from "../../components/general/LinkButton";
 
 Amplify.configure(outputs);
 // This is handy as it covers both signin and signup,

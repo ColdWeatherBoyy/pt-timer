@@ -2,7 +2,7 @@ import { getThemeColor } from "@/app/utilities/helperFunctions";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
 import { TimersCollection } from "@/app/utilities/types/timers.types";
 import { Dispatch, FC, SetStateAction, useState } from "react";
-import Card from "../components/Card";
+import Card from "../../components/general/Card";
 import AddTimers from "./AddTimers";
 
 interface TopCardProps {

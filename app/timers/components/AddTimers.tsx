@@ -3,10 +3,10 @@ import { addNewTimer, getThemeColor } from "@/app/utilities/helperFunctions";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
 import { TimersCollection } from "@/app/utilities/types/timers.types";
 import React, { Dispatch, FC, SetStateAction, useContext } from "react";
-import Button from "../components/Button";
-import Card from "../components/Card";
-import Input from "../components/Input";
-import Toggle from "../components/Toggle";
+import Button from "../../components/general/Button";
+import Card from "../../components/general/Card";
+import Input from "../../components/general/Input";
+import Toggle from "../../components/general/Toggle";
 
 interface AddTimerProps {
 	newTimer: string;

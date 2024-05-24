@@ -1,6 +1,6 @@
 "use client";
 
-import UserForm from "@/app/components/UserForm";
+import UserForm from "@/app/account/components/UserForm";
 import { UserContext } from "@/app/providers/UserProvider";
 import {
 	handleAutoSignIn,

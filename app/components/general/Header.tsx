@@ -3,7 +3,7 @@
 import { signOut } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import { FC, useContext } from "react";
-import { UserContext } from "../providers/UserProvider";
+import { UserContext } from "../../providers/UserProvider";
 import LinkButton from "./LinkButton";
 
 //To-Do Not clear why this doesn't need to configure Amplify

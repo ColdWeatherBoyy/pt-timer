@@ -5,13 +5,13 @@ import { roboto_mono } from "@/app/utilities/style/fonts";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
 import { ClockTimeConfig, TimersCollection } from "@/app/utilities/types/timers.types";
 import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from "react";
-import Button from "../components/Button";
-import Card from "../components/Card";
-import NumberInput from "../components/NumberInput";
-import Pause from "../components/SVGs/Pause";
-import Play from "../components/SVGs/Play";
-import Resume from "../components/SVGs/Resume";
-import Stop from "../components/SVGs/Stop";
+import Button from "../../components/general/Button";
+import Card from "../../components/general/Card";
+import NumberInput from "../../components/general/NumberInput";
+import Pause from "./SVGs/Pause";
+import Play from "./SVGs/Play";
+import Resume from "./SVGs/Resume";
+import Stop from "./SVGs/Stop";
 
 interface TimerProps {
 	index: number;

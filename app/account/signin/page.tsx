@@ -3,7 +3,7 @@
 import { UserContext } from "@/app/providers/UserProvider";
 import { useRouter } from "next/navigation";
 import React, { FC, useContext, useEffect, useState } from "react";
-import UserForm from "../../components/UserForm";
+import UserForm from "../components/UserForm";
 import { handleSignIn } from "../../utilities/amplify/amplify.auth";
 import { ThemeColor } from "../../utilities/types/theme.types";
 

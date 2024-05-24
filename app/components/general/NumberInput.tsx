@@ -1,6 +1,6 @@
 import { ThemeColor } from "@/app/utilities/types/theme.types";
 import { FC } from "react";
-import { ComponentColor } from "../utilities/style/componentColor.styles";
+import { ComponentColor } from "../../utilities/style/componentColor.styles";
 
 interface NumberInputProps {
 	title: string;
