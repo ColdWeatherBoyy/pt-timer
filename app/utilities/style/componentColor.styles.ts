@@ -32,9 +32,9 @@ export const ComponentColor: Record<ThemeColor, ComponentColorClassList> = {
 	horizon: {
 		card: {
 			light:
-				"bg-gradient-to-br from-horizon-400 to-horizon-200 border-horizon-300 text-jade-950",
+				"bg-gradient-to-br from-horizon-400 to-horizon-200 border-horizon-300 text-horizon-950",
 			medium:
-				"bg-gradient-to-br from-horizon-500 to-horizon-250 border-horizon-400 text-jade-950",
+				"bg-gradient-to-br from-horizon-500 to-horizon-250 border-horizon-400 text-horizon-950",
 			dark: "bg-gradient-to-br from-horizon-900 to-horizon-600 border-horizon-700 text-horizon-100",
 		},
 		numberInput: {

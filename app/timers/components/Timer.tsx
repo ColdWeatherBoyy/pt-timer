@@ -54,8 +54,6 @@ const Timer: FC<TimerProps> = ({
 	const [betweenRepsCountdown, setBetweenRepsCountdown] = useState<number>(3);
 
 	// *********** UTILITY **************
-	// TO-DO: Move these into separate file?
-	// TO-DO: Move conditional into singular utility function?
 	// Resets clocktime
 	const resetClockTime = useCallback(() => {
 		setClockTime(
@@ -77,7 +75,6 @@ const Timer: FC<TimerProps> = ({
 		);
 	};
 
-	// TO-DO: Move these into separate file?
 	// Set active reps (making my own Dispatch of SetStateAction)
 	const setActiveReps: Dispatch<SetStateAction<number>> = (set) => {
 		setReps((prev) => ({
@@ -114,9 +111,9 @@ const Timer: FC<TimerProps> = ({
 	};
 	// Move to next rep (if multiple are set)
 	const handleNextRep = useCallback(async () => {
-		setBetweenReps(true); // decrement active reps
-		setActiveReps((prev) => prev - 1); // Reset timer to initial value
-		resetClockTime(); // Pause for 3 seconds between reps
+		setBetweenReps(true); // Pause for 3 seconds between reps
+		setActiveReps((prev) => prev - 1); // decrement active reps
+		resetClockTime(); // Reset timer to initial value
 		// Countdown
 		for (let count = 3; count > 0; count--) {
 			if (count !== 3) setBetweenRepsCountdown(count);

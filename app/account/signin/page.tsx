@@ -44,20 +44,18 @@ const SignIn: FC = () => {
 	}, [validated, router]);
 
 	return (
-		<>
-			<UserForm
-				formInputs={SignInFormInputs}
-				formColor={ThemeColor.horizon}
-				formText={{
-					title: "User Sign In",
-					subtitle: "Please sign in to access your saved timers.",
-					button: "Sign In",
-					redirect: "Don't have an account?",
-					redirectPath: "/account/signup",
-				}}
-				handleSubmit={handleSignInSubmit}
-			/>
-		</>
+		<UserForm
+			formInputs={SignInFormInputs}
+			formColor={ThemeColor.horizon}
+			formText={{
+				title: "User Sign In",
+				subtitle: "Please sign in to access your saved timers.",
+				button: "Sign In",
+				redirect: "Don't have an account?",
+				redirectPath: "/account/signup",
+			}}
+			handleSubmit={handleSignInSubmit}
+		/>
 	);
 };
 export default SignIn;

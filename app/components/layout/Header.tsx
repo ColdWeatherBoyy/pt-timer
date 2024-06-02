@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { FC, useContext } from "react";
 import outputs from "../../../amplify_outputs.json";
 import LinkButton from "../general/LinkButton";
+import { ThemeColor } from "@/app/utilities/types/theme.types";
 
 Amplify.configure(outputs);
 
@@ -26,9 +27,13 @@ const Header: FC = () => {
 				<span>Therapy Interval Timers!</span>
 			</div>
 			{validated ? (
-				<LinkButton text="Sign Out" onClick={handleSignOut} />
+				<LinkButton text="Sign Out" textColor={ThemeColor.jade} onClick={handleSignOut} />
 			) : (
-				<LinkButton text="Sign In" onClick={() => router.push("/account/signin")} />
+				<LinkButton
+					text="Sign In"
+					textColor={ThemeColor.jade}
+					onClick={() => router.push("/account/signin")}
+				/>
 			)}
 		</div>
 	);

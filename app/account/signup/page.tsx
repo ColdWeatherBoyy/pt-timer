@@ -81,6 +81,22 @@ const SignUp: FC = () => {
 		}
 	}, [validated, router]);
 
+	// TO-DO: Consider using this format
+	// const SignUpForm = (
+	// 	<UserForm
+	// 		formInputs={SignUpFormInputs}
+	// 		formColor={ThemeColor.horizon}
+	// 		formText={{
+	// 			title: "User Sign Up",
+	// 			subtitle: "Please create an account to use PT Timers.",
+	// 			button: "Create Account",
+	// 			redirect: "Already have an account?",
+	// 			redirectPath: "/account/signin",
+	// 		}}
+	// 		handleSubmit={handleSignUpSubmit}
+	// 	/>
+	// );
+
 	return (
 		<>
 			{signUpStep === SignUpStep.NOT_SIGNED_UP && (

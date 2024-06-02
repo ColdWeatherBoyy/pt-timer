@@ -20,14 +20,13 @@ export const addNewTimer = async (
 	timers: TimersCollection,
 	setTimers: (timers: TimersCollection) => void,
 	setNewTimer: (newTimer: string) => void,
-	// unit: Unit,
 	isMinute: boolean,
 	userId: string
 ) => {
-	const length = parseFloat(newTimer);
-	if (typeof length !== "number" || isNaN(length)) {
+	const length = Number(newTimer);
+	if (isNaN(length)) {
 		alert("That is not a valid number. Please try again.");
-	} else if (Number.isInteger(length) === false) {
+	} else if (!Number.isInteger(length)) {
 		alert("Whole numbers only, please.");
 	} else if (length < 0) {
 		alert("Positive values only, please.");
@@ -47,9 +46,9 @@ export const addNewTimer = async (
 			console.error("uh oh");
 			return;
 		}
-		const newTimers = isMinute
-			? [...timers.minuteTimers, { length, interval: 1, id: data.id }]
-			: [...timers.secondTimers, { length, interval: 1, id: data.id }];
+
+		let newTimers = isMinute ? timers.minuteTimers : timers.secondTimers;
+		newTimers = [...newTimers, { length, interval: 1, id: data.id }];
 		newTimers.sort((a: TimerConfig, b: TimerConfig) => a.length - b.length);
 		setTimers(
 			isMinute
@@ -68,8 +67,9 @@ export const removeTimer = async (
 	id: string
 ) => {
 	await deleteDBTimer(id);
-	const newTimers =
-		unit === Unit.minutes ? [...timers.minuteTimers] : [...timers.secondTimers];
+	const newTimers = [
+		...(unit === Unit.minutes ? timers.minuteTimers : timers.secondTimers),
+	];
 	newTimers.splice(index, 1);
 	setTimers({
 		...timers,

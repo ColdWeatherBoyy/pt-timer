@@ -104,6 +104,7 @@ const UserForm: FC<UserFormProps> = ({
 						{formText.redirect} Please click
 						<LinkButton
 							text="here"
+							textColor={ThemeColor[formColor]}
 							onClick={() => router.push(formText.redirectPath!)}
 							marginLeft={true}
 						/>
