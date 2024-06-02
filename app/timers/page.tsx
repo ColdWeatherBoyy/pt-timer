@@ -31,7 +31,6 @@ const TimerHomepage = () => {
 
 	useEffect(() => {
 		// let storedTimers = window.localStorage.getItem("timers")
-
 		if (!validated) {
 			router.push("/account/signin");
 		} else {

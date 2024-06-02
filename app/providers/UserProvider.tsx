@@ -20,7 +20,6 @@ export default function UserProvider({ children }: { children: React.ReactNode }
 	const [userId, setUserId] = useState("");
 
 	useEffect(() => {
-		console.log("userprovider");
 		const validate = async () => {
 			const data = await validateUserSession();
 
