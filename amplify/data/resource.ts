@@ -1,7 +1,8 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { Unit } from "../../app/utilities/types/theme.types";
 
 const schema = a.schema({
-	Type: a.enum(["secs", "mins"]),
+	Type: a.enum([Unit.minutes, Unit.seconds]),
 	Timer: a
 		.model({
 			userId: a.string().required(),

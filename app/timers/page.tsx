@@ -4,16 +4,13 @@ import { UserContext } from "@/app/providers/UserProvider";
 import TopCard from "@/app/timers/components/TopCard";
 import TimersSection from "@/app/timers/components/TimersSection";
 import { getDBTimers } from "@/app/utilities/amplify/amplify.db";
-import { formatDBTimers } from "@/app/utilities/helperFunctions";
-import { TimersCollection } from "@/app/utilities/types/timers.types";
+// import { formatDBTimers } from "@/app/utilities/helperFunctions";
+import { TimerConfig } from "@/app/utilities/types/timers.types";
 import { useRouter } from "next/navigation";
 import { useCallback, useContext, useEffect, useState } from "react";
 
 const TimerHomepage = () => {
-	const [timers, setTimers] = useState<TimersCollection>({
-		secondTimers: [],
-		minuteTimers: [],
-	});
+	const [timers, setTimers] = useState<TimerConfig[]>([]);
 	const [activeTimer, setActiveTimer] = useState<number | null>(null);
 	const router = useRouter();
 	const { userId } = useContext(UserContext);
@@ -24,9 +21,7 @@ const TimerHomepage = () => {
 			console.error("Trouble accessing dbtimers");
 			return;
 		}
-		const formattedTimers = await formatDBTimers(dbTimers);
-
-		setTimers(formattedTimers);
+		setTimers(dbTimers);
 	}, []);
 
 	useEffect(() => {

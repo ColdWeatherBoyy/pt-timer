@@ -3,7 +3,7 @@ import { delay, getThemeColor } from "@/app/utilities/helperFunctions";
 import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
 import { roboto_mono } from "@/app/utilities/style/fonts";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
-import { ClockTimeConfig, TimersCollection } from "@/app/utilities/types/timers.types";
+import { ClockTimeConfig, TimerConfig } from "@/app/utilities/types/timers.types";
 import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from "react";
 import Button from "../../components/general/Button";
 import Card from "../../components/general/Card";
@@ -21,7 +21,7 @@ interface TimerProps {
 	id: string;
 	setActiveTimer: Dispatch<SetStateAction<number | null>>;
 	deleteTimer: (index: number) => void;
-	setTimers: Dispatch<SetStateAction<TimersCollection>>;
+	setTimers: Dispatch<SetStateAction<TimerConfig[]>>;
 	className?: string;
 }
 
@@ -88,11 +88,9 @@ const Timer: FC<TimerProps> = ({
 		setReps((prev) => ({ ...prev, total }));
 		await updateIntervalDBTimers(id, total);
 		setTimers((prev) => {
-			const unitTimers = isMinute ? prev.minuteTimers : prev.secondTimers;
-			unitTimers[index].interval = total;
-			return isMinute
-				? { secondTimers: prev.secondTimers, minuteTimers: unitTimers }
-				: { secondTimers: unitTimers, minuteTimers: prev.minuteTimers };
+			const timers = [...prev];
+			timers[index].interval = total;
+			return timers;
 		});
 	};
 

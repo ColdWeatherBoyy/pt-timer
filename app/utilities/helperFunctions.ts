@@ -1,14 +1,13 @@
+import { Dispatch, SetStateAction } from "react";
 import { type Schema } from "../../amplify/data/resource";
 import { createDBTimer, deleteDBTimer } from "./amplify/amplify.db";
 import { themeColorOptions } from "./style/componentColor.styles";
 import { Unit } from "./types/theme.types";
-import { TimerConfig, TimersCollection } from "./types/timers.types";
+import { TimerConfig } from "./types/timers.types";
 
-const checkIfExists = (timer: number, timers: TimersCollection, isMinute: boolean) => {
-	const timerArr = timers[isMinute ? "minuteTimers" : "secondTimers"];
-
-	for (const timerSetting of timerArr) {
-		if (timerSetting.length === timer) {
+const checkIfExists = (length: number, timers: TimerConfig[], unit: Unit) => {
+	for (const timer of timers) {
+		if (timer.length === length && timer.type === unit) {
 			return true;
 		}
 	}
@@ -17,9 +16,9 @@ const checkIfExists = (timer: number, timers: TimersCollection, isMinute: boolea
 
 export const addNewTimer = async (
 	newTimer: string,
-	timers: TimersCollection,
-	setTimers: (timers: TimersCollection) => void,
-	setNewTimer: (newTimer: string) => void,
+	timers: TimerConfig[],
+	setTimers: Dispatch<SetStateAction<TimerConfig[]>>,
+	setNewTimer: Dispatch<SetStateAction<string>>,
 	isMinute: boolean,
 	userId: string | null
 ) => {
@@ -27,6 +26,8 @@ export const addNewTimer = async (
 		throw new Error(
 			"Internal Error: Shouldn't be able to use this function if not logged in."
 		);
+	// TO-DO Fix this
+	const unit = isMinute ? Unit.minutes : Unit.seconds;
 	const length = Number(newTimer);
 	if (isNaN(length)) {
 		alert("That is not a valid number. Please try again.");
@@ -36,9 +37,9 @@ export const addNewTimer = async (
 		alert("Positive values only, please.");
 	} else if (isMinute ? length > 30 : length > 5 * 60) {
 		alert(`Only values ${isMinute ? "30 minutes" : "5 minutes"} and below, please.`);
-	} else if (checkIfExists(length, timers, isMinute)) {
+	} else if (checkIfExists(length, timers, unit)) {
 		alert("That timer already exists.");
-	} else if (timers.minuteTimers.length + timers.secondTimers.length === 6) {
+	} else if (timers.length === 6) {
 		alert("You can only save 6 timers at once.");
 	} else {
 		const data = await createDBTimer(
@@ -51,62 +52,54 @@ export const addNewTimer = async (
 			return;
 		}
 
-		let newTimers = isMinute ? timers.minuteTimers : timers.secondTimers;
-		newTimers = [...newTimers, { length, interval: 1, id: data.id }];
+		const newTimers = [...timers];
+		newTimers.push({ length, interval: 1, id: data.id, type: unit });
+		// To-Do: Sort correctly
 		newTimers.sort((a: TimerConfig, b: TimerConfig) => a.length - b.length);
-		setTimers(
-			isMinute
-				? { secondTimers: timers.secondTimers, minuteTimers: newTimers }
-				: { secondTimers: newTimers, minuteTimers: timers.minuteTimers }
-		);
+		setTimers(newTimers);
 	}
 	setNewTimer("");
 };
 
 export const removeTimer = async (
 	index: number,
-	timers: TimersCollection,
-	setTimers: (timers: TimersCollection) => void,
+	timers: TimerConfig[],
+	setTimers: Dispatch<SetStateAction<TimerConfig[]>>,
 	unit: Unit,
 	id: string
 ) => {
 	await deleteDBTimer(id);
-	const newTimers = [
-		...(unit === Unit.minutes ? timers.minuteTimers : timers.secondTimers),
-	];
+	const newTimers = [...timers];
 	newTimers.splice(index, 1);
-	setTimers({
-		...timers,
-		[unit === Unit.minutes ? "minuteTimers" : "secondTimers"]: newTimers,
-	});
+	setTimers(timers);
 };
 
 export const delay = (ms: number) => {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-export const formatDBTimers = async (storedTimers: Schema["Timer"]["type"][]) => {
-	const formatTimers: TimersCollection = { secondTimers: [], minuteTimers: [] };
-	storedTimers.map((storedTimer) => {
-		const newTimer: TimerConfig = {
-			length: storedTimer.length,
-			interval: storedTimer.interval,
-			id: storedTimer.id,
-		};
-		if (storedTimer.type === Unit.minutes) {
-			formatTimers.minuteTimers.push(newTimer);
-			formatTimers.minuteTimers = formatTimers.minuteTimers.sort(
-				(a: TimerConfig, b: TimerConfig) => a.length - b.length
-			);
-		} else {
-			formatTimers.secondTimers.push(newTimer);
-			formatTimers.secondTimers = formatTimers.secondTimers.sort(
-				(a: TimerConfig, b: TimerConfig) => a.length - b.length
-			);
-		}
-	});
-	return formatTimers;
-};
+// export const formatDBTimers = async (storedTimers: Schema["Timer"]["type"][]) => {
+// 	const formatTimers: TimersCollection = { secondTimers: [], minuteTimers: [] };
+// 	storedTimers.map((storedTimer) => {
+// 		const newTimer: TimerConfig = {
+// 			length: storedTimer.length,
+// 			interval: storedTimer.interval,
+// 			id: storedTimer.id,
+// 		};
+// 		if (storedTimer.type === Unit.minutes) {
+// 			formatTimers.minuteTimers.push(newTimer);
+// 			formatTimers.minuteTimers = formatTimers.minuteTimers.sort(
+// 				(a: TimerConfig, b: TimerConfig) => a.length - b.length
+// 			);
+// 		} else {
+// 			formatTimers.secondTimers.push(newTimer);
+// 			formatTimers.secondTimers = formatTimers.secondTimers.sort(
+// 				(a: TimerConfig, b: TimerConfig) => a.length - b.length
+// 			);
+// 		}
+// 	});
+// 	return formatTimers;
+// };
 
 export const getThemeColor = (isMinute: boolean) =>
 	isMinute ? themeColorOptions.horizonPrimary : themeColorOptions.jadePrimary;
