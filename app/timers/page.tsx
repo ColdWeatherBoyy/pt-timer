@@ -4,7 +4,6 @@ import { UserContext } from "@/app/providers/UserProvider";
 import TopCard from "@/app/timers/components/TopCard";
 import TimersSection from "@/app/timers/components/TimersSection";
 import { getDBTimers } from "@/app/utilities/amplify/amplify.db";
-// import { formatDBTimers } from "@/app/utilities/helperFunctions";
 import { TimerConfig } from "@/app/utilities/types/timers.types";
 import { useRouter } from "next/navigation";
 import { useCallback, useContext, useEffect, useState } from "react";

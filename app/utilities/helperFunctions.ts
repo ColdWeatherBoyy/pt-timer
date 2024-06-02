@@ -55,7 +55,9 @@ export const addNewTimer = async (
 		const newTimers = [...timers];
 		newTimers.push({ length, interval: 1, id: data.id, type: unit });
 		// To-Do: Sort correctly
-		newTimers.sort((a: TimerConfig, b: TimerConfig) => a.length - b.length);
+		newTimers.sort((a: TimerConfig, b: TimerConfig) =>
+			a.type === b.type ? a.length - b.length : a.type === Unit.seconds ? -1 : 1
+		);
 		setTimers(newTimers);
 	}
 	setNewTimer("");
@@ -71,35 +73,12 @@ export const removeTimer = async (
 	await deleteDBTimer(id);
 	const newTimers = [...timers];
 	newTimers.splice(index, 1);
-	setTimers(timers);
+	setTimers(newTimers);
 };
 
 export const delay = (ms: number) => {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 };
-
-// export const formatDBTimers = async (storedTimers: Schema["Timer"]["type"][]) => {
-// 	const formatTimers: TimersCollection = { secondTimers: [], minuteTimers: [] };
-// 	storedTimers.map((storedTimer) => {
-// 		const newTimer: TimerConfig = {
-// 			length: storedTimer.length,
-// 			interval: storedTimer.interval,
-// 			id: storedTimer.id,
-// 		};
-// 		if (storedTimer.type === Unit.minutes) {
-// 			formatTimers.minuteTimers.push(newTimer);
-// 			formatTimers.minuteTimers = formatTimers.minuteTimers.sort(
-// 				(a: TimerConfig, b: TimerConfig) => a.length - b.length
-// 			);
-// 		} else {
-// 			formatTimers.secondTimers.push(newTimer);
-// 			formatTimers.secondTimers = formatTimers.secondTimers.sort(
-// 				(a: TimerConfig, b: TimerConfig) => a.length - b.length
-// 			);
-// 		}
-// 	});
-// 	return formatTimers;
-// };
 
 export const getThemeColor = (isMinute: boolean) =>
 	isMinute ? themeColorOptions.horizonPrimary : themeColorOptions.jadePrimary;
