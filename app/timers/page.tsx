@@ -16,7 +16,7 @@ const TimerHomepage = () => {
 	});
 	const [activeTimer, setActiveTimer] = useState<number | null>(null);
 	const router = useRouter();
-	const { validated, externalSetValidated, userId } = useContext(UserContext);
+	const { userId } = useContext(UserContext);
 
 	const initializeTimers = useCallback(async () => {
 		const dbTimers = await getDBTimers();
@@ -31,12 +31,12 @@ const TimerHomepage = () => {
 
 	useEffect(() => {
 		// let storedTimers = window.localStorage.getItem("timers")
-		if (!validated) {
+		if (!userId) {
 			router.push("/account/signin");
 		} else {
 			initializeTimers();
 		}
-	}, [validated, router, initializeTimers]);
+	}, [userId, router, initializeTimers]);
 
 	// useEffect(() => {
 	// 	if (!loaded) return;

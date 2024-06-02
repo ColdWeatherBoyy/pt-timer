@@ -6,13 +6,13 @@ import { UserContext } from "./providers/UserProvider";
 
 export default function Home() {
 	const router = useRouter();
-	const { validated, externalSetValidated, userId } = useContext(UserContext);
+	const { userId } = useContext(UserContext);
 
 	useEffect(() => {
-		if (validated) {
+		if (userId) {
 			router.push("/timers");
 		} else {
 			router.push("/account/signin");
 		}
-	}, [validated, router]);
+	}, [router, userId]);
 }

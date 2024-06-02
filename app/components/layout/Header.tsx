@@ -12,12 +12,12 @@ import { ThemeColor } from "@/app/utilities/types/theme.types";
 Amplify.configure(outputs);
 
 const Header: FC = () => {
-	const { validated, externalSetValidated, userId } = useContext(UserContext);
+	const { handleLogInChange, userId } = useContext(UserContext);
 	const router = useRouter();
 
 	const handleSignOut = async () => {
 		await signOut();
-		externalSetValidated(false);
+		handleLogInChange(false);
 	};
 
 	return (
@@ -26,7 +26,7 @@ const Header: FC = () => {
 				<span>Welcome to Physical</span>
 				<span>Therapy Interval Timers!</span>
 			</div>
-			{validated ? (
+			{userId ? (
 				<LinkButton text="Sign Out" textColor={ThemeColor.jade} onClick={handleSignOut} />
 			) : (
 				<LinkButton

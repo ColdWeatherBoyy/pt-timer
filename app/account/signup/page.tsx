@@ -19,7 +19,7 @@ const enum SignUpStep {
 
 const SignUp: FC = () => {
 	const router = useRouter();
-	const { validated, externalSetValidated, userId } = useContext(UserContext);
+	const { handleLogInChange, userId } = useContext(UserContext);
 	const [userData, setUserData] = useState({
 		email: "",
 		password: "",
@@ -70,16 +70,16 @@ const SignUp: FC = () => {
 	const completeAutoSignIn = async () => {
 		const res = await handleAutoSignIn();
 		if (res) {
-			externalSetValidated(true);
+			handleLogInChange(true);
 			router.push("/timers");
 		}
 	};
 
 	useEffect(() => {
-		if (validated) {
+		if (userId) {
 			router.push("/timers");
 		}
-	}, [validated, router]);
+	}, [userId, router]);
 
 	// TO-DO: Consider using this format
 	// const SignUpForm = (

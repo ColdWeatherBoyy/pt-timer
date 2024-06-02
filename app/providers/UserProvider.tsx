@@ -4,52 +4,44 @@ import { Dispatch, SetStateAction, createContext, useEffect, useState } from "re
 import { validateUserSession } from "../utilities/amplify/amplify.auth";
 
 interface ContextInterface {
-	validated: boolean;
-	externalSetValidated: (isValid: boolean) => void;
-	userId: string;
+	handleLogInChange: (isValid: boolean) => void;
+	userId: string | null;
 }
 
 export const UserContext = createContext<ContextInterface>({
-	validated: false,
-	externalSetValidated: (isValid: boolean) => {},
-	userId: "",
+	handleLogInChange: (isValid: boolean) => {},
+	userId: null,
 });
 
 export default function UserProvider({ children }: { children: React.ReactNode }) {
-	const [validated, setValidated] = useState(false);
-	const [userId, setUserId] = useState("");
+	const [userId, setUserId] = useState<string | null>(null);
 
 	useEffect(() => {
 		const validate = async () => {
 			const data = await validateUserSession();
-
 			if (data) {
 				setUserId(data.userId);
-				setValidated(true);
 			} else {
-				setUserId("");
-				setValidated(false);
+				setUserId(null);
 			}
 		};
 		validate();
 	}, []);
 
-	// To-Do: Decide if this is worth it. It avoids a call of the validateUserSession when signing out, but duplicates code
-	const externalSetValidated = async (isValid: boolean) => {
-		if (isValid) {
+	const handleLogInChange = async (loggedIn: boolean) => {
+		if (loggedIn) {
 			const data = await validateUserSession();
 			if (data) {
 				setUserId(data.userId);
-				setValidated(true);
 			}
+			// handle error for no data
 		} else {
-			setUserId("");
-			setValidated(false);
+			setUserId(null);
 		}
 	};
 
 	return (
-		<UserContext.Provider value={{ validated, externalSetValidated, userId }}>
+		<UserContext.Provider value={{ handleLogInChange, userId }}>
 			{children}
 		</UserContext.Provider>
 	);

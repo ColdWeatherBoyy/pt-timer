@@ -21,8 +21,12 @@ export const addNewTimer = async (
 	setTimers: (timers: TimersCollection) => void,
 	setNewTimer: (newTimer: string) => void,
 	isMinute: boolean,
-	userId: string
+	userId: string | null
 ) => {
+	if (!userId)
+		throw new Error(
+			"Internal Error: Shouldn't be able to use this function if not logged in."
+		);
 	const length = Number(newTimer);
 	if (isNaN(length)) {
 		alert("That is not a valid number. Please try again.");

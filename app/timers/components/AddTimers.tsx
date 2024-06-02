@@ -42,6 +42,7 @@ const AddTimers: FC<AddTimerProps> = ({
 	const handleSubmit = () => {
 		addNewTimer(newTimer, timers, setTimers, setNewTimer, isMinute, userId);
 	};
+
 	return (
 		<Card
 			cardColor={themeColor.primary}
