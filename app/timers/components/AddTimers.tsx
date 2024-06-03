@@ -1,12 +1,13 @@
+import { ActiveTimerContext } from "@/app/providers/ActiveTimerProvider";
 import { UserContext } from "@/app/providers/UserProvider";
 import { addNewTimer, getThemeColor } from "@/app/utilities/helperFunctions";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
+import { TimerConfig } from "@/app/utilities/types/timers.types";
 import React, { Dispatch, FC, SetStateAction, useContext } from "react";
 import Button from "../../components/general/Button";
 import Card from "../../components/general/Card";
 import Input from "../../components/general/Input";
 import Toggle from "../../components/general/Toggle";
-import { TimerConfig } from "@/app/utilities/types/timers.types";
 
 interface AddTimerProps {
 	newTimer: string;
@@ -16,7 +17,6 @@ interface AddTimerProps {
 	toggled: boolean;
 	setToggled: Dispatch<SetStateAction<boolean>>;
 	isMinute: boolean;
-	activeTimer: number | null;
 }
 
 const AddTimers: FC<AddTimerProps> = ({
@@ -27,9 +27,9 @@ const AddTimers: FC<AddTimerProps> = ({
 	toggled,
 	setToggled,
 	isMinute,
-	activeTimer,
 }) => {
 	const { userId } = useContext(UserContext);
+	const { activeTimer } = useContext(ActiveTimerContext);
 	const themeColor = getThemeColor(isMinute);
 
 	const handleEnterDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -47,7 +47,9 @@ const AddTimers: FC<AddTimerProps> = ({
 		<Card
 			cardColor={themeColor.primary}
 			cardShade={ThemeShade.medium}
-			className={`p-4 gap-4 w-1/2 ${activeTimer ? "opacity-65 pointer-events-none" : ""}`}
+			className={`p-4 gap-4 w-1/2 ${
+				activeTimer !== null ? "opacity-65 pointer-events-none" : ""
+			}`}
 			column
 		>
 			<div className="flex justify-evenly gap-20">

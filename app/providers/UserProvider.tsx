@@ -1,15 +1,16 @@
 "use client";
 
-import { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { validateUserSession } from "../utilities/amplify/amplify.auth";
 
-interface ContextInterface {
+interface UserContextInterface {
 	handleLogInChange: (isValid: boolean) => void;
 	userId: string | null;
 }
 
-export const UserContext = createContext<ContextInterface>({
-	handleLogInChange: (isValid: boolean) => {},
+export const UserContext = createContext<UserContextInterface>({
+	handleLogInChange: (isValid: boolean) =>
+		console.error("Internal Error: handleLogInChange not defined"),
 	userId: null,
 });
 

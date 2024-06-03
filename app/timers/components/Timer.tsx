@@ -1,10 +1,19 @@
+import { ActiveTimerContext } from "@/app/providers/ActiveTimerProvider";
 import { updateIntervalDBTimers } from "@/app/utilities/amplify/amplify.db";
 import { delay, getThemeColor } from "@/app/utilities/helperFunctions";
 import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
 import { roboto_mono } from "@/app/utilities/style/fonts";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
 import { ClockTimeConfig, TimerConfig } from "@/app/utilities/types/timers.types";
-import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from "react";
+import {
+	Dispatch,
+	FC,
+	SetStateAction,
+	useCallback,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
 import Button from "../../components/general/Button";
 import Card from "../../components/general/Card";
 import NumberInput from "../../components/general/NumberInput";
@@ -19,7 +28,6 @@ interface TimerProps {
 	interval: number;
 	isMinute: boolean;
 	id: string;
-	setActiveTimer: Dispatch<SetStateAction<number | null>>;
 	deleteTimer: (index: number) => void;
 	setTimers: Dispatch<SetStateAction<TimerConfig[]>>;
 	className?: string;
@@ -31,12 +39,12 @@ const Timer: FC<TimerProps> = ({
 	interval,
 	isMinute,
 	id,
-	setActiveTimer,
 	deleteTimer,
 	setTimers,
 	className,
 }) => {
 	const themeColor = getThemeColor(isMinute);
+	const { activateTimer, deactivateTimer } = useContext(ActiveTimerContext);
 
 	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
 	const [clockTime, setClockTime] = useState<ClockTimeConfig>(
@@ -98,6 +106,7 @@ const Timer: FC<TimerProps> = ({
 
 	// Start timer
 	const handleStart = () => {
+		activateTimer(index);
 		setStarted(true);
 	};
 	// (Un)pause timer
@@ -128,6 +137,7 @@ const Timer: FC<TimerProps> = ({
 		setStarted(false);
 		setPaused(false);
 		setBetweenReps(false);
+		deactivateTimer();
 		// Reset active reps to total reps
 		setReps((prev) => ({ ...prev, active: prev.total }));
 		// Reset timer to initial value
@@ -155,14 +165,6 @@ const Timer: FC<TimerProps> = ({
 			return () => clearInterval(interval);
 		}
 	}, [started, paused, betweenReps, clockTime, handleStop, handleNextRep, reps.active]);
-
-	useEffect(() => {
-		if (!started) {
-			setActiveTimer(null);
-		} else {
-			setActiveTimer(index);
-		}
-	}, [started, index, setActiveTimer]);
 
 	return (
 		<Card

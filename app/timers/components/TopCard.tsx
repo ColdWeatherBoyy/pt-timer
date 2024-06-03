@@ -1,17 +1,16 @@
 import { getThemeColor } from "@/app/utilities/helperFunctions";
-import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
-import { TimersCollection } from "@/app/utilities/types/timers.types";
+import { ThemeShade } from "@/app/utilities/types/theme.types";
+import { TimerConfig } from "@/app/utilities/types/timers.types";
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import Card from "../../components/general/Card";
 import AddTimers from "./AddTimers";
 
 interface TopCardProps {
-	timers: TimersCollection;
-	setTimers: Dispatch<SetStateAction<TimersCollection>>;
-	activeTimer: number | null;
+	timers: TimerConfig[];
+	setTimers: Dispatch<SetStateAction<TimerConfig[]>>;
 }
 
-const TopCard: FC<TopCardProps> = ({ timers, setTimers, activeTimer }) => {
+const TopCard: FC<TopCardProps> = ({ timers, setTimers }) => {
 	const [newTimer, setNewTimer] = useState<string>("");
 	const [isMinute, setIsMinute] = useState(false);
 	const themeColor = getThemeColor(isMinute);
@@ -32,7 +31,6 @@ const TopCard: FC<TopCardProps> = ({ timers, setTimers, activeTimer }) => {
 				toggled={isMinute}
 				setToggled={setIsMinute}
 				isMinute={isMinute}
-				activeTimer={activeTimer}
 			/>
 		</Card>
 	);

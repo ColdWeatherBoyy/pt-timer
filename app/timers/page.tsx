@@ -10,7 +10,6 @@ import { useCallback, useContext, useEffect, useState } from "react";
 
 const TimerHomepage = () => {
 	const [timers, setTimers] = useState<TimerConfig[]>([]);
-	const [activeTimer, setActiveTimer] = useState<number | null>(null);
 	const router = useRouter();
 	const { userId } = useContext(UserContext);
 
@@ -39,13 +38,8 @@ const TimerHomepage = () => {
 
 	return (
 		<>
-			<TopCard timers={timers} setTimers={setTimers} activeTimer={activeTimer} />
-			<TimersSection
-				timers={timers}
-				activeTimer={activeTimer}
-				setActiveTimer={setActiveTimer}
-				setTimers={setTimers}
-			/>
+			<TopCard timers={timers} setTimers={setTimers} />
+			<TimersSection timers={timers} setTimers={setTimers} />
 		</>
 	);
 };
