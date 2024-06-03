@@ -44,7 +44,7 @@ const Timer: FC<TimerProps> = ({
 	className,
 }) => {
 	const themeColor = getThemeColor(isMinute);
-	const { activateTimer, deactivateTimer } = useContext(ActiveTimerContext);
+	const { activeTimer, activateTimer, deactivateTimer } = useContext(ActiveTimerContext);
 
 	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
 	const [clockTime, setClockTime] = useState<ClockTimeConfig>(
@@ -105,10 +105,13 @@ const Timer: FC<TimerProps> = ({
 	// *********** EVENT HANDLERS **************
 
 	// Start timer
-	const handleStart = () => {
-		activateTimer(index);
+	const handleStart = useCallback(() => {
+		if (activeTimer === null) {
+			activateTimer(index);
+		}
 		setStarted(true);
-	};
+	}, [activateTimer, activeTimer, index]);
+
 	// (Un)pause timer
 	const handlePause = () => {
 		setPaused((prev) => !prev);
@@ -130,7 +133,7 @@ const Timer: FC<TimerProps> = ({
 		setBetweenRepsCountdown(3);
 		setBetweenReps(false);
 		handleStart();
-	}, [resetClockTime]);
+	}, [resetClockTime, handleStart]);
 
 	// Stop timer
 	const handleStop = useCallback(() => {
@@ -142,7 +145,7 @@ const Timer: FC<TimerProps> = ({
 		setReps((prev) => ({ ...prev, active: prev.total }));
 		// Reset timer to initial value
 		resetClockTime();
-	}, [resetClockTime]);
+	}, [resetClockTime, deactivateTimer]);
 
 	// *********** EFFECTS **************
 	// Keep active reps updated when total reps change

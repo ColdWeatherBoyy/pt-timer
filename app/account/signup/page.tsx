@@ -14,7 +14,6 @@ import { FC, useContext, useEffect, useState } from "react";
 const enum SignUpStep {
 	NOT_SIGNED_UP,
 	CONFIRM_SIGN_UP,
-	DONE, // Never used
 }
 
 const SignUp: FC = () => {

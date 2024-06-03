@@ -22,9 +22,7 @@ const TimersSection: FC<TimersSectionProps> = ({ timers, setTimers }) => {
 						interval={timer.interval}
 						isMinute={timer.unit === Unit.minutes}
 						id={timer.id}
-						deleteTimer={(index) =>
-							removeTimer(index, timers, setTimers, Unit.seconds, timer.id)
-						}
+						deleteTimer={(index) => removeTimer(index, timers, setTimers, timer.id)}
 						setTimers={setTimers}
 						className={`${
 							activeTimer !== index && activeTimer !== null

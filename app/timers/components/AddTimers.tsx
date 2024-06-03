@@ -40,7 +40,14 @@ const AddTimers: FC<AddTimerProps> = ({
 	};
 
 	const handleSubmit = () => {
-		addNewTimer(newTimer, timers, setTimers, setNewTimer, isMinute, userId);
+		addNewTimer(
+			newTimer,
+			timers,
+			setTimers,
+			setNewTimer,
+			isMinute ? Unit.minutes : Unit.seconds,
+			userId
+		);
 	};
 
 	return (

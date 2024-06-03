@@ -13,62 +13,84 @@ const checkIfExists = (duration: number, timers: TimerConfig[], unit: Unit) => {
 	return false;
 };
 
+const validateNewTimer = (
+	newTimer: string,
+	duration: number,
+	unit: Unit,
+	timers: TimerConfig[]
+) => {
+	if (newTimer.length === 0) return false;
+	if (isNaN(duration)) {
+		alert("That is not a valid number. Please try again.");
+		console.error("Invalid number.");
+		return false;
+	}
+	if (!Number.isInteger(duration)) {
+		alert("Whole numbers only, please.");
+		console.error("Non-integer number.");
+		return false;
+	}
+	if (duration <= 0) {
+		alert("Numbers above 0 only, please.");
+		console.error("Non-positive number");
+		return false;
+	}
+	if (unit === Unit.minutes && duration > 30) {
+		alert("30 minutes and below, please.");
+		console.error("Minute duration limits exceeded.");
+		return false;
+	}
+	if (unit === Unit.seconds && duration > 2 * 60) {
+		alert("2 minutes and below, please.");
+		console.error("Second duration limits exceeded.");
+		return false;
+	}
+	if (checkIfExists(duration, timers, unit)) {
+		alert("That timer already exists.");
+		console.error("Timer already exists.");
+		return false;
+	}
+	if (timers.length === 6) {
+		alert("You can only save 6 timers at once.");
+		console.error("Timers length limit exceeded.");
+		return false;
+	}
+	return true;
+};
+
 export const addNewTimer = async (
 	newTimer: string,
 	timers: TimerConfig[],
 	setTimers: Dispatch<SetStateAction<TimerConfig[]>>,
 	setNewTimer: Dispatch<SetStateAction<string>>,
-	isMinute: boolean,
+	unit: Unit,
 	userId: string | null
 ) => {
 	if (!userId)
 		throw new Error(
 			"Internal Error: Shouldn't be able to use this function if not logged in."
 		);
-	// TO-DO Fix this
-	const unit = isMinute ? Unit.minutes : Unit.seconds;
 	const duration = Number(newTimer);
-	if (newTimer.length === 0) {
+	setNewTimer("");
+	if (!validateNewTimer(newTimer, duration, unit, timers)) return;
+	const data = await createDBTimer(userId, unit, duration);
+	if (!data) {
+		console.error("uh oh");
 		return;
-	} else if (isNaN(duration)) {
-		alert("That is not a valid number. Please try again.");
-	} else if (!Number.isInteger(duration)) {
-		alert("Whole numbers only, please.");
-	} else if (duration <= 0) {
-		alert("Numbers above 0 only, please.");
-	} else if (isMinute ? duration > 30 : duration > 2 * 60) {
-		alert(`Only values ${isMinute ? "30 minutes" : "2 minutes"} and below, please.`);
-	} else if (checkIfExists(duration, timers, unit)) {
-		alert("That timer already exists.");
-	} else if (timers.length === 6) {
-		alert("You can only save 6 timers at once.");
-	} else {
-		const data = await createDBTimer(
-			userId,
-			isMinute ? Unit.minutes : Unit.seconds,
-			duration
-		);
-		if (!data) {
-			console.error("uh oh");
-			return;
-		}
-
-		const newTimers = [...timers];
-		newTimers.push({ duration, interval: 1, id: data.id, unit: unit });
-		// To-Do: Sort correctly
+	}
+	const newTimers = [...timers, { duration, interval: 1, id: data.id, unit: unit }];
+	setTimers(
 		newTimers.sort((a: TimerConfig, b: TimerConfig) =>
 			a.unit === b.unit ? a.duration - b.duration : a.unit === Unit.seconds ? -1 : 1
-		);
-		setTimers(newTimers);
-	}
-	setNewTimer("");
+		)
+	);
+	// setNewTimer("");
 };
 
 export const removeTimer = async (
 	index: number,
 	timers: TimerConfig[],
 	setTimers: Dispatch<SetStateAction<TimerConfig[]>>,
-	unit: Unit,
 	id: string
 ) => {
 	await deleteDBTimer(id);
