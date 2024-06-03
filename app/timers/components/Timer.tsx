@@ -4,7 +4,7 @@ import { delay, getThemeColor } from "@/app/utilities/helperFunctions";
 import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
 import { roboto_mono } from "@/app/utilities/style/fonts";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
-import { TimerConfig } from "@/app/utilities/types/timers.types";
+import { TimerConfig, TimerStatus } from "@/app/utilities/types/timers.types";
 import {
 	Dispatch,
 	FC,
@@ -46,13 +46,6 @@ const Timer: FC<TimerProps> = ({
 	const themeColor = getThemeColor(isMinute);
 	const { activeTimer, activateTimer, deactivateTimer } = useContext(ActiveTimerContext);
 
-	const enum TimerStatus {
-		started = "Started",
-		paused = "Paused",
-		betweenReps = "betweenReps",
-		stopped = "stopped",
-	}
-
 	const [clockTime, setClockTime] = useState<number>(duration);
 	const [timerStatus, setTimerStatus] = useState<TimerStatus>(TimerStatus.stopped);
 	const [reps, setReps] = useState<{ total: number; active: number }>({
@@ -61,8 +54,7 @@ const Timer: FC<TimerProps> = ({
 	});
 	const [betweenRepsCountdown, setBetweenRepsCountdown] = useState<number>(3);
 
-	// *********** UTILITY **************
-
+	// *********** Rep Utilities **************
 	// Set active reps (making my own Dispatch of SetStateAction)
 	const setActiveReps: Dispatch<SetStateAction<number>> = (set) => {
 		setReps((prev) => ({
@@ -83,21 +75,6 @@ const Timer: FC<TimerProps> = ({
 	};
 
 	// *********** EVENT HANDLERS **************
-
-	// Start timer
-	const handleStart = useCallback(() => {
-		if (activeTimer === null) {
-			activateTimer(index);
-		}
-		setTimerStatus(TimerStatus.started);
-	}, [activateTimer, activeTimer, index]);
-
-	// (Un)pause timer
-	const handlePause = () => {
-		timerStatus === TimerStatus.started
-			? setTimerStatus(TimerStatus.paused)
-			: setTimerStatus(TimerStatus.started);
-	};
 	// Move to next rep (if multiple are set)
 	const handleNextRep = useCallback(async () => {
 		setTimerStatus(TimerStatus.betweenReps); // Between reps
@@ -110,18 +87,8 @@ const Timer: FC<TimerProps> = ({
 		}
 		// Start next rep
 		setBetweenRepsCountdown(3);
-		handleStart();
-	}, [handleStart, duration]);
-
-	// Stop timer
-	const handleStop = useCallback(() => {
-		setTimerStatus(TimerStatus.stopped);
-		deactivateTimer();
-		// Reset active reps to total reps
-		setReps((prev) => ({ ...prev, active: prev.total }));
-		// Reset timer to initial value
-		setClockTime(duration);
-	}, [deactivateTimer, duration]);
+		setTimerStatus(TimerStatus.started);
+	}, [setTimerStatus, duration]);
 
 	// *********** EFFECTS **************
 	// Keep active reps updated when total reps change
@@ -132,18 +99,35 @@ const Timer: FC<TimerProps> = ({
 	// Timer logic
 	useEffect(() => {
 		if (timerStatus === TimerStatus.started) {
+			activateTimer(index);
 			const interval = setInterval(() => {
 				if (clockTime === 0) {
 					clearInterval(interval);
-					reps.active > 1 ? handleNextRep() : handleStop();
+					reps.active > 1 ? handleNextRep() : setTimerStatus(TimerStatus.stopped);
 				} else {
 					setClockTime((prev) => prev - 1);
 				}
 			}, 1000);
 			// Clean up
 			return () => clearInterval(interval);
+		} else if (timerStatus === TimerStatus.stopped) {
+			// Reset active reps to total reps
+			setReps((prev) => ({ ...prev, active: prev.total }));
+			// Reset timer to initial value
+			setClockTime(duration);
+			// deactivate activeTimer
+			deactivateTimer();
 		}
-	}, [timerStatus, clockTime, handleStop, handleNextRep, reps.active]);
+	}, [
+		timerStatus,
+		clockTime,
+		handleNextRep,
+		reps.active,
+		index,
+		duration,
+		activateTimer,
+		deactivateTimer,
+	]);
 
 	return (
 		<Card
@@ -216,8 +200,14 @@ const Timer: FC<TimerProps> = ({
 				<div className="flex justify-center text-2xl gap-10 items-center">
 					<Button
 						buttonColor={themeColor.secondary}
-						onClick={timerStatus === TimerStatus.started ? handlePause : handleStart}
 						className="p-10"
+						onClick={() =>
+							setTimerStatus((prevState) =>
+								prevState === TimerStatus.stopped || prevState === TimerStatus.paused
+									? TimerStatus.started
+									: TimerStatus.paused
+							)
+						}
 					>
 						{timerStatus === TimerStatus.paused ? (
 							<Resume size="30" />
@@ -240,7 +230,10 @@ const Timer: FC<TimerProps> = ({
 							limits={{ min: 1, max: 5 }}
 						/>
 					</div>
-					<Button buttonColor={themeColor.secondary} onClick={handleStop}>
+					<Button
+						buttonColor={themeColor.secondary}
+						onClick={() => setTimerStatus(TimerStatus.stopped)}
+					>
 						<Stop size="30" />
 					</Button>
 				</div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 
 interface ActiveTimerContextInterface {
 	activateTimer: (index: number) => void;
@@ -18,13 +18,13 @@ export const ActiveTimerContext = createContext<ActiveTimerContextInterface>({
 export default function ActiveTimerProvider({ children }: { children: React.ReactNode }) {
 	const [activeTimer, setActiveTimer] = useState<number | null>(null);
 
-	const activateTimer = (index: number) => {
+	const activateTimer = useCallback((index: number) => {
 		setActiveTimer(index);
-	};
+	}, []);
 
-	const deactivateTimer = () => {
+	const deactivateTimer = useCallback(() => {
 		setActiveTimer(null);
-	};
+	}, []);
 
 	return (
 		<ActiveTimerContext.Provider value={{ activateTimer, deactivateTimer, activeTimer }}>

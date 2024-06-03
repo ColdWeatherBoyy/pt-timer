@@ -1,6 +1,7 @@
 import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
 import { ThemeColor } from "@/app/utilities/types/theme.types";
-import React, { FC } from "react";
+import { TimerStatus } from "@/app/utilities/types/timers.types";
+import React, { Dispatch, FC, SetStateAction } from "react";
 
 interface ButtonProps {
 	buttonColor: ThemeColor;
@@ -19,7 +20,7 @@ const Button: FC<ButtonProps> = ({
 }) => {
 	return (
 		<button
-			onClick={onClick}
+			onClick={() => onClick()}
 			className={`w-fit px-1.5 py-1 text-lg rounded-lg shadow-md hover:shadow-lg ${
 				ComponentColor[buttonColor].button
 			}  ${
