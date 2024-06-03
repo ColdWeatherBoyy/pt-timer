@@ -1,5 +1,9 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
-import { Unit } from "../../app/utilities/types/theme.types";
+
+export enum Unit {
+	seconds = "secs",
+	minutes = "mins",
+}
 
 const schema = a.schema({
 	Type: a.enum([Unit.minutes, Unit.seconds]),
@@ -7,7 +11,7 @@ const schema = a.schema({
 		.model({
 			userId: a.string().required(),
 			type: a.ref("Type").required(),
-			length: a.integer().required(),
+			duration: a.integer().required(),
 			interval: a.integer().required(),
 		})
 		.secondaryIndexes((index) => [index("userId")])

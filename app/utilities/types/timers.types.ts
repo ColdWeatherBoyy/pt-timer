@@ -6,7 +6,7 @@ export interface ClockTimeConfig {
 }
 
 export interface TimerConfig {
-	length: number;
+	duration: number;
 	interval: number;
 	type: Unit;
 	id: string;

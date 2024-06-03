@@ -18,7 +18,7 @@ const TimersSection: FC<TimersSectionProps> = ({ timers, setTimers }) => {
 					<Timer
 						key={`${timer.id}`}
 						index={index}
-						length={timer.length}
+						duration={timer.duration}
 						interval={timer.interval}
 						isMinute={timer.type === Unit.minutes}
 						id={timer.id}

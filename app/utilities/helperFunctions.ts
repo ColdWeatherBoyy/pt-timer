@@ -1,13 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
-import { type Schema } from "../../amplify/data/resource";
 import { createDBTimer, deleteDBTimer } from "./amplify/amplify.db";
 import { themeColorOptions } from "./style/componentColor.styles";
 import { Unit } from "./types/theme.types";
 import { TimerConfig } from "./types/timers.types";
 
-const checkIfExists = (length: number, timers: TimerConfig[], unit: Unit) => {
+const checkIfExists = (duration: number, timers: TimerConfig[], unit: Unit) => {
 	for (const timer of timers) {
-		if (timer.length === length && timer.type === unit) {
+		if (timer.duration === duration && timer.type === unit) {
 			return true;
 		}
 	}
@@ -28,16 +27,18 @@ export const addNewTimer = async (
 		);
 	// TO-DO Fix this
 	const unit = isMinute ? Unit.minutes : Unit.seconds;
-	const length = Number(newTimer);
-	if (isNaN(length)) {
+	const duration = Number(newTimer);
+	if (newTimer.length === 0) {
+		return;
+	} else if (isNaN(duration)) {
 		alert("That is not a valid number. Please try again.");
-	} else if (!Number.isInteger(length)) {
+	} else if (!Number.isInteger(duration)) {
 		alert("Whole numbers only, please.");
-	} else if (length < 0) {
-		alert("Positive values only, please.");
-	} else if (isMinute ? length > 30 : length > 5 * 60) {
-		alert(`Only values ${isMinute ? "30 minutes" : "5 minutes"} and below, please.`);
-	} else if (checkIfExists(length, timers, unit)) {
+	} else if (duration <= 0) {
+		alert("Numbers above 0 only, please.");
+	} else if (isMinute ? duration > 30 : duration > 2 * 60) {
+		alert(`Only values ${isMinute ? "30 minutes" : "2 minutes"} and below, please.`);
+	} else if (checkIfExists(duration, timers, unit)) {
 		alert("That timer already exists.");
 	} else if (timers.length === 6) {
 		alert("You can only save 6 timers at once.");
@@ -45,7 +46,7 @@ export const addNewTimer = async (
 		const data = await createDBTimer(
 			userId,
 			isMinute ? Unit.minutes : Unit.seconds,
-			length
+			duration
 		);
 		if (!data) {
 			console.error("uh oh");
@@ -53,10 +54,10 @@ export const addNewTimer = async (
 		}
 
 		const newTimers = [...timers];
-		newTimers.push({ length, interval: 1, id: data.id, type: unit });
+		newTimers.push({ duration, interval: 1, id: data.id, type: unit });
 		// To-Do: Sort correctly
 		newTimers.sort((a: TimerConfig, b: TimerConfig) =>
-			a.type === b.type ? a.length - b.length : a.type === Unit.seconds ? -1 : 1
+			a.type === b.type ? a.duration - b.duration : a.type === Unit.seconds ? -1 : 1
 		);
 		setTimers(newTimers);
 	}

@@ -24,7 +24,7 @@ import Stop from "./SVGs/Stop";
 
 interface TimerProps {
 	index: number;
-	length: number;
+	duration: number;
 	interval: number;
 	isMinute: boolean;
 	id: string;
@@ -35,7 +35,7 @@ interface TimerProps {
 
 const Timer: FC<TimerProps> = ({
 	index,
-	length,
+	duration,
 	interval,
 	isMinute,
 	id,
@@ -48,7 +48,7 @@ const Timer: FC<TimerProps> = ({
 
 	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
 	const [clockTime, setClockTime] = useState<ClockTimeConfig>(
-		isMinute ? { minutes: length, seconds: 0 } : { minutes: 0, seconds: length }
+		isMinute ? { minutes: duration, seconds: 0 } : { minutes: 0, seconds: duration }
 	);
 
 	// TO-DO: Set an enum for the various stages the timer can be in (started, paused, betweenReps, stopped). Make one state that uses that type.
@@ -65,9 +65,9 @@ const Timer: FC<TimerProps> = ({
 	// Resets clocktime
 	const resetClockTime = useCallback(() => {
 		setClockTime(
-			isMinute ? { minutes: length, seconds: 0 } : { minutes: 0, seconds: length }
+			isMinute ? { minutes: duration, seconds: 0 } : { minutes: 0, seconds: duration }
 		);
-	}, [isMinute, length]);
+	}, [isMinute, duration]);
 	// Decrements either seconds or minutes
 	const decrementTime = () => {
 		setClockTime((prev) =>

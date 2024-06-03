@@ -19,12 +19,10 @@ export default function ActiveTimerProvider({ children }: { children: React.Reac
 	const [activeTimer, setActiveTimer] = useState<number | null>(null);
 
 	const activateTimer = (index: number) => {
-		console.log("activate");
 		setActiveTimer(index);
 	};
 
 	const deactivateTimer = () => {
-		console.log("deactivate");
 		setActiveTimer(null);
 	};
 
