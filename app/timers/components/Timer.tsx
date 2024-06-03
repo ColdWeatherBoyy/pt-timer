@@ -4,7 +4,7 @@ import { delay, getThemeColor } from "@/app/utilities/helperFunctions";
 import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
 import { roboto_mono } from "@/app/utilities/style/fonts";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
-import { ClockTimeConfig, TimerConfig } from "@/app/utilities/types/timers.types";
+import { TimerConfig } from "@/app/utilities/types/timers.types";
 import {
 	Dispatch,
 	FC,
@@ -47,9 +47,7 @@ const Timer: FC<TimerProps> = ({
 	const { activeTimer, activateTimer, deactivateTimer } = useContext(ActiveTimerContext);
 
 	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
-	const [clockTime, setClockTime] = useState<ClockTimeConfig>(
-		isMinute ? { minutes: duration, seconds: 0 } : { minutes: 0, seconds: duration }
-	);
+	const [clockTime, setClockTime] = useState<number>(duration);
 
 	// TO-DO: Set an enum for the various stages the timer can be in (started, paused, betweenReps, stopped). Make one state that uses that type.
 	const [started, setStarted] = useState<boolean>(false);
@@ -62,26 +60,6 @@ const Timer: FC<TimerProps> = ({
 	const [betweenRepsCountdown, setBetweenRepsCountdown] = useState<number>(3);
 
 	// *********** UTILITY **************
-	// Resets clocktime
-	const resetClockTime = useCallback(() => {
-		setClockTime(
-			isMinute ? { minutes: duration, seconds: 0 } : { minutes: 0, seconds: duration }
-		);
-	}, [isMinute, duration]);
-	// Decrements either seconds or minutes
-	const decrementTime = () => {
-		setClockTime((prev) =>
-			prev.seconds !== 0
-				? {
-						minutes: prev.minutes,
-						seconds: prev.seconds - 1,
-				  }
-				: {
-						minutes: prev.minutes - 1,
-						seconds: 59,
-				  }
-		);
-	};
 
 	// Set active reps (making my own Dispatch of SetStateAction)
 	const setActiveReps: Dispatch<SetStateAction<number>> = (set) => {
@@ -123,7 +101,7 @@ const Timer: FC<TimerProps> = ({
 	const handleNextRep = useCallback(async () => {
 		setBetweenReps(true); // Pause for 3 seconds between reps
 		setActiveReps((prev) => prev - 1); // decrement active reps
-		resetClockTime(); // Reset timer to initial value
+		setClockTime(duration); // Reset timer to initial value
 		// Countdown
 		for (let count = 3; count > 0; count--) {
 			if (count !== 3) setBetweenRepsCountdown(count);
@@ -133,7 +111,7 @@ const Timer: FC<TimerProps> = ({
 		setBetweenRepsCountdown(3);
 		setBetweenReps(false);
 		handleStart();
-	}, [resetClockTime, handleStart]);
+	}, [handleStart, duration]);
 
 	// Stop timer
 	const handleStop = useCallback(() => {
@@ -144,8 +122,8 @@ const Timer: FC<TimerProps> = ({
 		// Reset active reps to total reps
 		setReps((prev) => ({ ...prev, active: prev.total }));
 		// Reset timer to initial value
-		resetClockTime();
-	}, [resetClockTime, deactivateTimer]);
+		setClockTime(duration);
+	}, [deactivateTimer, duration]);
 
 	// *********** EFFECTS **************
 	// Keep active reps updated when total reps change
@@ -157,11 +135,11 @@ const Timer: FC<TimerProps> = ({
 	useEffect(() => {
 		if (started && !paused && !betweenReps) {
 			const interval = setInterval(() => {
-				if (clockTime.seconds === 0 && clockTime.minutes === 0) {
+				if (clockTime === 0) {
 					clearInterval(interval);
 					reps.active > 1 ? handleNextRep() : handleStop();
 				} else {
-					decrementTime();
+					setClockTime((prev) => prev - 1);
 				}
 			}, 1000);
 			// Clean up
@@ -211,9 +189,9 @@ const Timer: FC<TimerProps> = ({
 								: "animate-fadeUpThree"
 						}`}
 					>
-						{clockTime.seconds === 0 && clockTime.minutes === 0 && reps.active === 1
+						{clockTime === 0 && reps.active === 1
 							? "Done!"
-							: clockTime.seconds === 0 && clockTime.minutes === 0
+							: clockTime === 0
 							? "Pause!"
 							: betweenReps && betweenRepsCountdown === 3
 							? "Ready"
@@ -222,10 +200,10 @@ const Timer: FC<TimerProps> = ({
 							: betweenReps && betweenRepsCountdown === 1
 							? "Go!"
 							: isMinute
-							? `${String(clockTime.minutes).padStart(2, "0")}:${String(
-									clockTime.seconds
+							? `${String(Math.floor(clockTime / 60)).padStart(2, "0")}:${String(
+									clockTime % 60
 							  ).padStart(2, "0")}`
-							: String(clockTime.seconds)}
+							: String(clockTime)}
 					</div>
 					<div className="text-sm text-center">
 						{betweenReps ? "Nice!" : isMinute ? Unit.minutes : Unit.seconds}

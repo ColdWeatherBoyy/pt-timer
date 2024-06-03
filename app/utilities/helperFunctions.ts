@@ -35,14 +35,14 @@ const validateNewTimer = (
 		console.error("Non-positive number");
 		return false;
 	}
-	if (unit === Unit.minutes && duration > 30) {
+	if (unit === Unit.minutes && duration > 30 * 60) {
 		alert("30 minutes and below, please.");
-		console.error("Minute duration limits exceeded.");
+		console.error("Minute duration limit exceeded.");
 		return false;
 	}
 	if (unit === Unit.seconds && duration > 2 * 60) {
 		alert("2 minutes and below, please.");
-		console.error("Second duration limits exceeded.");
+		console.error("Second duration limit exceeded.");
 		return false;
 	}
 	if (checkIfExists(duration, timers, unit)) {
@@ -70,12 +70,14 @@ export const addNewTimer = async (
 		throw new Error(
 			"Internal Error: Shouldn't be able to use this function if not logged in."
 		);
-	const duration = Number(newTimer);
-	setNewTimer("");
-	if (!validateNewTimer(newTimer, duration, unit, timers)) return;
+	const duration = Number(newTimer) * (unit === Unit.minutes ? 60 : 1);
+	if (!validateNewTimer(newTimer, duration, unit, timers)) {
+		setNewTimer("");
+		return;
+	}
 	const data = await createDBTimer(userId, unit, duration);
 	if (!data) {
-		console.error("uh oh");
+		console.error("Internal Error: Error creating timer in DB");
 		return;
 	}
 	const newTimers = [...timers, { duration, interval: 1, id: data.id, unit: unit }];
@@ -84,7 +86,7 @@ export const addNewTimer = async (
 			a.unit === b.unit ? a.duration - b.duration : a.unit === Unit.seconds ? -1 : 1
 		)
 	);
-	// setNewTimer("");
+	setNewTimer("");
 };
 
 export const removeTimer = async (
