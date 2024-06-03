@@ -31,20 +31,20 @@ const SignUp: FC = () => {
 		{
 			value: userData.email,
 			setValue: (value: string) => setUserData({ ...userData, email: value }),
-			type: "email",
+			inputType: "email",
 			placeholder: "Enter email",
 		},
 		{
 			value: userData.password,
 			setValue: (value: string) => setUserData({ ...userData, password: value }),
-			type: "password",
+			inputType: "password",
 			placeholder: "Enter password",
 		},
 		{
 			value: userData.confirmationPassword,
 			setValue: (value: string) =>
 				setUserData({ ...userData, confirmationPassword: value }),
-			type: "password",
+			inputType: "password",
 			placeholder: "Confirm password",
 		},
 	];
@@ -52,7 +52,7 @@ const SignUp: FC = () => {
 		{
 			value: userData.confirmationCode,
 			setValue: (value: string) => setUserData({ ...userData, confirmationCode: value }),
-			type: "confirmation code",
+			inputType: "confirmation code",
 			placeholder: "Enter confirmation code",
 		},
 	];

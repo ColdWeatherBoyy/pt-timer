@@ -54,7 +54,7 @@ const AddTimers: FC<AddTimerProps> = ({
 		>
 			<div className="flex justify-evenly gap-20">
 				<Input
-					type="string"
+					inputType="string"
 					placeholder={`Enter ${isMinute ? Unit.minutes : Unit.seconds}`}
 					value={newTimer}
 					inputColor={themeColor.primary}

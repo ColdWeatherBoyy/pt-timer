@@ -6,14 +6,14 @@ const client = generateClient<Schema>();
 
 export const createDBTimer = async (
 	userId: string,
-	type: Unit,
+	unit: Unit,
 	duration: number,
 	interval: number = 1
 ) => {
 	try {
 		const { errors, data: newTimer } = await client.models.Timer.create({
 			userId,
-			type,
+			unit,
 			duration,
 			interval,
 		});

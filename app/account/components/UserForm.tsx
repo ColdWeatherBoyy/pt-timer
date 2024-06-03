@@ -17,7 +17,7 @@ interface UserFormProps {
 	formInputs: {
 		value: string;
 		setValue: (value: string) => void;
-		type: string;
+		inputType: string;
 		placeholder: string;
 	}[];
 	formText: {
@@ -79,8 +79,8 @@ const UserForm: FC<UserFormProps> = ({
 								{formInputs.map((formInput, index) => {
 									return (
 										<Input
-											key={index + "-" + formInput.type}
-											type={formInput.type}
+											key={index + "-" + formInput.inputType}
+											inputType={formInput.inputType}
 											placeholder={formInput.placeholder}
 											value={formInput.value}
 											inputColor={ThemeColor[formSecondaryColor]}

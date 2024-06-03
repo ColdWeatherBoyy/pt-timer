@@ -18,13 +18,13 @@ const SignIn: FC = () => {
 		{
 			value: userData.email,
 			setValue: (value: string) => setUserData({ ...userData, email: value }),
-			type: "email",
+			inputType: "email",
 			placeholder: "Enter email",
 		},
 		{
 			value: userData.password,
 			setValue: (value: string) => setUserData({ ...userData, password: value }),
-			type: "password",
+			inputType: "password",
 			placeholder: "Enter password",
 		},
 	];

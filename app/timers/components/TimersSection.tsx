@@ -20,7 +20,7 @@ const TimersSection: FC<TimersSectionProps> = ({ timers, setTimers }) => {
 						index={index}
 						duration={timer.duration}
 						interval={timer.interval}
-						isMinute={timer.type === Unit.minutes}
+						isMinute={timer.unit === Unit.minutes}
 						id={timer.id}
 						deleteTimer={(index) =>
 							removeTimer(index, timers, setTimers, Unit.seconds, timer.id)

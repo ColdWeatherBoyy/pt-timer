@@ -8,6 +8,6 @@ export interface ClockTimeConfig {
 export interface TimerConfig {
 	duration: number;
 	interval: number;
-	type: Unit;
+	unit: Unit;
 	id: string;
 }

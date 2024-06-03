@@ -6,7 +6,7 @@ import { TimerConfig } from "./types/timers.types";
 
 const checkIfExists = (duration: number, timers: TimerConfig[], unit: Unit) => {
 	for (const timer of timers) {
-		if (timer.duration === duration && timer.type === unit) {
+		if (timer.duration === duration && timer.unit === unit) {
 			return true;
 		}
 	}
@@ -54,10 +54,10 @@ export const addNewTimer = async (
 		}
 
 		const newTimers = [...timers];
-		newTimers.push({ duration, interval: 1, id: data.id, type: unit });
+		newTimers.push({ duration, interval: 1, id: data.id, unit: unit });
 		// To-Do: Sort correctly
 		newTimers.sort((a: TimerConfig, b: TimerConfig) =>
-			a.type === b.type ? a.duration - b.duration : a.type === Unit.seconds ? -1 : 1
+			a.unit === b.unit ? a.duration - b.duration : a.unit === Unit.seconds ? -1 : 1
 		);
 		setTimers(newTimers);
 	}
