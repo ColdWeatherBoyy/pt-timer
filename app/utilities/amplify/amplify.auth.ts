@@ -46,7 +46,7 @@ export const validateUserSession = async () => {
 		const { username, userId, signInDetails } = await getCurrentUser();
 		return { username, userId, signInDetails };
 	} catch (error) {
-		// To-Do: Handle Error
-		return false;
+		console.error("No session detected.");
+		return null;
 	}
 };
