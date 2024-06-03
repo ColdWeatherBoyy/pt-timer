@@ -46,13 +46,15 @@ const Timer: FC<TimerProps> = ({
 	const themeColor = getThemeColor(isMinute);
 	const { activeTimer, activateTimer, deactivateTimer } = useContext(ActiveTimerContext);
 
-	// TO-DO: Can I use a single state for time even though sometimes I don't even use minutes?
-	const [clockTime, setClockTime] = useState<number>(duration);
+	const enum TimerStatus {
+		started = "Started",
+		paused = "Paused",
+		betweenReps = "betweenReps",
+		stopped = "stopped",
+	}
 
-	// TO-DO: Set an enum for the various stages the timer can be in (started, paused, betweenReps, stopped). Make one state that uses that type.
-	const [started, setStarted] = useState<boolean>(false);
-	const [paused, setPaused] = useState<boolean>(false);
-	const [betweenReps, setBetweenReps] = useState<boolean>(false);
+	const [clockTime, setClockTime] = useState<number>(duration);
+	const [timerStatus, setTimerStatus] = useState<TimerStatus>(TimerStatus.stopped);
 	const [reps, setReps] = useState<{ total: number; active: number }>({
 		total: interval,
 		active: interval,
@@ -87,19 +89,18 @@ const Timer: FC<TimerProps> = ({
 		if (activeTimer === null) {
 			activateTimer(index);
 		}
-		setStarted(true);
+		setTimerStatus(TimerStatus.started);
 	}, [activateTimer, activeTimer, index]);
 
 	// (Un)pause timer
 	const handlePause = () => {
-		setPaused((prev) => !prev);
-		if (betweenReps) {
-			setBetweenReps(false);
-		}
+		timerStatus === TimerStatus.started
+			? setTimerStatus(TimerStatus.paused)
+			: setTimerStatus(TimerStatus.started);
 	};
 	// Move to next rep (if multiple are set)
 	const handleNextRep = useCallback(async () => {
-		setBetweenReps(true); // Pause for 3 seconds between reps
+		setTimerStatus(TimerStatus.betweenReps); // Between reps
 		setActiveReps((prev) => prev - 1); // decrement active reps
 		setClockTime(duration); // Reset timer to initial value
 		// Countdown
@@ -109,15 +110,12 @@ const Timer: FC<TimerProps> = ({
 		}
 		// Start next rep
 		setBetweenRepsCountdown(3);
-		setBetweenReps(false);
 		handleStart();
 	}, [handleStart, duration]);
 
 	// Stop timer
 	const handleStop = useCallback(() => {
-		setStarted(false);
-		setPaused(false);
-		setBetweenReps(false);
+		setTimerStatus(TimerStatus.stopped);
 		deactivateTimer();
 		// Reset active reps to total reps
 		setReps((prev) => ({ ...prev, active: prev.total }));
@@ -133,7 +131,7 @@ const Timer: FC<TimerProps> = ({
 
 	// Timer logic
 	useEffect(() => {
-		if (started && !paused && !betweenReps) {
+		if (timerStatus === TimerStatus.started) {
 			const interval = setInterval(() => {
 				if (clockTime === 0) {
 					clearInterval(interval);
@@ -145,7 +143,7 @@ const Timer: FC<TimerProps> = ({
 			// Clean up
 			return () => clearInterval(interval);
 		}
-	}, [started, paused, betweenReps, clockTime, handleStop, handleNextRep, reps.active]);
+	}, [timerStatus, clockTime, handleStop, handleNextRep, reps.active]);
 
 	return (
 		<Card
@@ -155,7 +153,9 @@ const Timer: FC<TimerProps> = ({
 			className={`${className} px-6 relative`}
 		>
 			<div
-				className={`${ComponentColor[themeColor.secondary].listItem.deleteText} ${
+				className={`${
+					timerStatus !== TimerStatus.stopped ? "pointer-events-none opacity-65" : ""
+				} ${ComponentColor[themeColor.secondary].listItem.deleteText} ${
 					ComponentColor[themeColor.secondary].listItem.delete
 				} rounded-full text-[11px] px-1 py-0.5 absolute top-0.5 right-0.5 leading-none select-none cursor-pointer hover:shadow-2xl active:shadow-inner transition-all duration-100 ease-in-out`}
 				onClick={() => deleteTimer(index)}
@@ -180,7 +180,7 @@ const Timer: FC<TimerProps> = ({
 				<div>
 					<div
 						className={`${roboto_mono.className} text-5xl ${
-							!betweenReps
+							timerStatus !== TimerStatus.betweenReps
 								? "opacity-100"
 								: betweenRepsCountdown === 3
 								? "animate-fadeUpOne"
@@ -193,11 +193,11 @@ const Timer: FC<TimerProps> = ({
 							? "Done!"
 							: clockTime === 0
 							? "Pause!"
-							: betweenReps && betweenRepsCountdown === 3
+							: timerStatus === TimerStatus.betweenReps && betweenRepsCountdown === 3
 							? "Ready"
-							: betweenReps && betweenRepsCountdown === 2
+							: betweenRepsCountdown === 2
 							? "Set"
-							: betweenReps && betweenRepsCountdown === 1
+							: betweenRepsCountdown === 1
 							? "Go!"
 							: isMinute
 							? `${String(Math.floor(clockTime / 60)).padStart(2, "0")}:${String(
@@ -206,26 +206,32 @@ const Timer: FC<TimerProps> = ({
 							: String(clockTime)}
 					</div>
 					<div className="text-sm text-center">
-						{betweenReps ? "Nice!" : isMinute ? Unit.minutes : Unit.seconds}
+						{timerStatus === TimerStatus.betweenReps
+							? "Nice!"
+							: isMinute
+							? Unit.minutes
+							: Unit.seconds}
 					</div>
 				</div>
 				<div className="flex justify-center text-2xl gap-10 items-center">
 					<Button
 						buttonColor={themeColor.secondary}
-						onClick={started ? handlePause : handleStart}
+						onClick={timerStatus === TimerStatus.started ? handlePause : handleStart}
 						className="p-10"
 					>
-						{started ? (
-							paused ? (
-								<Resume size="30" />
-							) : (
-								<Pause size="30" />
-							)
-						) : (
+						{timerStatus === TimerStatus.paused ? (
+							<Resume size="30" />
+						) : timerStatus === TimerStatus.stopped ? (
 							<Play size="30" />
+						) : (
+							<Pause size="30" />
 						)}
 					</Button>
-					<div className={`${started ? "pointer-events-none opacity-65" : ""}`}>
+					<div
+						className={`${
+							timerStatus !== TimerStatus.stopped ? "pointer-events-none opacity-65" : ""
+						}`}
+					>
 						<NumberInput
 							color={themeColor.secondary}
 							title="Set Reps"
