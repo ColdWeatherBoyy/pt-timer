@@ -7,6 +7,7 @@ import { getDBTimers } from "@/app/utilities/amplify/amplify.db";
 import { TimerConfig } from "@/app/utilities/types/timers.types";
 import { useRouter } from "next/navigation";
 import { useCallback, useContext, useEffect, useState } from "react";
+import { sortTimers } from "../utilities/helperFunctions";
 
 const TimerHomepage = () => {
 	const [timers, setTimers] = useState<TimerConfig[]>([]);
@@ -19,7 +20,7 @@ const TimerHomepage = () => {
 			console.error("Trouble accessing dbtimers");
 			return;
 		}
-		setTimers(dbTimers);
+		setTimers(sortTimers(dbTimers));
 	}, []);
 
 	useEffect(() => {

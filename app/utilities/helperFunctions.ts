@@ -58,6 +58,12 @@ const validateNewTimer = (
 	return true;
 };
 
+export const sortTimers = (timers: TimerConfig[]) => {
+	return timers.sort((a: TimerConfig, b: TimerConfig) =>
+		a.unit === b.unit ? a.duration - b.duration : a.unit === Unit.seconds ? -1 : 1
+	);
+};
+
 export const addNewTimer = async (
 	newTimer: string,
 	timers: TimerConfig[],
@@ -81,11 +87,7 @@ export const addNewTimer = async (
 		return;
 	}
 	const newTimers = [...timers, { duration, interval: 1, id: data.id, unit: unit }];
-	setTimers(
-		newTimers.sort((a: TimerConfig, b: TimerConfig) =>
-			a.unit === b.unit ? a.duration - b.duration : a.unit === Unit.seconds ? -1 : 1
-		)
-	);
+	setTimers(sortTimers(newTimers));
 	setNewTimer("");
 };
 
