@@ -3,31 +3,34 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 
 interface ActiveTimerContextInterface {
-	activateTimer: (index: number) => void;
-	deactivateTimer: () => void;
+	assignActiveTimer: (index: number) => void;
+	unassignActiveTimer: () => void;
 	activeTimer: number | null;
 }
 
 export const ActiveTimerContext = createContext<ActiveTimerContextInterface>({
-	activateTimer: (index: number) =>
-		console.error("Internal Error: activateTimer not defined"),
-	deactivateTimer: () => console.error("Internal Error: deactivateTimer not defined"),
+	assignActiveTimer: (index: number) =>
+		console.error("Internal Error: assignActiveTimer not defined"),
+	unassignActiveTimer: () =>
+		console.error("Internal Error: unassignActiveTimer not defined"),
 	activeTimer: null,
 });
 
 export default function ActiveTimerProvider({ children }: { children: React.ReactNode }) {
 	const [activeTimer, setActiveTimer] = useState<number | null>(null);
 
-	const activateTimer = useCallback((index: number) => {
+	const assignActiveTimer = useCallback((index: number) => {
 		setActiveTimer(index);
 	}, []);
 
-	const deactivateTimer = useCallback(() => {
+	const unassignActiveTimer = useCallback(() => {
 		setActiveTimer(null);
 	}, []);
 
 	return (
-		<ActiveTimerContext.Provider value={{ activateTimer, deactivateTimer, activeTimer }}>
+		<ActiveTimerContext.Provider
+			value={{ assignActiveTimer, unassignActiveTimer, activeTimer }}
+		>
 			{children}
 		</ActiveTimerContext.Provider>
 	);
