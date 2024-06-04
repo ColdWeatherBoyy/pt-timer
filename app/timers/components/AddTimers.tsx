@@ -1,4 +1,3 @@
-import { ActiveTimerContext } from "@/app/providers/ActiveTimerProvider";
 import { UserContext } from "@/app/providers/UserProvider";
 import { addNewTimer, getThemeColor } from "@/app/utilities/helperFunctions";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
@@ -29,7 +28,6 @@ const AddTimers: FC<AddTimerProps> = ({
 	isMinute,
 }) => {
 	const { userId } = useContext(UserContext);
-	const { activeTimer } = useContext(ActiveTimerContext);
 	const themeColor = getThemeColor(isMinute);
 
 	const handleEnterDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -54,9 +52,7 @@ const AddTimers: FC<AddTimerProps> = ({
 		<Card
 			cardColor={themeColor.primary}
 			cardShade={ThemeShade.medium}
-			className={`p-4 gap-4 w-1/2 ${
-				activeTimer.index !== null ? "opacity-65 pointer-events-none" : ""
-			}`}
+			className={`p-4 gap-4 w-1/2`}
 			column
 		>
 			<div className="flex justify-evenly gap-20">

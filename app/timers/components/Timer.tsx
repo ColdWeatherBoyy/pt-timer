@@ -157,15 +157,13 @@ const Timer: FC<TimerProps> = ({
 			column
 			className={`${className} px-6 ${
 				activeTimer.index === index
-					? "fixed z-20 scale-150 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+					? "fixed scale-150 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
 					: "relative"
 			}`}
 		>
 			<div
 				className={`${
-					timerStatus !== TimerStatus.stopping && timerStatus !== TimerStatus.null
-						? "pointer-events-none opacity-65"
-						: ""
+					timerStatus !== TimerStatus.null ? "pointer-events-none opacity-65" : ""
 				} ${ComponentColor[themeColor.secondary].listItem.deleteText} ${
 					ComponentColor[themeColor.secondary].listItem.delete
 				} rounded-full text-[11px] px-1 py-0.5 absolute top-0.5 right-0.5 leading-none select-none cursor-pointer hover:shadow-2xl active:shadow-inner transition-all duration-100 ease-in-out`}
