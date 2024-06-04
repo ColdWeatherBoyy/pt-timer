@@ -55,7 +55,7 @@ const AddTimers: FC<AddTimerProps> = ({
 			cardColor={themeColor.primary}
 			cardShade={ThemeShade.medium}
 			className={`p-4 gap-4 w-1/2 ${
-				activeTimer !== null ? "opacity-65 pointer-events-none" : ""
+				activeTimer.index !== null ? "opacity-65 pointer-events-none" : ""
 			}`}
 			column
 		>

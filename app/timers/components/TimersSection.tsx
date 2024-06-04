@@ -25,7 +25,7 @@ const TimersSection: FC<TimersSectionProps> = ({ timers, setTimers }) => {
 						deleteTimer={(index) => removeTimer(index, timers, setTimers, timer.id)}
 						setTimers={setTimers}
 						className={`${
-							activeTimer !== index && activeTimer !== null
+							activeTimer.index !== index && activeTimer.index !== null
 								? "opacity-65 pointer-events-none"
 								: ""
 						}`}

@@ -36,8 +36,7 @@ const Timer: FC<TimerProps> = ({
 	className,
 }) => {
 	const themeColor = getThemeColor(isMinute);
-	const { activeTimer, assignActiveTimer, unassignActiveTimer } =
-		useContext(ActiveTimerContext);
+	const { assignActiveTimer, unassignActiveTimer } = useContext(ActiveTimerContext);
 
 	const [clockTime, setClockTime] = useState<number>(duration);
 	const [timerStatus, setTimerStatus] = useState<TimerStatus>(TimerStatus.stopped);
@@ -78,7 +77,7 @@ const Timer: FC<TimerProps> = ({
 		// What to do if timer is running
 		if (timerStatus === TimerStatus.started) {
 			// set active timer
-			assignActiveTimer(index);
+			assignActiveTimer(index, TimerStatus.started);
 			// Timer count down
 			const interval = setInterval(() => {
 				if (clockTime === 0) {
@@ -88,6 +87,7 @@ const Timer: FC<TimerProps> = ({
 					if (reps.active > 1) {
 						setActiveReps((prev) => prev - 1);
 						setTimerStatus(TimerStatus.betweenReps);
+						assignActiveTimer(index, TimerStatus.betweenReps);
 					} else {
 						setTimerStatus(TimerStatus.stopped);
 					}
@@ -117,6 +117,8 @@ const Timer: FC<TimerProps> = ({
 			setReps((prev) => ({ ...prev, active: prev.total }));
 			setClockTime(duration);
 			unassignActiveTimer();
+		} else if (timerStatus === TimerStatus.paused) {
+			assignActiveTimer(index, TimerStatus.paused);
 		}
 	}, [
 		timerStatus,

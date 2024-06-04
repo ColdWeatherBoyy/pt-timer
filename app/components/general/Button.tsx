@@ -1,7 +1,6 @@
 import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
 import { ThemeColor } from "@/app/utilities/types/theme.types";
-import { TimerStatus } from "@/app/utilities/types/timers.types";
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { FC } from "react";
 
 interface ButtonProps {
 	buttonColor: ThemeColor;
