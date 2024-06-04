@@ -74,19 +74,23 @@ const Timer: FC<TimerProps> = ({
 
 	// Timer logic
 	useEffect(() => {
+		// What to do if timer is running
 		if (timerStatus === TimerStatus.started) {
 			// set active timer
 			activateTimer(index);
 			// Timer count down
 			const interval = setInterval(() => {
 				if (clockTime === 0) {
+					// clear interval when finished
 					clearInterval(interval);
+					// set Timer Status (and adjust active reps) depending on the number of active reps
 					if (reps.active > 1) {
 						setActiveReps((prev) => prev - 1);
 						setTimerStatus(TimerStatus.betweenReps);
 					} else {
 						setTimerStatus(TimerStatus.stopped);
 					}
+					// Otherwise, decrement time
 				} else {
 					setClockTime((prev) => prev - 1);
 				}
@@ -96,11 +100,13 @@ const Timer: FC<TimerProps> = ({
 			const interval = setInterval(() => {
 				setBetweenRepsCountdown((prev) => {
 					if (prev === 1) {
+						// prev === 1 means we're ending the countdown
 						clearInterval(interval);
 						setClockTime(duration);
 						setTimerStatus(TimerStatus.started);
 						return 3;
 					} else {
+						// decrement countdown
 						return prev - 1;
 					}
 				});
