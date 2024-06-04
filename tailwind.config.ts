@@ -98,10 +98,10 @@ const config: Config = {
 					"950": "#1c2935",
 				},
 				timerStatus: {
-					stopping: "#cc3232",
-					paused: "#db7b2b",
-					betweenReps: "#e7b416",
-					started: "#99c140",
+					stopping: "#BB342F",
+					paused: "#FFE156",
+					betweenReps: "#DDA448",
+					started: "#73D393",
 				},
 			},
 			width: {
