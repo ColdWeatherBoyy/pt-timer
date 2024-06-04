@@ -36,7 +36,7 @@ const Timer: FC<TimerProps> = ({
 	className,
 }) => {
 	const themeColor = getThemeColor(isMinute);
-	const { setActiveTimer } = useContext(ActiveTimerContext);
+	const { activeTimer, setActiveTimer } = useContext(ActiveTimerContext);
 
 	const [clockTime, setClockTime] = useState<number>(duration);
 	const [timerStatus, setTimerStatus] = useState<TimerStatus>(TimerStatus.null);
@@ -78,19 +78,11 @@ const Timer: FC<TimerProps> = ({
 		if (timerStatus === TimerStatus.running) {
 			// set active timer
 			setActiveTimer({ index, timerStatus: TimerStatus.running });
-			console.log("in running");
 			// Timer count down
 			const interval = setInterval(() => {
 				if (clockTime === 0) {
-					// clear interval when finished
+					// clear interval when finished and set state to Stopping
 					clearInterval(interval);
-					// set Timer Status (and adjust active reps) depending on the number of active reps
-					// if (reps.active > 1) {
-					// 	setActiveReps((prev) => prev - 1);
-					// 	setTimerStatus(TimerStatus.betweenReps);
-					// } else {
-					// 	setTimerStatus(TimerStatus.stopping);
-					// }
 					setTimerStatus(TimerStatus.stopping);
 					// Otherwise, decrement time
 				} else {
@@ -101,7 +93,6 @@ const Timer: FC<TimerProps> = ({
 			// Between Reps
 		} else if (timerStatus === TimerStatus.betweenReps) {
 			setActiveTimer({ index, timerStatus: TimerStatus.betweenReps });
-			console.log("in betweenreps");
 			const interval = setInterval(() => {
 				setBetweenRepsCountdown((prev) => {
 					if (prev === 1) {
@@ -120,12 +111,10 @@ const Timer: FC<TimerProps> = ({
 			// Stopping
 		} else if (timerStatus === TimerStatus.stopping) {
 			setActiveTimer({ index: index, timerStatus: TimerStatus.stopping });
-			console.log("in stopping");
 			// reset
 			const timeout = setTimeout(() => {
 				setClockTime(duration);
 				if (reps.active === 1) {
-					setReps((prev) => ({ ...prev, active: prev.total }));
 					setTimerStatus(TimerStatus.null);
 					// move to betweenreps
 				} else {
@@ -136,15 +125,20 @@ const Timer: FC<TimerProps> = ({
 			return () => clearTimeout(timeout);
 			// Pausing
 		} else if (timerStatus === TimerStatus.paused) {
-			setActiveTimer({ index, timerStatus: TimerStatus.paused });
-			console.log("in paused");
+			setActiveTimer((prev) => {
+				if (prev.timerStatus === TimerStatus.stopping) {
+					setClockTime(duration);
+					setActiveReps((prev) => prev - 1);
+				}
+				return { index, timerStatus: TimerStatus.paused };
+			});
 			// Null
 		} else if (timerStatus === TimerStatus.null) {
 			setActiveTimer({ index: null, timerStatus: TimerStatus.null });
+			setReps((prev) => ({ ...prev, active: prev.total }));
 			if (duration !== clockTime) {
 				setClockTime(duration);
 			}
-			console.log("in null");
 		}
 	}, [
 		timerStatus,
@@ -234,9 +228,7 @@ const Timer: FC<TimerProps> = ({
 						className="p-10"
 						onClick={() =>
 							setTimerStatus((prevState) =>
-								prevState === TimerStatus.stopping ||
-								prevState === TimerStatus.paused ||
-								prevState === TimerStatus.null
+								prevState === TimerStatus.paused || prevState === TimerStatus.null
 									? TimerStatus.running
 									: TimerStatus.paused
 							)
@@ -244,7 +236,7 @@ const Timer: FC<TimerProps> = ({
 					>
 						{timerStatus === TimerStatus.paused ? (
 							<Resume size="30" />
-						) : timerStatus === TimerStatus.stopping ||
+						) : (timerStatus === TimerStatus.stopping && reps.active === 1) ||
 						  timerStatus === TimerStatus.null ? (
 							<Play size="30" />
 						) : (
