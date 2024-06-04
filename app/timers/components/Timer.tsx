@@ -155,7 +155,11 @@ const Timer: FC<TimerProps> = ({
 			cardColor={themeColor.primary}
 			cardShade={ThemeShade.light}
 			column
-			className={`${className} px-6 relative`}
+			className={`${className} px-6 ${
+				activeTimer.index === index
+					? "fixed z-20 scale-150 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+					: "relative"
+			}`}
 		>
 			<div
 				className={`${
