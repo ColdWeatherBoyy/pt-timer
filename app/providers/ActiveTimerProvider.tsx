@@ -1,49 +1,41 @@
 "use client";
 
-import { createContext, useCallback, useEffect, useState } from "react";
+import {
+	Dispatch,
+	SetStateAction,
+	createContext,
+	useCallback,
+	useEffect,
+	useState,
+} from "react";
 import { TimerStatus } from "../utilities/types/timers.types";
-
-interface ActiveTimerContextInterface {
-	assignActiveTimer: (index: number, timerStatus: TimerStatus) => void;
-	unassignActiveTimer: () => void;
-	activeTimer: { index: number | null; timerStatus: TimerStatus };
-}
 
 interface ActiveTimerInterface {
 	index: number | null;
 	timerStatus: TimerStatus;
 }
+interface ActiveTimerContextInterface {
+	setActiveTimer: Dispatch<SetStateAction<ActiveTimerInterface>>;
+	activeTimer: { index: number | null; timerStatus: TimerStatus };
+}
 
 export const ActiveTimerContext = createContext<ActiveTimerContextInterface>({
-	assignActiveTimer: (index: number, timerStatus: TimerStatus) =>
-		console.error("Internal Error: assignActiveTimer not defined"),
-	unassignActiveTimer: () =>
-		console.error("Internal Error: unassignActiveTimer not defined"),
-	activeTimer: { index: null, timerStatus: TimerStatus.stopped },
+	setActiveTimer: () => console.error("Internal Error: setActiveTimer not defined"),
+	activeTimer: { index: null, timerStatus: TimerStatus.null },
 });
 
 export default function ActiveTimerProvider({ children }: { children: React.ReactNode }) {
 	const [activeTimer, setActiveTimer] = useState<ActiveTimerInterface>({
 		index: null,
-		timerStatus: TimerStatus.stopped,
+		timerStatus: TimerStatus.null,
 	});
-
-	const assignActiveTimer = useCallback((index: number, timerStatus: TimerStatus) => {
-		setActiveTimer({ index, timerStatus });
-	}, []);
-
-	const unassignActiveTimer = useCallback(() => {
-		setActiveTimer({ index: null, timerStatus: TimerStatus.stopped });
-	}, []);
 
 	useEffect(() => {
 		console.log(activeTimer);
 	}, [activeTimer]);
 
 	return (
-		<ActiveTimerContext.Provider
-			value={{ assignActiveTimer, unassignActiveTimer, activeTimer }}
-		>
+		<ActiveTimerContext.Provider value={{ setActiveTimer, activeTimer }}>
 			{children}
 		</ActiveTimerContext.Provider>
 	);

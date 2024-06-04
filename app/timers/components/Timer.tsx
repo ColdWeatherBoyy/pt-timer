@@ -36,10 +36,10 @@ const Timer: FC<TimerProps> = ({
 	className,
 }) => {
 	const themeColor = getThemeColor(isMinute);
-	const { assignActiveTimer, unassignActiveTimer } = useContext(ActiveTimerContext);
+	const { setActiveTimer } = useContext(ActiveTimerContext);
 
 	const [clockTime, setClockTime] = useState<number>(duration);
-	const [timerStatus, setTimerStatus] = useState<TimerStatus>(TimerStatus.stopped);
+	const [timerStatus, setTimerStatus] = useState<TimerStatus>(TimerStatus.null);
 	const [reps, setReps] = useState<{ total: number; active: number }>({
 		total: interval,
 		active: interval,
@@ -74,37 +74,41 @@ const Timer: FC<TimerProps> = ({
 
 	// Timer logic
 	useEffect(() => {
-		// What to do if timer is running
-		if (timerStatus === TimerStatus.started) {
+		// Running
+		if (timerStatus === TimerStatus.running) {
 			// set active timer
-			assignActiveTimer(index, TimerStatus.started);
+			setActiveTimer({ index, timerStatus: TimerStatus.running });
+			console.log("in running");
 			// Timer count down
 			const interval = setInterval(() => {
 				if (clockTime === 0) {
 					// clear interval when finished
 					clearInterval(interval);
 					// set Timer Status (and adjust active reps) depending on the number of active reps
-					if (reps.active > 1) {
-						setActiveReps((prev) => prev - 1);
-						setTimerStatus(TimerStatus.betweenReps);
-						assignActiveTimer(index, TimerStatus.betweenReps);
-					} else {
-						setTimerStatus(TimerStatus.stopped);
-					}
+					// if (reps.active > 1) {
+					// 	setActiveReps((prev) => prev - 1);
+					// 	setTimerStatus(TimerStatus.betweenReps);
+					// } else {
+					// 	setTimerStatus(TimerStatus.stopping);
+					// }
+					setTimerStatus(TimerStatus.stopping);
 					// Otherwise, decrement time
 				} else {
 					setClockTime((prev) => prev - 1);
 				}
 			}, 1000);
 			return () => clearInterval(interval);
+			// Between Reps
 		} else if (timerStatus === TimerStatus.betweenReps) {
+			setActiveTimer({ index, timerStatus: TimerStatus.betweenReps });
+			console.log("in betweenreps");
 			const interval = setInterval(() => {
 				setBetweenRepsCountdown((prev) => {
 					if (prev === 1) {
-						// prev === 1 means we're ending the countdown
+						// prev === 1 means we're restarting the timer
 						clearInterval(interval);
-						setClockTime(duration);
-						setTimerStatus(TimerStatus.started);
+						setTimerStatus(TimerStatus.running);
+						// Resetting countdown clock
 						return 3;
 					} else {
 						// decrement countdown
@@ -113,20 +117,41 @@ const Timer: FC<TimerProps> = ({
 				});
 			}, 1000);
 			return () => clearInterval(interval);
-		} else if (timerStatus === TimerStatus.stopped) {
-			setReps((prev) => ({ ...prev, active: prev.total }));
-			setClockTime(duration);
-			unassignActiveTimer();
+			// Stopping
+		} else if (timerStatus === TimerStatus.stopping) {
+			setActiveTimer({ index: index, timerStatus: TimerStatus.stopping });
+			console.log("in stopping");
+			// reset
+			const timeout = setTimeout(() => {
+				setClockTime(duration);
+				if (reps.active === 1) {
+					setReps((prev) => ({ ...prev, active: prev.total }));
+					setTimerStatus(TimerStatus.null);
+					// move to betweenreps
+				} else {
+					setActiveReps((prev) => prev - 1);
+					setTimerStatus(TimerStatus.betweenReps);
+				}
+			}, 1000);
+			return () => clearTimeout(timeout);
+			// Pausing
 		} else if (timerStatus === TimerStatus.paused) {
-			assignActiveTimer(index, TimerStatus.paused);
+			setActiveTimer({ index, timerStatus: TimerStatus.paused });
+			console.log("in paused");
+			// Null
+		} else if (timerStatus === TimerStatus.null) {
+			setActiveTimer({ index: null, timerStatus: TimerStatus.null });
+			if (duration !== clockTime) {
+				setClockTime(duration);
+			}
+			console.log("in null");
 		}
 	}, [
 		timerStatus,
 		clockTime,
 		index,
 		duration,
-		assignActiveTimer,
-		unassignActiveTimer,
+		setActiveTimer,
 		betweenRepsCountdown,
 		reps.active,
 	]);
@@ -140,7 +165,9 @@ const Timer: FC<TimerProps> = ({
 		>
 			<div
 				className={`${
-					timerStatus !== TimerStatus.stopped ? "pointer-events-none opacity-65" : ""
+					timerStatus !== TimerStatus.stopping && timerStatus !== TimerStatus.null
+						? "pointer-events-none opacity-65"
+						: ""
 				} ${ComponentColor[themeColor.secondary].listItem.deleteText} ${
 					ComponentColor[themeColor.secondary].listItem.delete
 				} rounded-full text-[11px] px-1 py-0.5 absolute top-0.5 right-0.5 leading-none select-none cursor-pointer hover:shadow-2xl active:shadow-inner transition-all duration-100 ease-in-out`}
@@ -175,10 +202,12 @@ const Timer: FC<TimerProps> = ({
 								: "animate-fadeUpThree"
 						}`}
 					>
-						{clockTime === 0 && timerStatus === TimerStatus.started && reps.active === 1
-							? "Done!"
-							: clockTime === 0 && timerStatus === TimerStatus.started
-							? "Pause!"
+						{timerStatus === TimerStatus.paused
+							? "Paused!"
+							: timerStatus === TimerStatus.stopping && reps.active === 1
+							? "Complete!"
+							: timerStatus === TimerStatus.stopping
+							? "Rep Done!"
 							: timerStatus === TimerStatus.betweenReps && betweenRepsCountdown === 3
 							? "Ready"
 							: betweenRepsCountdown === 2
@@ -205,15 +234,18 @@ const Timer: FC<TimerProps> = ({
 						className="p-10"
 						onClick={() =>
 							setTimerStatus((prevState) =>
-								prevState === TimerStatus.stopped || prevState === TimerStatus.paused
-									? TimerStatus.started
+								prevState === TimerStatus.stopping ||
+								prevState === TimerStatus.paused ||
+								prevState === TimerStatus.null
+									? TimerStatus.running
 									: TimerStatus.paused
 							)
 						}
 					>
 						{timerStatus === TimerStatus.paused ? (
 							<Resume size="30" />
-						) : timerStatus === TimerStatus.stopped ? (
+						) : timerStatus === TimerStatus.stopping ||
+						  timerStatus === TimerStatus.null ? (
 							<Play size="30" />
 						) : (
 							<Pause size="30" />
@@ -221,7 +253,9 @@ const Timer: FC<TimerProps> = ({
 					</Button>
 					<div
 						className={`${
-							timerStatus !== TimerStatus.stopped ? "pointer-events-none opacity-65" : ""
+							timerStatus !== TimerStatus.stopping && timerStatus !== TimerStatus.null
+								? "pointer-events-none opacity-65"
+								: ""
 						}`}
 					>
 						<NumberInput
@@ -234,7 +268,7 @@ const Timer: FC<TimerProps> = ({
 					</div>
 					<Button
 						buttonColor={themeColor.secondary}
-						onClick={() => setTimerStatus(TimerStatus.stopped)}
+						onClick={() => setTimerStatus(TimerStatus.null)}
 					>
 						<Stop size="30" />
 					</Button>

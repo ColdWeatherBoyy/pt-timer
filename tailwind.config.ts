@@ -97,6 +97,12 @@ const config: Config = {
 					"900": "#2a3f50",
 					"950": "#1c2935",
 				},
+				timerStatus: {
+					stopping: "#cc3232",
+					paused: "#db7b2b",
+					betweenReps: "#e7b416",
+					started: "#99c140",
+				},
 			},
 			width: {
 				"18": "4.5rem",
