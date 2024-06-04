@@ -126,7 +126,10 @@ const Timer: FC<TimerProps> = ({
 			// Pausing
 		} else if (timerStatus === TimerStatus.paused) {
 			setActiveTimer((prev) => {
-				if (prev.timerStatus === TimerStatus.stopping) {
+				if (
+					prev.timerStatus === TimerStatus.stopping ||
+					prev.timerStatus === TimerStatus.betweenReps
+				) {
 					setClockTime(duration);
 					setActiveReps((prev) => prev - 1);
 				}
