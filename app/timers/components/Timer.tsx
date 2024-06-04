@@ -1,19 +1,11 @@
 import { ActiveTimerContext } from "@/app/providers/ActiveTimerProvider";
 import { updateIntervalDBTimers } from "@/app/utilities/amplify/amplify.db";
-import { delay, getThemeColor } from "@/app/utilities/helperFunctions";
+import { getThemeColor } from "@/app/utilities/helperFunctions";
 import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
 import { roboto_mono } from "@/app/utilities/style/fonts";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
 import { TimerConfig, TimerStatus } from "@/app/utilities/types/timers.types";
-import {
-	Dispatch,
-	FC,
-	SetStateAction,
-	useCallback,
-	useContext,
-	useEffect,
-	useState,
-} from "react";
+import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from "react";
 import Button from "../../components/general/Button";
 import Card from "../../components/general/Card";
 import NumberInput from "../../components/general/NumberInput";
@@ -74,22 +66,6 @@ const Timer: FC<TimerProps> = ({
 		});
 	};
 
-	// *********** EVENT HANDLERS **************
-	// Move to next rep (if multiple are set)
-	const handleNextRep = useCallback(async () => {
-		setTimerStatus(TimerStatus.betweenReps); // Between reps
-		setActiveReps((prev) => prev - 1); // decrement active reps
-		setClockTime(duration); // Reset timer to initial value
-		// Countdown
-		for (let count = 3; count > 0; count--) {
-			if (count !== 3) setBetweenRepsCountdown(count);
-			await delay(1000);
-		}
-		// Start next rep
-		setBetweenRepsCountdown(3);
-		setTimerStatus(TimerStatus.started);
-	}, [setTimerStatus, duration]);
-
 	// *********** EFFECTS **************
 	// Keep active reps updated when total reps change
 	useEffect(() => {
@@ -99,34 +75,51 @@ const Timer: FC<TimerProps> = ({
 	// Timer logic
 	useEffect(() => {
 		if (timerStatus === TimerStatus.started) {
+			// set active timer
 			activateTimer(index);
+			// Timer count down
 			const interval = setInterval(() => {
 				if (clockTime === 0) {
 					clearInterval(interval);
-					reps.active > 1 ? handleNextRep() : setTimerStatus(TimerStatus.stopped);
+					if (reps.active > 1) {
+						setActiveReps((prev) => prev - 1);
+						setTimerStatus(TimerStatus.betweenReps);
+					} else {
+						setTimerStatus(TimerStatus.stopped);
+					}
 				} else {
 					setClockTime((prev) => prev - 1);
 				}
 			}, 1000);
-			// Clean up
+			return () => clearInterval(interval);
+		} else if (timerStatus === TimerStatus.betweenReps) {
+			const interval = setInterval(() => {
+				setBetweenRepsCountdown((prev) => {
+					if (prev === 1) {
+						clearInterval(interval);
+						setClockTime(duration);
+						setTimerStatus(TimerStatus.started);
+						return 3;
+					} else {
+						return prev - 1;
+					}
+				});
+			}, 1000);
 			return () => clearInterval(interval);
 		} else if (timerStatus === TimerStatus.stopped) {
-			// Reset active reps to total reps
 			setReps((prev) => ({ ...prev, active: prev.total }));
-			// Reset timer to initial value
 			setClockTime(duration);
-			// deactivate activeTimer
 			deactivateTimer();
 		}
 	}, [
 		timerStatus,
 		clockTime,
-		handleNextRep,
-		reps.active,
 		index,
 		duration,
 		activateTimer,
 		deactivateTimer,
+		betweenRepsCountdown,
+		reps.active,
 	]);
 
 	return (
@@ -173,9 +166,9 @@ const Timer: FC<TimerProps> = ({
 								: "animate-fadeUpThree"
 						}`}
 					>
-						{clockTime === 0 && reps.active === 1
+						{clockTime === 0 && timerStatus === TimerStatus.started && reps.active === 1
 							? "Done!"
-							: clockTime === 0
+							: clockTime === 0 && timerStatus === TimerStatus.started
 							? "Pause!"
 							: timerStatus === TimerStatus.betweenReps && betweenRepsCountdown === 3
 							? "Ready"
