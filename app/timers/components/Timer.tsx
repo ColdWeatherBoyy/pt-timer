@@ -157,7 +157,7 @@ const Timer: FC<TimerProps> = ({
 			column
 			className={`${className} px-6 ${
 				activeTimer.index === index
-					? "fixed scale-150 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
+					? "fixed scale-125 md:scale-150 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-full md:-translate-y-2/3 z-10"
 					: "relative"
 			}`}
 		>
