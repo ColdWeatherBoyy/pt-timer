@@ -215,19 +215,19 @@ const Timer: FC<TimerProps> = ({
 		calculateCenterTranslation();
 	}, [viewportCenter, initialPosition, centerTranslate]);
 
-	// useEffect(() => {
-	// 	const handleResize = () => {
-	// 		setViewportCenter({
-	// 			width: window.innerWidth / 2,
-	// 			height: window.innerHeight / 2,
-	// 		});
-	// 	};
-	// 	window.addEventListener("resize", handleResize);
+	useEffect(() => {
+		const handleResize = () => {
+			setViewportCenter({
+				width: window.innerWidth / 2,
+				height: window.innerHeight / 2,
+			});
+		};
+		window.addEventListener("resize", handleResize);
 
-	// 	return () => {
-	// 		window.removeEventListener("resize", handleResize);
-	// 	};
-	// }, []);
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, []);
 
 	return (
 		<div
@@ -239,7 +239,9 @@ const Timer: FC<TimerProps> = ({
 			style={
 				activeTimer.index === index
 					? {
-							transform: `translateX(${centerTranslate.left}px) translateY(${centerTranslate.top}px) scale(1.25)`,
+							transform: `translateX(${centerTranslate.left}px) translateY(${
+								centerTranslate.top
+							}px) ${window.innerWidth >= 768 ? "scale(1.5)" : "scale(1.25"}`,
 					  }
 					: {}
 			}
