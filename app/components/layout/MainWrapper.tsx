@@ -13,16 +13,16 @@ const MainWrapper: FC<MainWrapperProps> = ({ children }) => {
 	let bgColor;
 	switch (activeTimer.timerStatus) {
 		case TimerStatus.running:
-			bgColor = "bg-timerStatus-started";
+			bgColor = "animate-animateGradientRunning";
 			break;
 		case TimerStatus.paused:
-			bgColor = "bg-timerStatus-paused";
+			bgColor = "animate-animateGradientPaused";
 			break;
 		case TimerStatus.betweenReps:
-			bgColor = "bg-timerStatus-betweenReps";
+			bgColor = "animate-animateGradientBetweenReps";
 			break;
 		case TimerStatus.stopping:
-			bgColor = "bg-timerStatus-stopping";
+			bgColor = "animate-animateGradientStopping";
 			break;
 		default:
 			bgColor = "bg-jade-50";

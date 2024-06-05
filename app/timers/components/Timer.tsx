@@ -198,19 +198,15 @@ const Timer: FC<TimerProps> = ({
 
 	useEffect(() => {
 		const calculateCenterTranslation = () => {
-			setCenteredTranslate((prev) => {
-				if (initialPosition && timerRef.current) {
-					return {
-						top: viewportCenter.height - initialPosition.top - initialPosition.height / 2,
-						left: viewportCenter.width - initialPosition.left - initialPosition.width / 2,
-					};
-				}
-				return prev;
-			});
+			if (initialPosition && timerRef.current) {
+				setCenteredTranslate({
+					top: viewportCenter.height - initialPosition.top - initialPosition.height / 2,
+					left: viewportCenter.width - initialPosition.left - initialPosition.width / 2,
+				});
+			}
 		};
-
 		calculateCenterTranslation();
-	}, [viewportCenter, initialPosition, centerTranslate]);
+	}, [viewportCenter, initialPosition]);
 
 	useEffect(() => {
 		const handleResize = () => {

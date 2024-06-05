@@ -8,7 +8,7 @@ export interface TimerConfig {
 }
 
 export enum TimerStatus {
-	running = "started",
+	running = "running",
 	paused = "paused",
 	betweenReps = "betweenReps",
 	stopping = "stopping",
