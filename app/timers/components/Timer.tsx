@@ -199,14 +199,11 @@ const Timer: FC<TimerProps> = ({
 	useEffect(() => {
 		const calculateCenterTranslation = () => {
 			setCenteredTranslate((prev) => {
-				let newTop = 0;
-				let newLeft = 0;
 				if (initialPosition && timerRef.current) {
-					newTop =
-						viewportCenter.height - initialPosition.top - initialPosition.height / 2;
-					newLeft =
-						viewportCenter.width - initialPosition.left - initialPosition.width / 2;
-					return { top: newTop, left: newLeft };
+					return {
+						top: viewportCenter.height - initialPosition.top - initialPosition.height / 2,
+						left: viewportCenter.width - initialPosition.left - initialPosition.width / 2,
+					};
 				}
 				return prev;
 			});
@@ -233,7 +230,7 @@ const Timer: FC<TimerProps> = ({
 		<div
 			ref={timerRef}
 			className={`transition-all duration-400 ease-in-out
-        ${activeTimer.index === index ? "z-20" : ""}
+        ${activeTimer.index === index ? "z-20" : "relative"}
 
   `}
 			style={
