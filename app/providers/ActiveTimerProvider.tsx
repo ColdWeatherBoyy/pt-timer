@@ -30,10 +30,6 @@ export default function ActiveTimerProvider({ children }: { children: React.Reac
 		timerStatus: TimerStatus.null,
 	});
 
-	useEffect(() => {
-		console.log(activeTimer);
-	}, [activeTimer]);
-
 	return (
 		<ActiveTimerContext.Provider value={{ setActiveTimer, activeTimer }}>
 			{children}

@@ -8,6 +8,7 @@ interface CardProps {
 	column?: boolean;
 	className?: string;
 	children: React.ReactNode;
+	style?: { [key: string]: any };
 }
 
 const Card: FC<CardProps> = ({

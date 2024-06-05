@@ -29,7 +29,9 @@ const MainWrapper: FC<MainWrapperProps> = ({ children }) => {
 	}
 
 	return (
-		<main className={`text-jade-950 ${bgColor} flex min-h-screen flex-col items-center`}>
+		<main
+			className={`text-jade-950 pb-3 ${bgColor} flex min-h-screen flex-col items-center`}
+		>
 			{children}
 		</main>
 	);
