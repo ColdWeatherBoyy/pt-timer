@@ -126,16 +126,25 @@ const Timer: FC<TimerProps> = ({
 			// Between Reps
 		} else if (timerStatus === TimerStatus.betweenReps) {
 			setActiveTimer({ index, timerStatus: TimerStatus.betweenReps });
+			// if (betweenRepsCountdown === 3) {
+			audioRefs.current[0].play();
+			// }
+			// if (betweenRepsCountdown === 2) {
+			// 	audioRefs.current[0].play();
+			// }
+
 			const interval = setInterval(() => {
 				setBetweenRepsCountdown((prev) => {
 					if (prev === 2) {
 						// prev === 2 means we're restarting the timer
+						audioRefs.current[1].play();
 						clearInterval(interval);
 						setTimerStatus(TimerStatus.running);
 						// Resetting countdown clock
 						return 3;
 					} else {
-						// decrement countdown
+						//  countdown
+						audioRefs.current[0].play();
 						return prev - 1;
 					}
 				});
@@ -233,9 +242,6 @@ const Timer: FC<TimerProps> = ({
 
 	return (
 		<>
-			{audioRefs.current.map((audioRef, index) => (
-				<audio key={index} src={audioRef.toString()}></audio>
-			))}
 			<div
 				ref={timerRef}
 				className={`transition-all duration-400 ease-in-out
