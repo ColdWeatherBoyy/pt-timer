@@ -21,11 +21,8 @@ const Header: FC = () => {
 	};
 
 	return (
-		<div className="flex py-4 shadow-md w-full bg-jade-200 mb-3 justify-between px-10 items-center">
-			<div className="flex flex-col">
-				<span>Welcome to Physical</span>
-				<span>Therapy Interval Timers!</span>
-			</div>
+		<div className="flex py-4 shadow-md w-full bg-gradient-to-r from-jade-400 to-horizon-400 mb-3 justify-between px-10 items-center">
+			<div className="flex w-3/5">Welcome to Physical Therapy Interval Timers!</div>
 			{userId ? (
 				<LinkButton text="Sign Out" textColor={ThemeColor.jade} onClick={handleSignOut} />
 			) : (

@@ -126,13 +126,7 @@ const Timer: FC<TimerProps> = ({
 			// Between Reps
 		} else if (timerStatus === TimerStatus.betweenReps) {
 			setActiveTimer({ index, timerStatus: TimerStatus.betweenReps });
-			// if (betweenRepsCountdown === 3) {
 			audioRefs.current[0].play();
-			// }
-			// if (betweenRepsCountdown === 2) {
-			// 	audioRefs.current[0].play();
-			// }
-
 			const interval = setInterval(() => {
 				setBetweenRepsCountdown((prev) => {
 					if (prev === 2) {
@@ -159,7 +153,6 @@ const Timer: FC<TimerProps> = ({
 				setClockTime(duration);
 				if (reps.active === 1) {
 					setTimerStatus(TimerStatus.null);
-					// move to betweenreps
 				} else {
 					setActiveReps((prev) => prev - 1);
 					setTimerStatus(TimerStatus.betweenReps);
@@ -183,6 +176,7 @@ const Timer: FC<TimerProps> = ({
 			setActiveTimer({ index: null, timerStatus: TimerStatus.null });
 			setReps((prev) => ({ ...prev, active: prev.total }));
 			setClockTime(duration);
+			setBetweenRepsCountdown(3);
 		}
 	}, [
 		timerStatus,

@@ -25,7 +25,7 @@ const validateNewTimer = (
 		console.error("Invalid number.");
 		return false;
 	}
-	if (!Number.isInteger(duration)) {
+	if (!Number.isInteger(duration / (unit === Unit.minutes ? 60 : 1))) {
 		alert("Whole numbers only, please.");
 		console.error("Non-integer number.");
 		return false;

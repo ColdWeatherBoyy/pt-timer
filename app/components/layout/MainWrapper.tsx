@@ -25,7 +25,7 @@ const MainWrapper: FC<MainWrapperProps> = ({ children }) => {
 			bgColor = "animate-animateGradientStopping";
 			break;
 		default:
-			bgColor = "bg-jade-50";
+			bgColor = "bg-gradient-to-r from-jade-100 to-horizon-100";
 	}
 
 	return (
