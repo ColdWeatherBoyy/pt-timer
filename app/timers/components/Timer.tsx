@@ -68,6 +68,15 @@ const Timer: FC<TimerProps> = ({
 		active: interval,
 	});
 	const [betweenRepsCountdown, setBetweenRepsCountdown] = useState<number>(3);
+	const audioRefs = useRef<HTMLAudioElement[]>(
+		[
+			"/audio/CountdownBeep.mp3",
+			"/audio/CountdownEnd.mp3",
+			"/audio/Wahoo.mp3",
+			"/audio/Yeah.mp3",
+			"/audio/LetsAGo.mp3",
+		].map((src) => new Audio(src))
+	);
 
 	// *********** Rep Utilities **************
 	// Set active reps (making my own Dispatch of SetStateAction)
@@ -103,10 +112,11 @@ const Timer: FC<TimerProps> = ({
 			setActiveTimer({ index, timerStatus: TimerStatus.running });
 			// Timer count down
 			const interval = setInterval(() => {
-				if (clockTime === 0) {
+				if (clockTime === 1) {
 					// clear interval when finished and set state to Stopping
 					clearInterval(interval);
 					setTimerStatus(TimerStatus.stopping);
+
 					// Otherwise, decrement time
 				} else {
 					setClockTime((prev) => prev - 1);
@@ -118,8 +128,8 @@ const Timer: FC<TimerProps> = ({
 			setActiveTimer({ index, timerStatus: TimerStatus.betweenReps });
 			const interval = setInterval(() => {
 				setBetweenRepsCountdown((prev) => {
-					if (prev === 1) {
-						// prev === 1 means we're restarting the timer
+					if (prev === 2) {
+						// prev === 2 means we're restarting the timer
 						clearInterval(interval);
 						setTimerStatus(TimerStatus.running);
 						// Resetting countdown clock
@@ -135,6 +145,7 @@ const Timer: FC<TimerProps> = ({
 		} else if (timerStatus === TimerStatus.stopping) {
 			setActiveTimer({ index: index, timerStatus: TimerStatus.stopping });
 			// reset
+			reps.active === 1 ? audioRefs.current[2].play() : audioRefs.current[3].play();
 			const timeout = setTimeout(() => {
 				setClockTime(duration);
 				if (reps.active === 1) {
@@ -162,9 +173,7 @@ const Timer: FC<TimerProps> = ({
 		} else if (timerStatus === TimerStatus.null) {
 			setActiveTimer({ index: null, timerStatus: TimerStatus.null });
 			setReps((prev) => ({ ...prev, active: prev.total }));
-			if (duration !== clockTime) {
-				setClockTime(duration);
-			}
+			setClockTime(duration);
 		}
 	}, [
 		timerStatus,
@@ -223,137 +232,148 @@ const Timer: FC<TimerProps> = ({
 	}, []);
 
 	return (
-		<div
-			ref={timerRef}
-			className={`transition-all duration-400 ease-in-out
+		<>
+			{audioRefs.current.map((audioRef, index) => (
+				<audio key={index} src={audioRef.toString()}></audio>
+			))}
+			<div
+				ref={timerRef}
+				className={`transition-all duration-400 ease-in-out
         ${activeTimer.index === index ? "z-20" : "relative"}
 
   `}
-			style={
-				activeTimer.index === index
-					? {
-							transform: `translateX(${centerTranslate.left}px) translateY(${
-								centerTranslate.top
-							}px) ${window.innerWidth >= 768 ? "scale(1.5)" : "scale(1.25"}`,
-					  }
-					: {}
-			}
-		>
-			<Card
-				cardColor={themeColor.primary}
-				cardShade={ThemeShade.light}
-				column
-				className={`${className} px-6 `}
+				style={
+					activeTimer.index === index
+						? {
+								transform: `translateX(${centerTranslate.left}px) translateY(${
+									centerTranslate.top
+								}px) ${window.innerWidth >= 768 ? "scale(1.5)" : "scale(1.25"}`,
+						  }
+						: {}
+				}
 			>
-				<div
-					className={`${
-						timerStatus !== TimerStatus.null ? "pointer-events-none opacity-65" : ""
-					} ${ComponentColor[themeColor.secondary].listItem.deleteText} ${
-						ComponentColor[themeColor.secondary].listItem.delete
-					} rounded-full text-[11px] px-1 py-0.5 absolute top-0.5 right-0.5 leading-none select-none cursor-pointer hover:shadow-2xl active:shadow-inner transition-all duration-100 ease-in-out`}
-					onClick={() => deleteTimer(index)}
+				<Card
+					cardColor={themeColor.primary}
+					cardShade={ThemeShade.light}
+					column
+					className={`${className} px-6 `}
 				>
-					x
-				</div>
-				<div className={`${roboto_mono.className} w-full flex text-3xl justify-between`}>
-					<span className="font-bold">Timer</span>
-					<div className="flex flex-row">
-						<div className="tracking-tighter text-2xl">Reps:</div>
-						<Card
-							cardColor={themeColor.secondary}
-							cardShade={ThemeShade.dark}
-							className="w-fit py-2 px-3 text-2xl ml-1 leading-none -translate-y-0.5"
-						>
-							{reps.active}
-						</Card>
+					<div
+						className={`${
+							timerStatus !== TimerStatus.null ? "pointer-events-none opacity-65" : ""
+						} ${ComponentColor[themeColor.secondary].listItem.deleteText} ${
+							ComponentColor[themeColor.secondary].listItem.delete
+						} rounded-full text-[11px] px-1 py-0.5 absolute top-0.5 right-0.5 leading-none select-none cursor-pointer hover:shadow-2xl active:shadow-inner transition-all duration-100 ease-in-out`}
+						onClick={() => deleteTimer(index)}
+					>
+						x
 					</div>
-				</div>
+					<div
+						className={`${roboto_mono.className} w-full flex text-3xl justify-between`}
+					>
+						<span className="font-bold">Timer</span>
+						<div className="flex flex-row">
+							<div className="tracking-tighter text-2xl">Reps:</div>
+							<Card
+								cardColor={themeColor.secondary}
+								cardShade={ThemeShade.dark}
+								className="w-fit py-2 px-3 text-2xl ml-1 leading-none -translate-y-0.5"
+							>
+								{reps.active}
+							</Card>
+						</div>
+					</div>
 
-				<div className="flex flex-col gap-2 items-center">
-					<div>
-						<div
-							className={`${roboto_mono.className} text-5xl ${
-								timerStatus !== TimerStatus.betweenReps
-									? "opacity-100"
-									: betweenRepsCountdown === 3
-									? "animate-fadeUpOne"
+					<div className="flex flex-col gap-2 items-center">
+						<div>
+							<div
+								className={`${roboto_mono.className} text-5xl ${
+									timerStatus !== TimerStatus.betweenReps
+										? "opacity-100"
+										: betweenRepsCountdown === 3
+										? "animate-fadeUpOne"
+										: betweenRepsCountdown === 2
+										? "animate-fadeUpTwo"
+										: "animate-fadeUpThree"
+								}`}
+							>
+								{timerStatus === TimerStatus.paused
+									? "Paused!"
+									: timerStatus === TimerStatus.stopping && reps.active === 1
+									? "Complete!"
+									: timerStatus === TimerStatus.stopping
+									? "Rep Done!"
+									: timerStatus === TimerStatus.betweenReps && betweenRepsCountdown === 3
+									? "Ready"
 									: betweenRepsCountdown === 2
-									? "animate-fadeUpTwo"
-									: "animate-fadeUpThree"
-							}`}
-						>
-							{timerStatus === TimerStatus.paused
-								? "Paused!"
-								: timerStatus === TimerStatus.stopping && reps.active === 1
-								? "Complete!"
-								: timerStatus === TimerStatus.stopping
-								? "Rep Done!"
-								: timerStatus === TimerStatus.betweenReps && betweenRepsCountdown === 3
-								? "Ready"
-								: betweenRepsCountdown === 2
-								? "Set"
-								: betweenRepsCountdown === 1
-								? "Go!"
-								: isMinute
-								? `${String(Math.floor(clockTime / 60)).padStart(2, "0")}:${String(
-										clockTime % 60
-								  ).padStart(2, "0")}`
-								: String(clockTime)}
+									? "Set"
+									: isMinute
+									? `${String(Math.floor(clockTime / 60)).padStart(2, "0")}:${String(
+											clockTime % 60
+									  ).padStart(2, "0")}`
+									: String(clockTime)}
+							</div>
+							<div className="text-sm text-center">
+								{timerStatus === TimerStatus.betweenReps
+									? "Nice!"
+									: isMinute
+									? Unit.minutes
+									: Unit.seconds}
+							</div>
 						</div>
-						<div className="text-sm text-center">
-							{timerStatus === TimerStatus.betweenReps
-								? "Nice!"
-								: isMinute
-								? Unit.minutes
-								: Unit.seconds}
+						<div className="flex justify-center text-2xl gap-10 items-center">
+							<Button
+								buttonColor={themeColor.secondary}
+								className="p-10"
+								onClick={() =>
+									setTimerStatus((prevState) => {
+										if (
+											prevState === TimerStatus.paused ||
+											prevState === TimerStatus.null
+										) {
+											audioRefs.current[4].play();
+											return TimerStatus.running;
+										} else {
+											return TimerStatus.paused;
+										}
+									})
+								}
+							>
+								{timerStatus === TimerStatus.paused ? (
+									<Resume size="30" />
+								) : (timerStatus === TimerStatus.stopping && reps.active === 1) ||
+								  timerStatus === TimerStatus.null ? (
+									<Play size="30" />
+								) : (
+									<Pause size="30" />
+								)}
+							</Button>
+							<div
+								className={`${
+									timerStatus !== TimerStatus.stopping && timerStatus !== TimerStatus.null
+										? "pointer-events-none opacity-65"
+										: ""
+								}`}
+							>
+								<NumberInput
+									color={themeColor.secondary}
+									title="Set Reps"
+									number={reps.total}
+									setNumber={setTotalReps}
+									limits={{ min: 1, max: 5 }}
+								/>
+							</div>
+							<Button
+								buttonColor={themeColor.secondary}
+								onClick={() => setTimerStatus(TimerStatus.null)}
+							>
+								<Stop size="30" />
+							</Button>
 						</div>
 					</div>
-					<div className="flex justify-center text-2xl gap-10 items-center">
-						<Button
-							buttonColor={themeColor.secondary}
-							className="p-10"
-							onClick={() =>
-								setTimerStatus((prevState) =>
-									prevState === TimerStatus.paused || prevState === TimerStatus.null
-										? TimerStatus.running
-										: TimerStatus.paused
-								)
-							}
-						>
-							{timerStatus === TimerStatus.paused ? (
-								<Resume size="30" />
-							) : (timerStatus === TimerStatus.stopping && reps.active === 1) ||
-							  timerStatus === TimerStatus.null ? (
-								<Play size="30" />
-							) : (
-								<Pause size="30" />
-							)}
-						</Button>
-						<div
-							className={`${
-								timerStatus !== TimerStatus.stopping && timerStatus !== TimerStatus.null
-									? "pointer-events-none opacity-65"
-									: ""
-							}`}
-						>
-							<NumberInput
-								color={themeColor.secondary}
-								title="Set Reps"
-								number={reps.total}
-								setNumber={setTotalReps}
-								limits={{ min: 1, max: 5 }}
-							/>
-						</div>
-						<Button
-							buttonColor={themeColor.secondary}
-							onClick={() => setTimerStatus(TimerStatus.null)}
-						>
-							<Stop size="30" />
-						</Button>
-					</div>
-				</div>
-			</Card>
-		</div>
+				</Card>
+			</div>
+		</>
 	);
 };
 
