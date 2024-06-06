@@ -16,11 +16,13 @@ const LinkButton: FC<LinkButtonProps> = ({
 	marginLeft = false,
 	marginRight = false,
 }) => {
+	const textColorClass =
+		textColor === ThemeColor.jade ? "text-jade-600" : "text-horizon-600";
 	return (
 		<div
 			className={`${marginLeft && "ml-1"} ${
 				marginRight && "mr-1"
-			} text-${textColor}-800 cursor-pointer underline hover:tracking-wide hover:-translate-y-0.5 transition-all ease`}
+			} ${textColorClass} cursor-pointer underline hover:tracking-wide hover:-translate-y-0.5 transition-all ease`}
 			onClick={onClick}
 		>
 			{text}

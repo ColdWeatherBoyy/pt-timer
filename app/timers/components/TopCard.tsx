@@ -26,7 +26,7 @@ const TopCard: FC<TopCardProps> = ({ timers, setTimers }) => {
 			}`}
 			column
 		>
-			<div className="text-4xl font-bold ">Interval Timers</div>
+			<div className="text-4xl font-bold">Interval Timers</div>
 			<AddTimers
 				newTimer={newTimer}
 				setNewTimer={setNewTimer}

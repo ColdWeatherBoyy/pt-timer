@@ -56,11 +56,17 @@ const UserForm: FC<UserFormProps> = ({
 				className="p-8 gap-3 relative w-min md:w-fit"
 			>
 				<div
-					className={`text-${formColor}-950 text-5xl text-center whitespace-nowrap underline`}
+					className={`${
+						formColor === ThemeColor.jade ? "text-jade-950" : "text-horizon-950"
+					} text-5xl text-center whitespace-nowrap underline`}
 				>
 					{formText.title}
 				</div>
-				<div className={`text-${formColor}-950 font-bold text-lg text-center w-3/4`}>
+				<div
+					className={`${
+						formColor === ThemeColor.jade ? "text-jade-950" : "text-horizon-950"
+					} font-bold text-lg text-center w-3/4`}
+				>
 					{formText.subtitle}
 				</div>
 				<div className="flex flex-col items-center w-full">
