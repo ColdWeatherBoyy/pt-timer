@@ -23,19 +23,17 @@ const TimerHomepage = () => {
 			return;
 		}
 		setTimers(sortTimers(dbTimers));
+		setLoading(false);
 	}, []);
 
 	useEffect(() => {
 		// let storedTimers = window.localStorage.getItem("timers")
 		if (!loadingUser && !userId) {
 			router.push("/account/signin");
+		} else {
+			initializeTimers();
 		}
 	}, [userId, loadingUser, router, initializeTimers]);
-
-	useEffect(() => {
-		initializeTimers();
-		setLoading(false);
-	}, [initializeTimers]);
 
 	// useEffect(() => {
 	// 	if (!loaded) return;

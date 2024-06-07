@@ -4,12 +4,8 @@ import {
 	getAnimateGradient,
 	trembleActive,
 	trembleHover,
-} from "./tailwindThemeExtensions/tailwind.animations";
-import {
-	horizon,
-	jade,
-	timerStatusColors,
-} from "./tailwindThemeExtensions/tailwind.colors";
+} from "./tailwind/tailwind.animations";
+import { horizon, jade, timerStatusColors } from "./tailwind/tailwind.colors";
 
 const config: Config = {
 	content: [

@@ -30,13 +30,18 @@ export default function UserProvider({ children }: { children: React.ReactNode }
 			}
 		};
 		validate();
+		setLoadingUser(false);
 	}, []);
 
 	const handleLogInChange = async (loggedIn: boolean) => {
 		if (loggedIn) {
-			const data = await validateUserSession();
-			if (data) {
-				setUserId(data.userId);
+			try {
+				const data = await validateUserSession();
+				if (data) {
+					setUserId(data.userId);
+				}
+			} catch (error) {
+				console.error("Internal Error: ", error);
 			}
 			// handle error for no data
 		} else {
