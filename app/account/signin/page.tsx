@@ -9,7 +9,7 @@ import { ThemeColor } from "../../utilities/types/theme.types";
 
 const SignIn: FC = () => {
 	const router = useRouter();
-	const { handleLogInChange, userId } = useContext(UserContext);
+	const { handleLogInChange, userId, loadingUser } = useContext(UserContext);
 	const [userData, setUserData] = useState({
 		email: "",
 		password: "",
@@ -38,7 +38,7 @@ const SignIn: FC = () => {
 	};
 
 	useEffect(() => {
-		if (userId) {
+		if (!loadingUser && userId) {
 			router.push("/timers");
 		}
 	}, [userId, router]);
