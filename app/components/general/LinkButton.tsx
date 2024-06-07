@@ -17,7 +17,7 @@ const LinkButton: FC<LinkButtonProps> = ({
 	marginRight = false,
 }) => {
 	const textColorClass =
-		textColor === ThemeColor.jade ? "text-jade-600" : "text-horizon-600";
+		textColor === ThemeColor.jade ? "text-jade-100" : "text-horizon-100";
 	return (
 		<div
 			className={`${marginLeft && "ml-1"} ${
