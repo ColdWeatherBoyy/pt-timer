@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Header from "./components/layout/Header";
 import MainWrapper from "./components/layout/MainWrapper";
 import "./globals.css";
 import ActiveTimerProvider from "./providers/ActiveTimerProvider";
 import UserProvider from "./providers/UserProvider";
 import { inter } from "./utilities/style/fonts";
+import Header from "./components/layout/Header";
 
 export const metadata: Metadata = {
 	title: "PT Timers",
@@ -21,10 +21,7 @@ export default function RootLayout({
 			<body className={inter.className}>
 				<UserProvider>
 					<ActiveTimerProvider>
-						<MainWrapper>
-							<Header />
-							{children}
-						</MainWrapper>
+						<MainWrapper>{children}</MainWrapper>
 					</ActiveTimerProvider>
 				</UserProvider>
 			</body>

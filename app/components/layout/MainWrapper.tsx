@@ -1,8 +1,11 @@
 "use client";
 
 import { ActiveTimerContext } from "@/app/providers/ActiveTimerProvider";
+import { UserContext } from "@/app/providers/UserProvider";
 import { TimerStatus } from "@/app/utilities/types/timers.types";
 import React, { FC, useContext } from "react";
+import LoadingSection from "../general/LoadingSection";
+import Header from "./Header";
 
 interface MainWrapperProps {
 	children: React.ReactNode;
@@ -10,6 +13,7 @@ interface MainWrapperProps {
 
 const MainWrapper: FC<MainWrapperProps> = ({ children }) => {
 	const { activeTimer } = useContext(ActiveTimerContext);
+	const { loadingUser } = useContext(UserContext);
 	let bgColor;
 	switch (activeTimer.timerStatus) {
 		case TimerStatus.running:
@@ -29,11 +33,24 @@ const MainWrapper: FC<MainWrapperProps> = ({ children }) => {
 	}
 
 	return (
-		<main
-			className={`text-jade-950 pb-3 ${bgColor} flex min-h-screen flex-col items-center`}
-		>
-			{children}
-		</main>
+		<>
+			{loadingUser && (
+				<div className="absolute h-full w-full z-30 flex items-center justify-center">
+					<div className="h-60 w-60">
+						<LoadingSection />
+					</div>
+				</div>
+			)}
+			<main
+				className={`text-jade-950 pb-3 ${bgColor} flex min-h-screen flex-col items-center ${
+					loadingUser && "opacity-30 pointer-events-none"
+				}`}
+			>
+				<Header />
+
+				{children}
+			</main>
+		</>
 	);
 };
 
