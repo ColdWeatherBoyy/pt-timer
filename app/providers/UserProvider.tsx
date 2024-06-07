@@ -22,30 +22,43 @@ export default function UserProvider({ children }: { children: React.ReactNode }
 
 	useEffect(() => {
 		const validate = async () => {
-			const data = await validateUserSession();
-			if (data) {
-				setUserId(data.userId);
-			} else {
-				setUserId(null);
+			try {
+				if (
+					Object.entries(localStorage).filter(([key]) =>
+						key.includes("CognitoIdentityServiceProvider")
+					).length === 0
+				)
+					return;
+				const data = await validateUserSession();
+				if (data) {
+					setUserId(data.userId);
+				} else {
+					setUserId(null);
+				}
+			} catch (error) {
+				console.error("Internal Error: ", error);
+			} finally {
+				setLoadingUser(false);
 			}
 		};
 		validate();
-		setLoadingUser(false);
 	}, []);
 
 	const handleLogInChange = async (loggedIn: boolean) => {
-		if (loggedIn) {
-			try {
+		try {
+			if (loggedIn) {
+				setLoadingUser(true);
 				const data = await validateUserSession();
 				if (data) {
 					setUserId(data.userId);
 				}
-			} catch (error) {
-				console.error("Internal Error: ", error);
+			} else {
+				setUserId(null);
 			}
-			// handle error for no data
-		} else {
-			setUserId(null);
+		} catch (error) {
+			console.error("Internal Error: ", error);
+		} finally {
+			setLoadingUser(false);
 		}
 	};
 
