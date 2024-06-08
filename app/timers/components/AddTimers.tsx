@@ -1,31 +1,23 @@
+import { TimerContext } from "@/app/providers/TimersProvider";
 import { UserContext } from "@/app/providers/UserProvider";
 import { addNewTimer, getThemeColor } from "@/app/utilities/helperFunctions";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
-import { TimerConfig } from "@/app/utilities/types/timers.types";
-import React, { Dispatch, FC, SetStateAction, useContext } from "react";
+import React, { Dispatch, FC, SetStateAction, useContext, useState } from "react";
 import Button from "../../components/general/Button";
 import Card from "../../components/general/Card";
 import Input from "../../components/general/Input";
 import Toggle from "../../components/general/Toggle";
-import { TimerContext } from "@/app/providers/TimersProvider";
 
 interface AddTimerProps {
-	newTimer: string;
-	setNewTimer: Dispatch<SetStateAction<string>>;
-	toggled: boolean;
-	setToggled: Dispatch<SetStateAction<boolean>>;
+	setIsMinute: Dispatch<SetStateAction<boolean>>;
 	isMinute: boolean;
 }
 
-const AddTimers: FC<AddTimerProps> = ({
-	newTimer,
-	setNewTimer,
-	toggled,
-	setToggled,
-	isMinute,
-}) => {
+const AddTimers: FC<AddTimerProps> = ({ setIsMinute, isMinute }) => {
 	const { userId } = useContext(UserContext);
 	const { timers, setTimers } = useContext(TimerContext);
+	const [newTimer, setNewTimer] = useState<string>("");
+
 	const themeColor = getThemeColor(isMinute);
 
 	const handleEnterDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -64,8 +56,8 @@ const AddTimers: FC<AddTimerProps> = ({
 					onKeyDown={handleEnterDown}
 				/>
 				<Toggle
-					toggled={toggled}
-					setToggled={setToggled}
+					toggled={isMinute}
+					setToggled={setIsMinute}
 					toggleColor={themeColor.primary}
 					optionOne={Unit.minutes}
 					optionTwo={Unit.seconds}

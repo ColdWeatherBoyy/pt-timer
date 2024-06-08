@@ -1,4 +1,5 @@
 import { ActiveTimerContext } from "@/app/providers/ActiveTimerProvider";
+import { TimerContext } from "@/app/providers/TimersProvider";
 import { updateIntervalDBTimers } from "@/app/utilities/amplify/amplify.db";
 import { getThemeColor } from "@/app/utilities/helperFunctions";
 import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
@@ -21,7 +22,6 @@ import Pause from "./SVGs/Pause";
 import Play from "./SVGs/Play";
 import Resume from "./SVGs/Resume";
 import Stop from "./SVGs/Stop";
-import { TimerContext } from "@/app/providers/TimersProvider";
 
 interface TimerProps {
 	index: number;

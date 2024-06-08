@@ -1,16 +1,12 @@
+import { ActiveTimerContext } from "@/app/providers/ActiveTimerProvider";
 import { getThemeColor } from "@/app/utilities/helperFunctions";
 import { ThemeShade } from "@/app/utilities/types/theme.types";
-import { TimerConfig } from "@/app/utilities/types/timers.types";
-import { Dispatch, FC, SetStateAction, useContext, useState } from "react";
+import { FC, useContext, useState } from "react";
 import Card from "../../components/general/Card";
 import AddTimers from "./AddTimers";
-import { ActiveTimerContext } from "@/app/providers/ActiveTimerProvider";
-import { TimerContext } from "@/app/providers/TimersProvider";
 
 const TopCard: FC = () => {
 	const { activeTimer } = useContext(ActiveTimerContext);
-	const { timers, setTimers } = useContext(TimerContext);
-	const [newTimer, setNewTimer] = useState<string>("");
 	const [isMinute, setIsMinute] = useState(false);
 	const themeColor = getThemeColor(isMinute);
 
@@ -24,13 +20,7 @@ const TopCard: FC = () => {
 			column
 		>
 			<div className="text-4xl font-bold">Interval Timers</div>
-			<AddTimers
-				newTimer={newTimer}
-				setNewTimer={setNewTimer}
-				toggled={isMinute}
-				setToggled={setIsMinute}
-				isMinute={isMinute}
-			/>
+			<AddTimers setIsMinute={setIsMinute} isMinute={isMinute} />
 		</Card>
 	);
 };
