@@ -5,14 +5,11 @@ import { Dispatch, FC, SetStateAction, useContext, useState } from "react";
 import Card from "../../components/general/Card";
 import AddTimers from "./AddTimers";
 import { ActiveTimerContext } from "@/app/providers/ActiveTimerProvider";
+import { TimerContext } from "@/app/providers/TimersProvider";
 
-interface TopCardProps {
-	timers: TimerConfig[];
-	setTimers: Dispatch<SetStateAction<TimerConfig[]>>;
-}
-
-const TopCard: FC<TopCardProps> = ({ timers, setTimers }) => {
+const TopCard: FC = () => {
 	const { activeTimer } = useContext(ActiveTimerContext);
+	const { timers, setTimers } = useContext(TimerContext);
 	const [newTimer, setNewTimer] = useState<string>("");
 	const [isMinute, setIsMinute] = useState(false);
 	const themeColor = getThemeColor(isMinute);
@@ -30,8 +27,6 @@ const TopCard: FC<TopCardProps> = ({ timers, setTimers }) => {
 			<AddTimers
 				newTimer={newTimer}
 				setNewTimer={setNewTimer}
-				timers={timers}
-				setTimers={setTimers}
 				toggled={isMinute}
 				setToggled={setIsMinute}
 				isMinute={isMinute}

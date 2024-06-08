@@ -1,20 +1,18 @@
+import { ActiveTimerContext } from "@/app/providers/ActiveTimerProvider";
+import { TimerContext } from "@/app/providers/TimersProvider";
+import { getDBTimers } from "@/app/utilities/amplify/amplify.db";
 import { removeTimer, sortTimers } from "@/app/utilities/helperFunctions";
 import { Unit } from "@/app/utilities/types/theme.types";
-import { TimerConfig } from "@/app/utilities/types/timers.types";
-import { Dispatch, FC, SetStateAction, useCallback, useContext, useEffect } from "react";
+import { FC, useCallback, useContext, useEffect } from "react";
 import Timer from "./Timer";
-import { ActiveTimerContext } from "@/app/providers/ActiveTimerProvider";
-import { getDBTimers } from "@/app/utilities/amplify/amplify.db";
 
-interface TimersSectionProps {
-	timers: TimerConfig[];
-	setTimers: Dispatch<SetStateAction<TimerConfig[]>>;
-}
-const TimersSection: FC<TimersSectionProps> = ({ timers, setTimers }) => {
+const TimersSection: FC = () => {
 	const { activeTimer } = useContext(ActiveTimerContext);
+	const { timers, setTimers } = useContext(TimerContext);
 
 	const initializeTimers = useCallback(async () => {
 		const dbTimers = await getDBTimers();
+		console.log(dbTimers);
 		if (!dbTimers) {
 			console.error("Trouble accessing dbtimers");
 			return;
@@ -38,7 +36,6 @@ const TimersSection: FC<TimersSectionProps> = ({ timers, setTimers }) => {
 						isMinute={timer.unit === Unit.minutes}
 						id={timer.id}
 						deleteTimer={(index) => removeTimer(index, timers, setTimers, timer.id)}
-						setTimers={setTimers}
 						className={`${
 							activeTimer.index !== index && activeTimer.index !== null
 								? "opacity-65 pointer-events-none"

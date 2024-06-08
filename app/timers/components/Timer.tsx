@@ -4,7 +4,7 @@ import { getThemeColor } from "@/app/utilities/helperFunctions";
 import { ComponentColor } from "@/app/utilities/style/componentColor.styles";
 import { roboto_mono } from "@/app/utilities/style/fonts";
 import { ThemeShade, Unit } from "@/app/utilities/types/theme.types";
-import { TimerConfig, TimerStatus } from "@/app/utilities/types/timers.types";
+import { TimerStatus } from "@/app/utilities/types/timers.types";
 import {
 	Dispatch,
 	FC,
@@ -21,6 +21,7 @@ import Pause from "./SVGs/Pause";
 import Play from "./SVGs/Play";
 import Resume from "./SVGs/Resume";
 import Stop from "./SVGs/Stop";
+import { TimerContext } from "@/app/providers/TimersProvider";
 
 interface TimerProps {
 	index: number;
@@ -29,7 +30,6 @@ interface TimerProps {
 	isMinute: boolean;
 	id: string;
 	deleteTimer: (index: number) => void;
-	setTimers: Dispatch<SetStateAction<TimerConfig[]>>;
 	className?: string;
 }
 
@@ -40,11 +40,11 @@ const Timer: FC<TimerProps> = ({
 	isMinute,
 	id,
 	deleteTimer,
-	setTimers,
 	className,
 }) => {
 	const themeColor = getThemeColor(isMinute);
 	const { activeTimer, setActiveTimer } = useContext(ActiveTimerContext);
+	const { setTimers } = useContext(TimerContext);
 	const timerRef = useRef<HTMLDivElement>(null);
 	const [viewportCenter, setViewportCenter] = useState<{
 		width: number;

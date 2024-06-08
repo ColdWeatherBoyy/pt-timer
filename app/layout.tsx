@@ -5,6 +5,7 @@ import ActiveTimerProvider from "./providers/ActiveTimerProvider";
 import UserProvider from "./providers/UserProvider";
 import { inter } from "./utilities/style/fonts";
 import Header from "./components/layout/Header";
+import TimerProvider from "./providers/TimersProvider";
 
 export const metadata: Metadata = {
 	title: "PT Timers",
@@ -20,9 +21,11 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={inter.className}>
 				<UserProvider>
-					<ActiveTimerProvider>
-						<MainWrapper>{children}</MainWrapper>
-					</ActiveTimerProvider>
+					<TimerProvider>
+						<ActiveTimerProvider>
+							<MainWrapper>{children}</MainWrapper>
+						</ActiveTimerProvider>
+					</TimerProvider>
 				</UserProvider>
 			</body>
 		</html>

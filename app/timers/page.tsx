@@ -28,8 +28,8 @@ const TimerHomepage = () => {
 
 	return (
 		<>
-			<TopCard timers={timers} setTimers={setTimers} />
-			<TimersSection timers={timers} setTimers={setTimers} />
+			<TopCard />
+			<TimersSection />
 		</>
 	);
 };

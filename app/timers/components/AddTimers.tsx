@@ -7,12 +7,11 @@ import Button from "../../components/general/Button";
 import Card from "../../components/general/Card";
 import Input from "../../components/general/Input";
 import Toggle from "../../components/general/Toggle";
+import { TimerContext } from "@/app/providers/TimersProvider";
 
 interface AddTimerProps {
 	newTimer: string;
 	setNewTimer: Dispatch<SetStateAction<string>>;
-	timers: TimerConfig[];
-	setTimers: Dispatch<SetStateAction<TimerConfig[]>>;
 	toggled: boolean;
 	setToggled: Dispatch<SetStateAction<boolean>>;
 	isMinute: boolean;
@@ -21,13 +20,12 @@ interface AddTimerProps {
 const AddTimers: FC<AddTimerProps> = ({
 	newTimer,
 	setNewTimer,
-	timers,
-	setTimers,
 	toggled,
 	setToggled,
 	isMinute,
 }) => {
 	const { userId } = useContext(UserContext);
+	const { timers, setTimers } = useContext(TimerContext);
 	const themeColor = getThemeColor(isMinute);
 
 	const handleEnterDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
