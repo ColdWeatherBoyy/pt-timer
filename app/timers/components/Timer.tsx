@@ -68,15 +68,38 @@ const Timer: FC<TimerProps> = ({
 		active: interval,
 	});
 	const [betweenRepsCountdown, setBetweenRepsCountdown] = useState<number>(3);
-	const audioRefs = useRef<{ [name: string]: HTMLAudioElement }>(
-		Object.fromEntries(
-			["CountdownBeep", "CountdownEnd", "Wahoo", "Yeah", "LetsAGo"].map((name) => [
-				name,
-				new Audio(`/audio/${name}.mp3`),
-			])
-		)
+
+	// Thanks to @antalsz on GitHub for guidance on using classes
+	class AudioContext {
+		files: Readonly<{ [name: string]: HTMLAudioElement }>;
+		#current: HTMLAudioElement | null;
+
+		constructor(names: string[]) {
+			this.files = Object.freeze(
+				Object.fromEntries(names.map((name) => [name, new Audio(`/audio/${name}.mp3`)]))
+			);
+			this.#current = null;
+		}
+
+		play(name: string) {
+			this.stop();
+			this.#current = this.files[name];
+			if (!this.#current)
+				throw new Error("Internal Error: This Audio not found: " + name);
+			this.#current.play();
+		}
+
+		stop() {
+			if (!this.#current) return;
+			this.#current.pause();
+			this.#current.currentTime = 0;
+			this.#current = null;
+		}
+	}
+
+	const audioRefs = useRef(
+		new AudioContext(["CountdownBeep", "CountdownEnd", "Wahoo", "Yeah", "LetsAGo"])
 	);
-	console.log(audioRefs);
 
 	// *********** Rep Utilities **************
 	// Set active reps (making my own Dispatch of SetStateAction)
@@ -126,19 +149,19 @@ const Timer: FC<TimerProps> = ({
 			// Between Reps
 		} else if (timerStatus === TimerStatus.betweenReps) {
 			setActiveTimer({ index, timerStatus: TimerStatus.betweenReps });
-			audioRefs.current.CountdownBeep.play();
+			audioRefs.current.play("CountdownBeep");
 			const interval = setInterval(() => {
 				setBetweenRepsCountdown((prev) => {
 					if (prev === 2) {
 						// prev === 2 means we're restarting the timer
-						audioRefs.current.CountdownEnd.play();
+						audioRefs.current.play("CountdownEnd");
 						clearInterval(interval);
 						setTimerStatus(TimerStatus.running);
 						// Resetting countdown clock
 						return 3;
 					} else {
 						//  countdown
-						audioRefs.current.CountdownBeep.play();
+						audioRefs.current.play("CountdownBeep");
 						return prev - 1;
 					}
 				});
@@ -148,7 +171,7 @@ const Timer: FC<TimerProps> = ({
 		} else if (timerStatus === TimerStatus.stopping) {
 			setActiveTimer({ index: index, timerStatus: TimerStatus.stopping });
 			// reset
-			reps.active === 1 ? audioRefs.current.Wahoo.play() : audioRefs.current.Yeah.play();
+			audioRefs.current.play(reps.active === 1 ? "Wahoo" : "Yeah");
 			const timeout = setTimeout(() => {
 				setClockTime(duration);
 				if (reps.active === 1) {
@@ -331,7 +354,7 @@ const Timer: FC<TimerProps> = ({
 											prevState === TimerStatus.paused ||
 											prevState === TimerStatus.null
 										) {
-											audioRefs.current.LetsAGo.play();
+											audioRefs.current.play("LetsAGo");
 											return TimerStatus.running;
 										} else {
 											return TimerStatus.paused;
@@ -365,7 +388,10 @@ const Timer: FC<TimerProps> = ({
 							</div>
 							<Button
 								buttonColor={themeColor.secondary}
-								onClick={() => setTimerStatus(TimerStatus.null)}
+								onClick={() => {
+									audioRefs.current.stop();
+									setTimerStatus(TimerStatus.null);
+								}}
 							>
 								<Stop size="30" />
 							</Button>
