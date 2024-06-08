@@ -68,15 +68,15 @@ const Timer: FC<TimerProps> = ({
 		active: interval,
 	});
 	const [betweenRepsCountdown, setBetweenRepsCountdown] = useState<number>(3);
-	const audioRefs = useRef<HTMLAudioElement[]>(
-		[
-			"/audio/CountdownBeep.mp3",
-			"/audio/CountdownEnd.mp3",
-			"/audio/Wahoo.mp3",
-			"/audio/Yeah.mp3",
-			"/audio/LetsAGo.mp3",
-		].map((src) => new Audio(src))
+	const audioRefs = useRef<{ [name: string]: HTMLAudioElement }>(
+		Object.fromEntries(
+			["CountdownBeep", "CountdownEnd", "Wahoo", "Yeah", "LetsAGo"].map((name) => [
+				name,
+				new Audio(`/audio/${name}.mp3`),
+			])
+		)
 	);
+	console.log(audioRefs);
 
 	// *********** Rep Utilities **************
 	// Set active reps (making my own Dispatch of SetStateAction)
@@ -126,19 +126,19 @@ const Timer: FC<TimerProps> = ({
 			// Between Reps
 		} else if (timerStatus === TimerStatus.betweenReps) {
 			setActiveTimer({ index, timerStatus: TimerStatus.betweenReps });
-			audioRefs.current[0].play();
+			audioRefs.current.CountdownBeep.play();
 			const interval = setInterval(() => {
 				setBetweenRepsCountdown((prev) => {
 					if (prev === 2) {
 						// prev === 2 means we're restarting the timer
-						audioRefs.current[1].play();
+						audioRefs.current.CountdownEnd.play();
 						clearInterval(interval);
 						setTimerStatus(TimerStatus.running);
 						// Resetting countdown clock
 						return 3;
 					} else {
 						//  countdown
-						audioRefs.current[0].play();
+						audioRefs.current.CountdownBeep.play();
 						return prev - 1;
 					}
 				});
@@ -148,7 +148,7 @@ const Timer: FC<TimerProps> = ({
 		} else if (timerStatus === TimerStatus.stopping) {
 			setActiveTimer({ index: index, timerStatus: TimerStatus.stopping });
 			// reset
-			reps.active === 1 ? audioRefs.current[2].play() : audioRefs.current[3].play();
+			reps.active === 1 ? audioRefs.current.Wahoo.play() : audioRefs.current.Yeah.play();
 			const timeout = setTimeout(() => {
 				setClockTime(duration);
 				if (reps.active === 1) {
@@ -331,7 +331,7 @@ const Timer: FC<TimerProps> = ({
 											prevState === TimerStatus.paused ||
 											prevState === TimerStatus.null
 										) {
-											audioRefs.current[4].play();
+											audioRefs.current.LetsAGo.play();
 											return TimerStatus.running;
 										} else {
 											return TimerStatus.paused;

@@ -12,7 +12,6 @@ const TimersSection: FC = () => {
 
 	const initializeTimers = useCallback(async () => {
 		const dbTimers = await getDBTimers();
-		console.log(dbTimers);
 		if (!dbTimers) {
 			console.error("Trouble accessing dbtimers");
 			return;
