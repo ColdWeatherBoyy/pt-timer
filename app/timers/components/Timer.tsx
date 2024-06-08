@@ -71,7 +71,7 @@ const Timer: FC<TimerProps> = ({
 
 	// Thanks to @antalsz on GitHub for guidance on using classes
 	class AudioContext {
-		files: Readonly<{ [name: string]: HTMLAudioElement }>;
+		readonly files: Readonly<{ [name: string]: HTMLAudioElement }>;
 		#current: HTMLAudioElement | null;
 
 		constructor(names: string[]) {
@@ -185,12 +185,11 @@ const Timer: FC<TimerProps> = ({
 			// Pausing
 		} else if (timerStatus === TimerStatus.paused) {
 			setActiveTimer((prev) => {
-				if (
-					prev.timerStatus === TimerStatus.stopping ||
-					prev.timerStatus === TimerStatus.betweenReps
-				) {
+				if (prev.timerStatus === TimerStatus.stopping) {
 					setClockTime(duration);
 					setActiveReps((prev) => prev - 1);
+				} else if (prev.timerStatus === TimerStatus.betweenReps) {
+					setClockTime(duration);
 				}
 				return { index, timerStatus: TimerStatus.paused };
 			});
