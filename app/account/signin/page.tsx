@@ -6,7 +6,6 @@ import { FC, useContext, useEffect, useState } from "react";
 import { handleSignIn } from "../../utilities/amplify/amplify.auth";
 import { ThemeColor } from "../../utilities/types/theme.types";
 import UserForm from "../components/UserForm";
-import LoadingSpinner from "@/app/components/general/LoadingSpinner";
 
 const SignIn: FC = () => {
 	const router = useRouter();
@@ -49,13 +48,6 @@ const SignIn: FC = () => {
 
 	return (
 		<>
-			{loading && (
-				<div className="absolute w-full h-full flex items-end justify-end p-6">
-					<div className="w-20 h-20">
-						<LoadingSpinner />
-					</div>
-				</div>
-			)}
 			<UserForm
 				formInputs={SignInFormInputs}
 				formColor={ThemeColor.horizon}
