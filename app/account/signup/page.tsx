@@ -19,6 +19,7 @@ const enum SignUpStep {
 const SignUp: FC = () => {
 	const router = useRouter();
 	const { handleLogInChange, userId, loadingUser } = useContext(UserContext);
+	const [loading, setLoading] = useState(false);
 	const [userData, setUserData] = useState({
 		email: "",
 		password: "",
@@ -57,13 +58,17 @@ const SignUp: FC = () => {
 	];
 
 	const handleSignUpSubmit = async () => {
+		setLoading(true);
 		const res = await handleSignUp(userData.email, userData.password);
 		if (res) setSignUpStep(SignUpStep.CONFIRM_SIGN_UP);
+		setLoading(false);
 	};
 
 	const handleConfirmationSubmit = async () => {
+		setLoading(true);
 		const res = await handleConfirmSignUp(userData.email, userData.confirmationCode);
 		if (res) completeAutoSignIn();
+		setLoading(false);
 	};
 
 	const completeAutoSignIn = async () => {
@@ -110,6 +115,7 @@ const SignUp: FC = () => {
 						redirectPath: "/account/signin",
 					}}
 					handleSubmit={handleSignUpSubmit}
+					loading={loading}
 				/>
 			)}
 			{signUpStep === SignUpStep.CONFIRM_SIGN_UP && (
@@ -122,6 +128,7 @@ const SignUp: FC = () => {
 						button: "Confirm Account",
 					}}
 					handleSubmit={handleConfirmationSubmit}
+					loading={loading}
 				/>
 			)}
 		</>

@@ -6,7 +6,7 @@ import TopCard from "@/app/timers/components/TopCard";
 import { TimerConfig } from "@/app/utilities/types/timers.types";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
-import LoadingSection from "../components/general/LoadingSection";
+import LoadingSpinner from "../components/general/LoadingSpinner";
 
 const TimerHomepage = () => {
 	const [timers, setTimers] = useState<TimerConfig[]>([]);

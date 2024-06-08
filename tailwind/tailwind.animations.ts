@@ -129,13 +129,14 @@ export const trembleActive = {
 export const slowFlicker = {
 	slowFlicker: {
 		"0%, 100%": {
-			opacity: ".65",
+			opacity: "1",
 		},
 		"50%": {
-			opacity: "0.25",
+			opacity: "0.35",
 		},
 	},
 };
+
 export const fadeUpOptions = {
 	fadeUpOne: {
 		"0%": {

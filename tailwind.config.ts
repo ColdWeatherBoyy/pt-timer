@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 import {
 	fadeUpOptions,
 	getAnimateGradient,
+	slowFlicker,
 	trembleActive,
 	trembleHover,
 } from "./tailwind/tailwind.animations";
@@ -35,6 +36,7 @@ const config: Config = {
 				...trembleHover,
 				...trembleActive,
 				...fadeUpOptions,
+				...slowFlicker,
 				runningGradientKeyframes: getAnimateGradient(
 					timerStatusColors.timerStatus.running
 				),

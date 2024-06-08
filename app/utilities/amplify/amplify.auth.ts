@@ -34,11 +34,16 @@ export const handleAutoSignIn = async () => {
 };
 
 export const handleSignIn = async (username: string, password: string) => {
-	const { isSignedIn, nextStep } = await signIn({
-		username,
-		password,
-	});
-	return { isSignedIn, nextStep };
+	try {
+		const { isSignedIn, nextStep } = await signIn({
+			username,
+			password,
+		});
+		return { isSignedIn, nextStep };
+	} catch (error) {
+		console.error("Error signing in:", error);
+		return null;
+	}
 };
 
 export const validateUserSession = async () => {

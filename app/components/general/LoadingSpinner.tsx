@@ -1,8 +1,8 @@
 import React from "react";
 
-export default function LoadingSection() {
+export default function LoadingSpinner() {
 	return (
-		<div className="animate-spinPulse">
+		<div className="animate-slowFlicker">
 			<svg
 				className="animate-spin"
 				xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +21,7 @@ export default function LoadingSection() {
 					fill="none"
 					strokeWidth="4"
 					stroke="currentColor"
-					className="text-horizon-400 animate-heavyPulse"
+					className="text-horizon-400"
 					strokeDasharray="23"
 					strokeDashoffset="23"
 					cx="12"

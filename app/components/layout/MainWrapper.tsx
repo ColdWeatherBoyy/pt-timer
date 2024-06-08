@@ -4,7 +4,7 @@ import { ActiveTimerContext } from "@/app/providers/ActiveTimerProvider";
 import { UserContext } from "@/app/providers/UserProvider";
 import { TimerStatus } from "@/app/utilities/types/timers.types";
 import React, { FC, useContext } from "react";
-import LoadingSection from "../general/LoadingSection";
+import LoadingSpinner from "../general/LoadingSpinner";
 import Header from "./Header";
 
 interface MainWrapperProps {
@@ -37,7 +37,7 @@ const MainWrapper: FC<MainWrapperProps> = ({ children }) => {
 			{loadingUser && (
 				<div className="absolute h-full w-full z-30 flex items-center justify-center">
 					<div className="h-60 w-60">
-						<LoadingSection />
+						<LoadingSpinner />
 					</div>
 				</div>
 			)}

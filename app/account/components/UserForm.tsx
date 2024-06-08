@@ -7,6 +7,7 @@ import { Amplify } from "aws-amplify";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
 import outputs from "../../../amplify_outputs.json";
+import LoadingSpinner from "@/app/components/general/LoadingSpinner";
 
 Amplify.configure(outputs);
 // This is handy as it covers both signin and signup,
@@ -28,6 +29,7 @@ interface UserFormProps {
 		redirectPath?: string;
 	};
 	handleSubmit: () => void;
+	loading: boolean;
 }
 
 const UserForm: FC<UserFormProps> = ({
@@ -35,6 +37,7 @@ const UserForm: FC<UserFormProps> = ({
 	formInputs,
 	formText,
 	handleSubmit,
+	loading,
 }) => {
 	const router = useRouter();
 	const formSecondaryColor =
@@ -96,13 +99,21 @@ const UserForm: FC<UserFormProps> = ({
 								})}
 							</form>
 						</Card>
-						<Button
-							buttonColor={ThemeColor[formSecondaryColor]}
-							animate
-							onClick={handleSubmit}
-						>
-							{formText.button}
-						</Button>
+						<div className="h-10 flex items-center">
+							{!loading ? (
+								<Button
+									buttonColor={ThemeColor[formSecondaryColor]}
+									animate
+									onClick={handleSubmit}
+								>
+									{formText.button}
+								</Button>
+							) : (
+								<div className="h-10 w-10">
+									<LoadingSpinner />
+								</div>
+							)}
+						</div>
 					</Card>
 				</div>
 				{formText.redirect && formText.redirectPath && (
