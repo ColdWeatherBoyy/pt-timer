@@ -66,9 +66,10 @@ Not sure much more will happen on this project, but, if so, next steps include:
 
 - Add caching to the DynamoDB queries to reduce the number of reads and writes.
 - Adjust how account validation is being handled.
-- Add more user account features
-- Make audio mutable
-- Make a React Native version for mobile devices
+- Add more user account features.
+- Make audio mutable.
+- Make a React Native version for mobile devices.
+- Some Frontend styling improvements.
 
 ## Acknowledgements
 
