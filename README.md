@@ -6,10 +6,10 @@
     <img src="https://img.shields.io/github/contributors/ColdWeatherBoyy/pt-timer.svg?style=for-the-badge" alt="Contributors" height="20">
   </a>
   <a href="https://github.com/ColdWeatherBoyy/pt-timer">
-      <img src="https://img.shields.io/badge/GitHub-Repo-699897?logo=github" alt="Repo Size" height="20">
+      <img src="https://img.shields.io/badge/GitHub-Repo-699897?logo=github" alt="Repo Link" height="20">
   </a>
   <a href="https://physicaltherapytimers.eliassz.com">
-      <img src="https://img.shields.io/badge/Live-Site-72a1be" alt="Repo Size" height="20">
+      <img src="https://img.shields.io/badge/Live-Site-72a1be" alt="Live Site Link" height="20">
   </a>
 </div>
 <br />
