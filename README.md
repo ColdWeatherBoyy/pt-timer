@@ -64,6 +64,8 @@ Once set up properly, run `npm run dev` to concurrently start the Next.js develo
 
 Not sure much more will happen on this project, but, if so, next steps include:
 
+- Comprehensive error handling for signin/signup.
+- Better notification system for user actions.
 - Add caching to the DynamoDB queries to reduce the number of reads and writes.
 - Adjust how account validation is being handled.
 - Add more user account features.
