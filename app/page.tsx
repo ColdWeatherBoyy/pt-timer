@@ -14,5 +14,5 @@ export default function Home() {
 		} else {
 			router.push("/account/signin");
 		}
-	}, [router, userId]);
+	}, [router, userId, loadingUser]);
 }

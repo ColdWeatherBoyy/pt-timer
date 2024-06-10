@@ -44,7 +44,7 @@ const SignIn: FC = () => {
 		if (!loadingUser && userId) {
 			router.push("/timers");
 		}
-	}, [userId, router]);
+	}, [userId, router, loadingUser]);
 
 	return (
 		<>

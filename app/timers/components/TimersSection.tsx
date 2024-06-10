@@ -17,7 +17,7 @@ const TimersSection: FC = () => {
 			return;
 		}
 		setTimers(sortTimers(dbTimers));
-	}, []);
+	}, [setTimers]);
 
 	useEffect(() => {
 		initializeTimers();

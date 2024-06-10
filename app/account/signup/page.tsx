@@ -68,7 +68,6 @@ const SignUp: FC = () => {
 		setLoading(true);
 		const res = await handleConfirmSignUp(userData.email, userData.confirmationCode);
 		if (res) completeAutoSignIn();
-		setLoading(false);
 	};
 
 	const completeAutoSignIn = async () => {
@@ -77,13 +76,14 @@ const SignUp: FC = () => {
 			handleLogInChange(true);
 			router.push("/timers");
 		}
+		setLoading(false);
 	};
 
 	useEffect(() => {
 		if (!loadingUser && userId) {
 			router.push("/timers");
 		}
-	}, [userId, router]);
+	}, [userId, router, loadingUser]);
 
 	// TO-DO: Consider using this format
 	// const SignUpForm = (
