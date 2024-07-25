@@ -15,6 +15,7 @@
 <br />
 <div style="text-align:center">
   <h1>Physical Therapy Timers</h1>
+  <h2><a href="https://physicaltherapytimers.eliassz.com/">View Live Site Here</a></h2>
 </div>
 
 <details>
@@ -35,7 +36,7 @@
 
 This is a <a href="https://nextjs.org/">Next.js</a> project bootstrapped with <a href="https://github.com/vercel/next.js/tree/canary/packages/create-next-app">`create-next-app`</a> and scaffolded with <a href="https://docs.amplify.aws/nextjs/start/manual-installation/">`npm create amplify@latest`</a> for its <a href="https://aws.amazon.com/amplify/">AWS Amplify-powered</a> backend, using Cognito for user accounts, DynamoDB for database, and Amplify for deployment. This app offers physical therapy patients a user-friendly platform to configure custom timers for their rehab exercises. The platform allows users to save the duration (in seconds or minutes) and the number of consecutive repetitions for each timer, simplifying the process of performing regular exercises and stretches by storing personalized settings. I built this for my <a href="https://www.github.com/antalsz">brother</a>, who needed a tool to help him with his PT exercises.
 
-Doing Physical Therapy yourself or any other ? The live site is up and active <a href="https://physicaltherapytimers.eliassz.com/">here</a>. Please let me know if you have any feedback or suggestions!
+Doing Physical Therapy yourself or any other? The live site is up and active <a href="https://physicaltherapytimers.eliassz.com/">here</a>. Please let me know if you have any feedback or suggestions!
 
 ## Built With
 

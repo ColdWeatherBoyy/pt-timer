@@ -1,14 +1,7 @@
 "use client";
 
-import {
-	Dispatch,
-	SetStateAction,
-	createContext,
-	useCallback,
-	useEffect,
-	useState,
-} from "react";
-import { TimerConfig, TimerStatus } from "../utilities/types/timers.types";
+import { Dispatch, SetStateAction, createContext, useState } from "react";
+import { TimerConfig } from "../utilities/types/timers.types";
 
 interface TimerContextInterface {
 	setTimers: Dispatch<SetStateAction<TimerConfig[]>>;
